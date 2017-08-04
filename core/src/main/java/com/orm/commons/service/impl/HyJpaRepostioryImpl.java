@@ -332,7 +332,8 @@ public class HyJpaRepostioryImpl<T, ID extends Serializable> extends SimpleJpaRe
         return queryByCriteria(criteria);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public Page<T> queryByCriteria(Criteria paramCriteria, Pageable pageable) {
         long total = countCriteriaResult(paramCriteria);
         paramCriteria.setFirstResult(pageable.getOffset()).setMaxResults(pageable.getPageSize());

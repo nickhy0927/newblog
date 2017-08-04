@@ -1,5 +1,19 @@
 package com.iss.platform.user.controller;
 
+import java.io.IOException;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.iss.platform.user.entity.User;
 import com.iss.platform.user.service.UserService;
 import com.orm.commons.encryption.MD5Encryption;
@@ -7,32 +21,17 @@ import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.MessageObject;
 import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.WebUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by yuanhuangd on 2017/7/24.
  */
 @Controller
-@Scope(value = "prototype")
-@RequestMapping(value = "/platform")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/user/list", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/platform/user/list", method = {RequestMethod.GET, RequestMethod.POST})
     public String list(HttpServletRequest request, Model model) {
         Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
         String currentPage = request.getParameter("currentPage");
@@ -48,12 +47,12 @@ public class UserController {
         return "platform/user/user_list";
     }
 
-    @RequestMapping(value = "/user/add")
+    @RequestMapping(value = "/platform/user/add")
     public String add() {
         return "platform/user/user_add";
     }
 
-    @RequestMapping(value = "/user/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/platform/user/save", method = RequestMethod.POST)
     public void save(User user, HttpServletResponse response) {
         MessageObject message = new MessageObject();
         message.setResposecode(MessageObject.ResponseCode.code_200);
@@ -76,7 +75,7 @@ public class UserController {
         messageObject.getWriter(response, messageObject);
     }
 
-    @RequestMapping(value = "/user/checkLoginName.json", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/platform/user/checkLoginName.json", method = {RequestMethod.POST, RequestMethod.GET})
     public void checkLoginName(HttpServletResponse response, HttpServletRequest request) {
         String loginName = request.getParameter("loginName");
         User user = userService.findUserByLoginName(loginName);

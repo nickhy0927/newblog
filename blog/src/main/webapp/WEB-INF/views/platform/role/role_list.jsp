@@ -23,11 +23,11 @@
                         <td colspan="4">
                             <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
                                 <i class="Hui-iconfont">&#xe6e2;</i>
-                                批量删除
+                               	批量删除
                             </a>
-                            <a class="btn btn-primary radius" data-title="添加角色" data-href="article-add.html" onclick="article_add('添加角色','${ctx}/platform/role/add',600,400)" href="javascript:;">
+                            <a class="btn btn-primary radius" data-title="添加角色" data-href="article-add.html" onclick="article_add()" href="javascript:;">
                                 <i class="Hui-iconfont">&#xe600;</i>
-                                添加角色
+                               	 添加角色
                             </a>
                             <button name="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i>搜索</button>
                         </td>
@@ -61,7 +61,7 @@
                                     <a style="text-decoration:none" class="ml-5" onClick="article_edit('资讯编辑','article-add.html','10001')" href="javascript:;" title="编辑">
                                         <i class="Hui-iconfont">&#xe6df;</i>
                                     </a>
-                                    <a style="text-decoration:none" class="ml-5" onClick="article_del(this,'10001')" href="javascript:;" title="删除">
+                                    <a style="text-decoration:none" class="ml-5" onClick="role_del(this,'${role.id}')" href="javascript:;" title="删除">
                                         <i class="Hui-iconfont">&#xe6e2;</i>
                                     </a>
                                 </td>
@@ -90,6 +90,10 @@
     <script type="text/javascript">
 
         /*资讯-添加*/
+        function article_add(){
+            var url = "${ctx}/platform/role/add";
+            layer_show('添加角色', url, 600, 400);
+        }
         function add_menu(id){
             var url = "${ctx}/platform/role/module/add?id=" + id;
             layer_show('添加权限', url, 300, 500);
@@ -104,18 +108,21 @@
             layer.full(index);
         }
         /*资讯-删除*/
-        function article_del(obj,id){
+        function role_del(obj,id){
+        	console.log(id);
             layer.confirm('确认要删除吗？',function(index){
                 $.ajax({
                     type: 'POST',
-                    url: '',
+                    url: '${ctx}/platform/role/delete',
                     dataType: 'json',
+                    data:{id:id},
                     success: function(data){
-                        $(obj).parents("tr").remove();
-                        layer.msg('已删除!',{icon:1,time:1000});
+                        /* $(obj).parents("tr").remove(); */
+                        layer.msg('已删除!',{icon:1,time:1500});
+                        window.location.href = '${ctx}/platform/role/list'
                     },
                     error:function(data) {
-                        console.log(data.msg);
+                        console.log(data.message);
                     },
                 });
             });

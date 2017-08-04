@@ -16,13 +16,13 @@
             <div class="text-l">
                 <table class="search-table">
                     <tr>
-                        <td class="td-w">菜单名称</td>
+                        <td class="td-w">真实姓名</td>
                         <td>
-                            <input type="text" value="${objectMap.name_li}" name="name_li" placeholder="菜单名称" id="logmin" class="input-text" style="width:260px;">
+                            <input type="text" value="${objectMap.realName_li}" name="realName_li" placeholder="菜单名称" id="realName_li" class="input-text" style="width:260px;">
                         </td>
-                        <td class="td-w">菜单地址</td>
+                        <td class="td-w">登录名</td>
                         <td>
-                            <input type="text" name="url_li" placeholder="菜单地址" style="width:260px" class="input-text">
+                            <input type="text" value="${objectMap.loginName_li}" name="loginName_li" placeholder="请输入登录名称" style="width:260px" class="input-text">
                         </td>
                     </tr>
                     <tr>

@@ -30,11 +30,11 @@
                         <td colspan="4">
                             <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
                                 <i class="Hui-iconfont">&#xe6e2;</i>
-                                批量删除
+                                                                     批量删除
                             </a>
                             <a class="btn btn-primary radius" onclick="module_add()" href="javascript:;">
                                 <i class="Hui-iconfont">&#xe600;</i>
-                                添加菜单
+                               	添加菜单
                             </a>
                             <input class="btn btn-success" type="submit" value="搜索">
                         </td>
@@ -85,6 +85,7 @@
                             </td>
                         </tr>
                     </c:forEach>
+                    <input type="hidden" name="name_li" value="用户">
                     <tr>
                         <td colspan="9">
                             <page:pageInfo currentPage="${currentPage}" pageInfo="${tools.pager}" formId="queryForm"></page:pageInfo>
