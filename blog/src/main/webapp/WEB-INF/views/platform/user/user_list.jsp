@@ -11,14 +11,14 @@
     </script>
 </psg:extends>
 <pgs:extends name="body">
-    <form action="" method="post" id="queryForm" name="queryForm">
+    <form action="${ctx}/platform/user/list" method="post" id="queryForm" name="queryForm">
         <div class="page-container">
             <div class="text-l">
                 <table class="search-table">
                     <tr>
                         <td class="td-w">菜单名称</td>
                         <td>
-                            <input type="text" name="name_li" placeholder="菜单名称" id="logmin" class="input-text" style="width:260px;">
+                            <input type="text" value="${objectMap.name_li}" name="name_li" placeholder="菜单名称" id="logmin" class="input-text" style="width:260px;">
                         </td>
                         <td class="td-w">菜单地址</td>
                         <td>

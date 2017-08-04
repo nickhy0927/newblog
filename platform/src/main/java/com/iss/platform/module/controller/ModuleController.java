@@ -12,6 +12,7 @@ import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.WebUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = "/platform")
+@Scope(value = "prototype")
 public class ModuleController {
 
     @Autowired
@@ -43,7 +45,8 @@ public class ModuleController {
         Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
         String currentPage = request.getParameter("currentPage");
         try {
-            objectMap.put("disable_eq",Boolean.FALSE);
+            objectMap.put("disabled_eq",Boolean.FALSE);
+            model.addAttribute("objectMap", objectMap);
             ObjectTools<Module> tools = moduleService.queryPageByMap(objectMap, currentPage, new Sort(Sort.Direction.DESC, "createTime"));
             model.addAttribute("tools", tools);
             model.addAttribute("currentPage", currentPage);

@@ -36,11 +36,12 @@ public class UserController {
     public String list(HttpServletRequest request, Model model) {
         Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
         String currentPage = request.getParameter("currentPage");
-        objectMap.put("disable_eq",Boolean.FALSE);
+        objectMap.put("disabled_eq",Boolean.FALSE);
         try {
             ObjectTools<User> tools = userService.queryPageByMap(objectMap, currentPage, new Sort(Sort.Direction.DESC, "createTime"));
             model.addAttribute("tools", tools);
             model.addAttribute("currentPage", currentPage);
+            model.addAttribute("objectMap", objectMap);
         } catch (ServiceException e) {
             e.printStackTrace();
         }

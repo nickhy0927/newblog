@@ -37,7 +37,7 @@ public class RoleController {
 	public String list(HttpServletRequest request, Model model) {
 		Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
 		String currentPage = request.getParameter("currentPage");
-		objectMap.put("disable_eq",Boolean.FALSE);
+        objectMap.put("disabled_eq",Boolean.FALSE);
 		try {
 			ObjectTools<Role> tools = roleService.queryPageByMap(objectMap, currentPage,
 					new Sort(Sort.Direction.DESC, "createTime"));

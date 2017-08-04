@@ -12,19 +12,18 @@
     </script>
 </psg:extends>
 <pgs:extends name="body">
-    <form action="" method="post" id="queryForm" name="queryForm">
+    <form action="${ctx}/platform/module/list" method="post" id="queryForm" name="queryForm">
         <div class="page-container">
             <div class="text-l">
                 <table class="search-table">
                     <tr>
                         <td class="td-w">菜单名称</td>
                         <td>
-                            <input type="text" name="name_li" placeholder="菜单名称" id="logmin" class="input-text"
-                                   style="width:260px;">
+                            <input type="text" value="${objectMap.name_li}" id="name_li" name="name_li" placeholder="菜单名称" class="input-text" style="width:260px;">
                         </td>
                         <td class="td-w">菜单地址</td>
                         <td>
-                            <input type="text" name="url_li" placeholder="菜单地址" style="width:260px" class="input-text">
+                            <input type="text" value="${objectMap.url_li}" name="url_li" id="url_li" placeholder="菜单地址" style="width:260px" class="input-text">
                         </td>
                     </tr>
                     <tr>
@@ -33,13 +32,11 @@
                                 <i class="Hui-iconfont">&#xe6e2;</i>
                                 批量删除
                             </a>
-                            <a class="btn btn-primary radius" data-title="添加菜单" data-href="article-add.html"
-                               onclick="module_add('添加菜单','${ctx}/platform/module/add',600,500)" href="javascript:;">
+                            <a class="btn btn-primary radius" onclick="module_add()" href="javascript:;">
                                 <i class="Hui-iconfont">&#xe600;</i>
                                 添加菜单
                             </a>
-                            <button name="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i>搜索
-                            </button>
+                            <input class="btn btn-success" type="submit" value="搜索">
                         </td>
                     </tr>
                 </table>
@@ -89,7 +86,7 @@
                         </tr>
                     </c:forEach>
                     <tr>
-                        <td colspan="8">
+                        <td colspan="9">
                             <page:pageInfo currentPage="${currentPage}" pageInfo="${tools.pager}" formId="queryForm"></page:pageInfo>
                         </td>
                     </tr>
@@ -112,7 +109,8 @@
     <script type="text/javascript">
 
         /*资讯-添加*/
-        function module_add(title, url, w, h) {
+        function module_add() {
+            var title = '添加菜单',url='${ctx}/platform/module/add',w = 600,h = 500;
             layer_show(title, url, w, h);
         }
         /*资讯-编辑*/
