@@ -7,6 +7,7 @@ import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.MessageObject;
 import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.WebUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Sort;
@@ -35,6 +36,7 @@ public class UserController {
     public String list(HttpServletRequest request, Model model) {
         Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
         String currentPage = request.getParameter("currentPage");
+        objectMap.put("disable_eq",Boolean.FALSE);
         try {
             ObjectTools<User> tools = userService.queryPageByMap(objectMap, currentPage, new Sort(Sort.Direction.DESC, "createTime"));
             model.addAttribute("tools", tools);
@@ -46,7 +48,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/add")
-    public String add(HttpServletRequest request) {
+    public String add() {
         return "platform/user/user_add";
     }
 
@@ -84,6 +86,25 @@ public class UserController {
                 response.getWriter().print(true);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/platform/user/delete", method = RequestMethod.POST)
+    public void delete(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        MessageObject messageObject = new MessageObject();
+        try {
+            if (StringUtils.isNotEmpty(id)) {
+                User user = userService.get(id);
+                user.setDisabled(Boolean.TRUE);
+                userService.save(user);
+                messageObject.setInforMessage("角色用户成功");
+            }
+        } catch (ServiceException e) {
+            e.printStackTrace();
+            messageObject.setErrorMessage("角色用户失败");
+        } finally {
+            messageObject.getWriter(response, messageObject);
         }
     }
 }

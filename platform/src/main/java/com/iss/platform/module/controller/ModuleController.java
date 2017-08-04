@@ -10,6 +10,7 @@ import com.orm.commons.utils.JsonMapper;
 import com.orm.commons.utils.MessageObject;
 import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.WebUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,7 @@ public class ModuleController {
         Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
         String currentPage = request.getParameter("currentPage");
         try {
+            objectMap.put("disable_eq",Boolean.FALSE);
             ObjectTools<Module> tools = moduleService.queryPageByMap(objectMap, currentPage, new Sort(Sort.Direction.DESC, "createTime"));
             model.addAttribute("tools", tools);
             model.addAttribute("currentPage", currentPage);
@@ -116,5 +118,22 @@ public class ModuleController {
         }
     }
 
-
+    @RequestMapping(value = "/platform/role/delete", method = RequestMethod.POST)
+    public void delete(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        MessageObject messageObject = new MessageObject();
+        try {
+            if (StringUtils.isNotEmpty(id)) {
+                Module module = moduleService.get(id);
+                module.setDisabled(Boolean.TRUE);
+                moduleService.save(module);
+                messageObject.setInforMessage("角色菜单成功");
+            }
+        } catch (ServiceException e) {
+            e.printStackTrace();
+            messageObject.setErrorMessage("角色菜单失败");
+        } finally {
+            messageObject.getWriter(response, messageObject);
+        }
+    }
 }
