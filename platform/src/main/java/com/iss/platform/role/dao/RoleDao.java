@@ -14,5 +14,5 @@ import com.orm.commons.service.HyJpaRepostiory;
 public interface RoleDao extends HyJpaRepostiory<Role, String> {
 
 	@Query("select m from Module m where m.id in (?1)")
-	List<Module> queryRolesByIds(String ids);
+	List<Module> queryRolesByIds(List<String> ids);
 }

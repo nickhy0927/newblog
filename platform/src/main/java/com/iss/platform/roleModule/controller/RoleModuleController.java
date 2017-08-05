@@ -2,6 +2,7 @@ package com.iss.platform.roleModule.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +42,12 @@ public class RoleModuleController {
 		try {
 			Role role = roleService.get(id);
 			request.setAttribute("role", role);
+			List<Module> list = role.getModules();
+			List<ModuleTree> moduleTrees = new ArrayList<>();
+			for (Iterator<Module> iterator = list.iterator(); iterator.hasNext();) {
+				Module module = (Module) iterator.next();
+				moduleTrees.add(new ModuleTree(module));
+			}
 			Map<String, Object> paramMap = new HashMap<>();
 			paramMap.put("id_ne", String.valueOf(1));
 			paramMap.put("disabled_eq", Boolean.FALSE);
@@ -50,6 +57,7 @@ public class RoleModuleController {
 				trees.add(new ModuleTree(module));
 			}
 			request.setAttribute("json", new JsonMapper().toJson(trees));
+			request.setAttribute("moduleTrees", new JsonMapper().toJson(moduleTrees));
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}

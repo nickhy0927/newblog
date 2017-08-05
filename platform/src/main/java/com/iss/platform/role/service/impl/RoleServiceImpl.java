@@ -1,5 +1,6 @@
 package com.iss.platform.role.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +40,11 @@ public class RoleServiceImpl extends DefaultAbstractService<Role, String> implem
 
 	@Override
 	public List<Module> queryRolesByIds(String ids) {
-		return roleDao.queryRolesByIds(ids);
+		String[] idStrings = ids.split(",");
+		List<String> list = new ArrayList<>();
+		for (String id : idStrings) {
+			list.add(id);
+		}
+		return roleDao.queryRolesByIds(list);
 	}
 }

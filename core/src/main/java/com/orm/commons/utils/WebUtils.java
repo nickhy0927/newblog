@@ -16,10 +16,12 @@ public class WebUtils {
 			String[] paramValues = request.getParameterValues(paramName);
 			String paramValue = paramValues[0];
 			if (paramValue.length() != 0) {
-				map.put(paramName, paramValue);
+				String[] names = paramName.split("_");
+				if (names.length > 1) {
+					map.put(paramName, paramValue);
+				}
 			}
 		}
-		map.remove("currentPage");
 		return map;
 	}
 

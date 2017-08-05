@@ -44,6 +44,7 @@ public class ModuleController {
         String currentPage = request.getParameter("currentPage");
         try {
             objectMap.put("disabled_eq",Boolean.FALSE);
+            objectMap.put("id_ne", String.valueOf(1));
             ObjectTools<Module> tools = moduleService.queryPageByMap(objectMap, currentPage, new Sort(Sort.Direction.DESC, "createTime"));
             request.setAttribute("tools", tools);
             request.setAttribute("currentPage", currentPage);

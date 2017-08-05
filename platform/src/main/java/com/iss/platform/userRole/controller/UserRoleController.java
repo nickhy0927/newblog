@@ -54,8 +54,12 @@ public class UserRoleController {
         try {
             requestToMap.put("disabled_eq", false);
             Page<User> users = userService.queryPageByMap(requestToMap, pageSupport);
+            List<User> content = users.getContent();
+            for (User user : content) {
+				user.setRoles(null);
+			}
             response.setContentType("text/html;charset=UTF-8");
-            String json = "{\"total\":" + users.getNumber() + ",\"rows\":" + new JsonMapper().toJson(users.getContent()) + "}";
+            String json = "{\"total\":" + users.getNumber() + ",\"rows\":" + new JsonMapper().toJson(content) + "}";
             response.getWriter().write(json);
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,7 +75,11 @@ public class UserRoleController {
             try {
                 User user = userService.get(userId);
                 response.setContentType("text/html;charset=UTF-8");
-                String json = "{\"total\":" + user.getRoles().size() + ",\"rows\":" + new JsonMapper().toJson(user.getRoles()) + "}";
+                List<Role> roles = user.getRoles();
+                for (Role role : roles) {
+					role.setRole(null);
+				}
+                String json = "{\"total\":" + user.getRoles().size() + ",\"rows\":" + new JsonMapper().toJson(roles) + "}";
                 try {
                     response.getWriter().write(json);
                 } catch (IOException e) {
