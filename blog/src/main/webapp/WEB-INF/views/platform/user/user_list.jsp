@@ -5,11 +5,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set value="${pageContext.request.contextPath}" var="ctx"></c:set>
 
-<psg:extends name="javascript">
-    <script type="text/javascript">
-
-    </script>
-</psg:extends>
+<pgs:extends name="javascript">
+	<script type="text/javascript">
+	
+	</script>
+</pgs:extends>
 <pgs:extends name="body">
     <form action="${ctx}/platform/user/list" method="post" id="queryForm" name="queryForm">
         <div class="page-container">
