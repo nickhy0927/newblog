@@ -107,9 +107,10 @@
                 	if(id == list[j].id) {
                 		zTree.checkNode(node, true, true);
                 		break;
+                	} else {
+                		zTree.checkNode(node, false, true);
                 	} 
                 }
-                
             }  
         }  
         $(document).ready(function () {
