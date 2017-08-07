@@ -3,11 +3,14 @@ package com.iss.platform.user.service.impl;
 import com.iss.exception.AccountException;
 import com.iss.exception.LockedException;
 import com.iss.exception.PasswordException;
+import com.iss.platform.role.dao.RoleDao;
+import com.iss.platform.role.entity.Role;
 import com.iss.platform.user.dao.UserDao;
 import com.iss.platform.user.entity.User;
 import com.iss.platform.user.service.UserService;
 import com.orm.commons.encryption.MD5Encryption;
 import com.orm.commons.service.impl.DefaultAbstractService;
+import com.orm.commons.utils.WebUtils;
 import com.orm.config.InitEnvironment;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
@@ -19,6 +22,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +34,8 @@ public class UserServiceImpl extends DefaultAbstractService<User, String> implem
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private RoleDao roleDao;
 
     @Override
     public User findUserByLoginName(String loginName) {
@@ -53,6 +60,7 @@ public class UserServiceImpl extends DefaultAbstractService<User, String> implem
                 throw new AccountException("登录账户不存在");
             }
         }
+        user.setRoles(null);
         return user;
     }
 
@@ -67,6 +75,7 @@ public class UserServiceImpl extends DefaultAbstractService<User, String> implem
                 user.setRealName("管理员");
                 user.setLocked(Boolean.FALSE);
                 user.setDisabled(Boolean.FALSE);
+                user.setId("1");
                 return user;
             }
         }

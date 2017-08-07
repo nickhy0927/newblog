@@ -7,8 +7,13 @@
 	<short-name>premission</short-name>
 	<uri>http://hy.premission.com</uri>
 	<tag>
-		<name>showIp</name>
+		<name>tag</name>
 		<tag-class>com.iss.tag.PremissionTag</tag-class>
-		<body-content>scriptless</body-content>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>alias</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 	</tag>
 </taglib>
