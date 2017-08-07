@@ -6,11 +6,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set value="${pageContext.request.contextPath}" var="ctx"></c:set>
 
-<psg:extends name="javascript">
-    <script type="text/javascript">
-
-    </script>
-</psg:extends>
+<pgs:extends name="javascript">
+	<script type="text/javascript">
+	
+	</script>
+</pgs:extends>
 <pgs:extends name="body">
     <form action="${ctx}/platform/module/list" method="post" id="queryForm" name="queryForm">
         <div class="page-container">
