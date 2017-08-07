@@ -4,8 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set value="${pageContext.request.contextPath}" var="ctx"></c:set>
-<%@ taglib uri="http://hy.premission.com" prefix="premission" %>
-
 <pgs:extends name="body">
     <form action="" method="post" id="queryForm" name="queryForm">
         <div class="page-container">
@@ -20,12 +18,6 @@
                         <td>
                             <input type="text" name="url_li" placeholder="菜单地址" style="width:260px" class="input-text">
                         </td>
-                    </tr>
-                    <tr>
-                        <td class="td-w" colspan="4">
-                        	<premission:showIp></premission:showIp>
-                        </td>
-                        
                     </tr>
                     <tr>
                         <td colspan="4">

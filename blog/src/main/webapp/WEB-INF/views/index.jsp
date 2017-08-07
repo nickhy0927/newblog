@@ -2,6 +2,7 @@
 <%@ taglib prefix="psg" uri="http://www.commons.page" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="${pageContext.request.contextPath}" var="ctx"></c:set>
+<%@ taglib uri="http://hy.premission.com" prefix="premission" %>
 <psg:extends name="title">
     后台管理系统
 </psg:extends>
@@ -53,17 +54,21 @@
     <aside class="Hui-aside">
         <div class="menu_dropdown bk_2">
             <c:forEach items="${moduleList}" var="m">
-                <dl>
-                    <dt>${m.module.icon.className} ${m.module.name}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-                    <dd>
-                        <ul>
-                            <c:forEach items="${m.modules}" var="c">
-                                <li>
-                                    <a data-href="${ctx}${c.url}" data-title="${c.name}" href="javascript:void(0)">${c.icon.className}&nbsp;${c.name}</a></li>
-                            </c:forEach>
-                        </ul>
-                    </dd>
-                </dl>
+                <premission:tag alias="${m.module.alias}">
+                    <dl>
+                        <dt>${m.module.icon.className} ${m.module.name}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+                        <dd>
+                            <ul>
+                                <c:forEach items="${m.modules}" var="c">
+                                    <li>
+                                        <a data-href="${ctx}${c.url}" data-title="${c.name}" href="javascript:void(0)">${c.icon.className}&nbsp;${c.name}</a>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </dd>
+                    </dl>
+                </premission:tag>
+
             </c:forEach>
         </div>
     </aside>

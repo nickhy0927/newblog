@@ -45,7 +45,7 @@ public class RoleModuleController {
 			List<Module> list = role.getModules();
 			List<ModuleTree> moduleTrees = new ArrayList<>();
 			for (Iterator<Module> iterator = list.iterator(); iterator.hasNext();) {
-				Module module = (Module) iterator.next();
+				Module module = iterator.next();
 				moduleTrees.add(new ModuleTree(module));
 			}
 			Map<String, Object> paramMap = new HashMap<>();
