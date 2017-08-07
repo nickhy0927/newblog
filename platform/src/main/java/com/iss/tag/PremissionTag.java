@@ -8,7 +8,7 @@ import com.iss.platform.user.service.UserService;
 import com.orm.commons.exception.ServiceException;
 import com.orm.config.InitEnvironment;
 import com.orm.config.SpringContextHolder;
-import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -35,7 +35,7 @@ public class PremissionTag extends BodyTagSupport {
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         //获取session中存放的权限
         User user = SingletonUser.getContextUser(request);
-        if (user.getLoginName() == environment.getInitUsername()) {
+        if (StringUtils.equals(user.getLoginName(), environment.getInitUsername())) {
             return BodyTagSupport.EVAL_BODY_INCLUDE;
         } else {
             UserService userService = SpringContextHolder.getBean(UserService.class);
@@ -45,9 +45,9 @@ public class PremissionTag extends BodyTagSupport {
                     user = userService.get(user.getId());
                     if (user != null) {
                         List<Role> roles = user.getRoles();
-                        for(Role role : roles) {
-                            List<Module> modules =  role.getModules();
-                            for(Module module : modules) {
+                        for (Role role : roles) {
+                            List<Module> modules = role.getModules();
+                            for (Module module : modules) {
                                 alis.add(module.getAlias());
                             }
                         }

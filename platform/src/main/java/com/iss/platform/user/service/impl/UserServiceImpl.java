@@ -53,6 +53,7 @@ public class UserServiceImpl extends DefaultAbstractService<User, String> implem
                 String s = user.getPassword();
                 String s1 = MD5Encryption.MD5(password);
                 if (s.equals(s1)) {
+                    user.setRoles(null);
                     return user;
                 } else
                     throw new PasswordException("输入的密码不正确");
@@ -60,7 +61,6 @@ public class UserServiceImpl extends DefaultAbstractService<User, String> implem
                 throw new AccountException("登录账户不存在");
             }
         }
-        user.setRoles(null);
         return user;
     }
 

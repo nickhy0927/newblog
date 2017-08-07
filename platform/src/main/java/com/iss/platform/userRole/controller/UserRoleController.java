@@ -78,6 +78,7 @@ public class UserRoleController {
                 List<Role> roles = user.getRoles();
                 for (Role role : roles) {
 					role.setRole(null);
+					role.setModules(null);
 				}
                 String json = "{\"total\":" + user.getRoles().size() + ",\"rows\":" + new JsonMapper().toJson(roles) + "}";
                 try {
