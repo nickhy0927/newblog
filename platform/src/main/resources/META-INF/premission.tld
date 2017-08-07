@@ -5,7 +5,7 @@
 	version="2.1">
 	<tlib-version>1.0</tlib-version>
 	<short-name>premission</short-name>
-	<uri>http://www.commons.premission</uri>
+	<uri>http://hy.premission.com</uri>
 	<tag>
 		<name>showIp</name>
 		<tag-class>com.iss.tag.PremissionTag</tag-class>

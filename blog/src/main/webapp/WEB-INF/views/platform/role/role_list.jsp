@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set value="${pageContext.request.contextPath}" var="ctx"></c:set>
-<%@ taglib prefix="premission" uri="http://www.commons.premission" %>
+<%@ taglib uri="http://hy.premission.com" prefix="premission" %>
 
 <pgs:extends name="body">
     <form action="" method="post" id="queryForm" name="queryForm">
@@ -23,6 +23,7 @@
                     </tr>
                     <tr>
                         <td class="td-w" colspan="4">
+                        	<premission:showIp></premission:showIp>
                         </td>
                         
                     </tr>
