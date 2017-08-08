@@ -32,6 +32,7 @@ public class Praise extends IdEntity{
         return article;
     }
 
+
     public void setArticle(Article article) {
         this.article = article;
     }
