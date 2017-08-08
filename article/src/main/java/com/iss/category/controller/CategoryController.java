@@ -1,16 +1,13 @@
-package com.iss.category;
+package com.iss.category.controller;
 
-import com.iss.category.dto.CategoryTree;
-import com.iss.category.entity.Category;
-import com.iss.category.service.CategoryService;
-import com.iss.platform.icon.entity.Icon;
-import com.iss.platform.module.entity.Module;
-import com.iss.platform.module.tree.ModuleTree;
-import com.orm.commons.exception.ServiceException;
-import com.orm.commons.utils.JsonMapper;
-import com.orm.commons.utils.MessageObject;
-import com.orm.commons.utils.ObjectTools;
-import com.orm.commons.utils.WebUtils;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -18,12 +15,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.iss.category.dto.CategoryTree;
+import com.iss.category.entity.Category;
+import com.iss.category.service.CategoryService;
+import com.orm.commons.exception.ServiceException;
+import com.orm.commons.utils.JsonMapper;
+import com.orm.commons.utils.MessageObject;
+import com.orm.commons.utils.ObjectTools;
+import com.orm.commons.utils.WebUtils;
 
 /**
  * Created by yuanhuangd on 2017/8/8.
