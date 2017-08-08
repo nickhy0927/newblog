@@ -33,72 +33,37 @@
         <form class="form form-horizontal" id="form-article-add">
             <input type="hidden" value="${module.id}" name="id" id="id">
             <div class="row cl">
-                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>上级菜单：</label>
+                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>上级分类：</label>
                 <div class="formControls col-xs-9 col-sm-10">
-                    <input type="text" onclick="showTree()" class="input-text" value="${module.module.name}"
-                           readonly="readonly" placeholder="请选择上级菜单" id="pName"
+                    <input type="text" onclick="showTree()" class="input-text" value="${category.category.name}"
+                           readonly="readonly" placeholder="请选择上级分类" id="pName"
                            name="pName">
-                    <input type="hidden" class="input-text" value="${module.module.id}" placeholder="" id="pId"
+                    <input type="hidden" class="input-text" value="${category.category.id}" placeholder="" id="pId"
                            name="pId">
                     <ul id="treeDemo" class="ztree" style="display: none;"></ul>
                 </div>
             </div>
             <div class="row cl">
-                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>菜单名称：</label>
+                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>分类名称：</label>
                 <div class="formControls col-xs-9 col-sm-10">
-                    <input type="text" class="input-text" value="${module.name}" placeholder="请输入菜单名称" id="name"
+                    <input type="text" class="input-text" value="${category.name}" placeholder="请输入分类名称" id="name"
                            name="name">
-                </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>菜单地址：</label>
-                <div class="formControls col-xs-9 col-sm-10">
-                    <input type="text" class="input-text" value="${module.url}" placeholder="请输入菜单地址" id="url"
-                           name="url">
-                </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>菜单别名：</label>
-                <div class="formControls col-xs-9 col-sm-10">
-                    <input type="text" class="input-text" value="${module.alias}" placeholder="请输入菜单地址" id="alias"
-                           name="alias">
-                </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">&nbsp;</span>菜单描述：</label>
-                <div class="formControls col-xs-9 col-sm-10">
-                    <input type="text" class="input-text" value="${module.descs}" placeholder="请输入菜单描述信息" id="descs"
-                           name="descs">
-                </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">&nbsp;</span>菜单图标：</label>
-                <div class="formControls col-xs-9 col-sm-10">
-                    <span class="select-box" style="width:100%;">
-                    <select class="select valid" name="iconId" size="1">
-                        <c:forEach var="icon" items="${icons}">
-                            <option value="${icon.id}" <c:if test="${module.icon.id == icon.id}">selected="selected"</c:if> >${icon.name}</option>
-                        </c:forEach>
-                    </select>
-                    </span>
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-3 col-sm-2"><span class="c-red">&nbsp;</span>是否显示：</label>
                 <div class="formControls col-xs-9 col-sm-10 skin-minimal">
-                    <c:if test="${module.shows != '' && module.shows != null}">
+                    <c:if test="${category.shows != '' && category.shows != null}">
                         <div class="radio-box">
-                            <input name="shows" value="0" type="radio"
-                                   <c:if test="${module.shows == '0'}">checked="checked"</c:if> id="sex-1">
+                            <input name="show" value="0" type="radio" <c:if test="${category.shows == '0'}">checked="checked"</c:if> id="sex-1">
                             <label for="sex-1">不显示</label>
                         </div>
                         <div class="radio-box">
-                            <input type="radio" value="1" id="sex-2"
-                                   <c:if test="${module.shows ==1}">checked="checked"</c:if> name="shows">
+                            <input type="radio" value="1" id="sex-2" <c:if test="${category.shows == true}">checked="checked"</c:if> name="shows">
                             <label for="sex-2">显示</label>
                         </div>
                     </c:if>
-                    <c:if test="${module.shows == '' || module.shows == null}">
+                    <c:if test="${category.shows == '' || category.shows == null}">
                         <div class="radio-box">
                             <input name="shows" value="0" type="radio" checked="checked">
                             <label for="sex-1">不显示</label>
@@ -170,9 +135,6 @@
                     name: {
                         required: true,
                     },
-                    url: {
-                        required: true,
-                    },
                     pName: {
                         required: true,
                     },
@@ -183,7 +145,7 @@
                 submitHandler: function (form) {
                     jQuery.ajax({
                         type: "POST",
-                        url: "${ctx}/platform/module/save",
+                        url: "${ctx}/article/category/save",
                         data: $(form).serialize(),
                         error: function (XMLHttpRequest, error, errorThrown) {
                             alert(error);
@@ -193,7 +155,7 @@
                             var data = eval("(" + response + ")");
                             if (data.resposecode == 200) {
                                 alert(data.message);
-                                parent.window.location.href = '${ctx}/platform/module/list';
+                                parent.window.location.href = '${ctx}/article/category/list';
                                 var index = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(index);
                             }

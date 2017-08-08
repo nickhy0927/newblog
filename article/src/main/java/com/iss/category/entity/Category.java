@@ -14,7 +14,16 @@ public class Category extends IdEntity {
 
     private String name;
 
+    private Boolean shows = Boolean.TRUE;
     private Category category;
+
+    public Boolean getShows() {
+        return shows;
+    }
+
+    public void setShows(Boolean shows) {
+        this.shows = shows;
+    }
 
     public String getName() {
         return name;
