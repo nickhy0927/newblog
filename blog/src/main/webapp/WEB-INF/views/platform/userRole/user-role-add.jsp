@@ -90,10 +90,33 @@
         };
 
         var zNodes = ${json};
-
+        //过滤节点的机制 直接return node表示不做任何过滤
+        function filter(node) {
+            return node;
+        }
+        var list = ${roleTrees};
+        ///动态设置zTree的所有节点有checkbox
+        function DynamicUpdateNodeCheck() {
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+            //根据过滤机制获得zTree的所有节点
+            var nodes = zTree.getNodesByFilter(filter);
+            //遍历每一个节点然后动态更新nocheck属性值
+            for (var i = 0; i < nodes.length; i++) {
+                var node = nodes[i];
+                var id = node.id;
+                for(var j = 0; j < list.length;j++) {
+                    if(id == list[j].id) {
+                        zTree.checkNode(node, true, true);
+                        break;
+                    } else {
+                        zTree.checkNode(node, false, true);
+                    }
+                }
+            }
+        }
         $(document).ready(function () {
             $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-
+            DynamicUpdateNodeCheck();
         });
 
         $(function () {

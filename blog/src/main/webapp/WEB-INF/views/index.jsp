@@ -1,3 +1,5 @@
+<%@ page import="com.iss.listener.SingletonUser" %>
+<%@ page import="com.iss.platform.user.entity.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="psg" uri="http://www.commons.page" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -19,16 +21,20 @@
                                 <li><a href="javascript:;" onclick="article_add('添加资讯','article-add.html')"><i class="Hui-iconfont">&#xe616;</i> 资讯</a></li>
                                 <li><a href="javascript:;" onclick="picture_add('添加资讯','picture-add.html')"><i class="Hui-iconfont">&#xe613;</i> 图片</a></li>
                                 <li><a href="javascript:;" onclick="product_add('添加资讯','product-add.html')"><i class="Hui-iconfont">&#xe620;</i> 产品</a></li>
-                                <li><a href="javascript:;" onclick="member_add('添加用户','member-add.html','','510')"><i class="Hui-iconfont">&#xe60d;</i> 用户</a></li>
+                                <li><a href="javascript:;" onclick="member_add('添加用户','${ctx}/platform/user/add','','510')"><i class="Hui-iconfont">&#xe60d;</i> 用户</a></li>
                             </ul>
                         </li>
                     </ul>
                 </nav>
                 <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
                     <ul class="cl">
-                        <li>超级管理员</li>
+                        <li>
+                            <%
+                                User user = SingletonUser.getContextUser(request);
+                            %>
+                        </li>
                         <li class="dropDown dropDown_hover">
-                            <a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+                            <a href="#" class="dropDown_A"><%=user.getRealName() %> <i class="Hui-iconfont">&#xe6d5;</i></a>
                             <ul class="dropDown-menu menu radius box-shadow">
                                 <li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
                                 <li><a href="#">切换账户</a></li>
@@ -60,9 +66,11 @@
                         <dd>
                             <ul>
                                 <c:forEach items="${m.modules}" var="c">
-                                    <li>
-                                        <a data-href="${ctx}${c.url}" data-title="${c.name}" href="javascript:void(0)">${c.icon.className}&nbsp;${c.name}</a>
-                                    </li>
+                                    <premission:tag alias="${c.alias}">
+                                        <li>
+                                            <a data-href="${ctx}${c.url}" data-title="${c.name}" href="javascript:void(0)">${c.icon.className}&nbsp;${c.name}</a>
+                                        </li>
+                                    </premission:tag>
                                 </c:forEach>
                             </ul>
                         </dd>

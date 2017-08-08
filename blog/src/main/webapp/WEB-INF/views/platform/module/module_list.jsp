@@ -65,7 +65,7 @@
                             </td>
                             <td>${menu.url}</td>
                             <td>${menu.alias}</td>
-                            <td class="text-c"></td>
+                            <td class="text-c">${menu.icon.className}</td>
                             <td>
                                 ${menu.module.name}
                             </td>

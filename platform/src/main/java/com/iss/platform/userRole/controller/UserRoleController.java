@@ -108,6 +108,11 @@ public class UserRoleController {
                 request.setAttribute("json", new JsonMapper().toJson(trees));
                 User user = userService.get(userId);
                 request.setAttribute("user", user);
+                List<TreeObj> roleTrees = new ArrayList<>();
+                for (Role role : user.getRoles()) {
+                    roleTrees.add(new TreeObj(role));
+                }
+                request.setAttribute("roleTrees", new JsonMapper().toJson(roleTrees));
             } catch (ServiceException e) {
                 e.printStackTrace();
             }
