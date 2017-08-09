@@ -43,25 +43,35 @@
                     <thead>
                     <tr class="text-l">
                         <th width="15"><input type="checkbox" name="" value=""></th>
+                        <th>文章标题</th>
+                        <th>文章内容</th>
                         <th>栏目名称</th>
-                        <th>上级栏目</th>
+                        <th>审核状态</th>
                         <th>是否显示</th>
                         <th style="width: 50px;" class="text-c">操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${tools.entities}" var="cate">
+                    <c:forEach items="${tools.entities}" var="art">
                         <tr class="text-l">
                             <td><input type="checkbox" value="" name=""></td>
                             <td class="text-l">
-                                    ${cate.name}
+                           		${art.title}
                             </td>
                             <td>
-                                    ${cate.category.name}
+                                 ${art.content}
                             </td>
                             <td>
-                                <c:if test="${cate.shows == true}">显示</c:if>
-                                <c:if test="${cate.shows == false}">不显示</c:if>
+                                 ${art.category.name}
+                            </td>
+                            <td>
+                                <c:if test="${art.approvalStatus == 0}">未审核</c:if>
+                                <c:if test="${art.approvalStatus == 1}">审核通过</c:if>
+                                <c:if test="${art.approvalStatus == 2}">审核拒绝</c:if>
+                            </td>
+                            <td>
+                                <c:if test="${art.shows == true}">显示</c:if>
+                                <c:if test="${art.shows == false}">不显示</c:if>
                             </td>
                             <td class="f-14 td-manage text-c">
                                 <a style="text-decoration:none" class="ml-5" onclick="module_edit('${cate.id}')"

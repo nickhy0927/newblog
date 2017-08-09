@@ -78,7 +78,7 @@
             <div class="row cl" style="text-align: right;margin-right: 2px">
                 <button class="btn btn-success" type="submit">
                     <i class="Hui-iconfont Hui-iconfont-save"></i>
-                    &nbsp;保存菜单
+                    &nbsp;保存分类
                 </button>
             </div>
         </form>

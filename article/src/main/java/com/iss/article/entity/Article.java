@@ -1,11 +1,16 @@
 package com.iss.article.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import com.iss.category.entity.Category;
 import com.iss.emuns.SysConstant;
 import com.iss.platform.user.entity.User;
 import com.orm.commons.utils.IdEntity;
-
-import javax.persistence.*;
 
 /**
  * Created by yuanhuangd on 2017/8/8.
@@ -19,9 +24,18 @@ public class Article extends IdEntity{
     private String content;
 
     private Integer approvalStatus = SysConstant.ApprovalStatus.DEFUALT;// 审核状态
+    private Boolean shows = Boolean.TRUE;
     private User user;
     private Category category;
 
+    public Boolean getShows() {
+		return shows;
+	}
+    
+    public void setShows(Boolean shows) {
+		this.shows = shows;
+	}
+    
     public Integer getApprovalStatus() {
         return approvalStatus;
     }
