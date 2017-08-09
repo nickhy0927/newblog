@@ -7,19 +7,20 @@
 <c:set value="${pageContext.request.contextPath}" var="ctx"></c:set>
 
 <pgs:extends name="javascript">
-	<script type="text/javascript">
-	
-	</script>
+    <script type="text/javascript">
+
+    </script>
 </pgs:extends>
 <pgs:extends name="body">
-    <form action="${ctx}/article/category/list" method="post" id="queryForm" name="queryForm">
+    <form action="${ctx}/content/article/list" method="post" id="queryForm" name="queryForm">
         <div class="page-container">
             <div class="text-l">
                 <table class="search-table">
                     <tr>
                         <td class="td-w">栏目名称</td>
                         <td colspan="3">
-                            <input type="text" value="${objectMap.name_li}" id="name_li" name="name_li" placeholder="菜单名称" class="input-text" style="width:260px;">
+                            <input type="text" value="${objectMap.name_li}" id="title_li" name="title_li"
+                                   placeholder="文章标题" class="input-text" style="width:260px;">
                         </td>
                     </tr>
                     <tr>
@@ -28,9 +29,9 @@
                                 <i class="Hui-iconfont">&#xe6e2;</i>
                                 批量删除
                             </a>
-                            <a class="btn btn-primary radius" onclick="module_add()" href="javascript:;">
+                            <a class="btn btn-primary radius" onclick="_add()" href="javascript:;">
                                 <i class="Hui-iconfont">&#xe600;</i>
-                               	添加栏目
+                                添加文章
                             </a>
                             <input class="btn btn-success" type="submit" value="搜索">
                         </td>
@@ -53,10 +54,10 @@
                         <tr class="text-l">
                             <td><input type="checkbox" value="" name=""></td>
                             <td class="text-l">
-                                ${cate.name}
+                                    ${cate.name}
                             </td>
                             <td>
-                                ${cate.category.name}
+                                    ${cate.category.name}
                             </td>
                             <td>
                                 <c:if test="${cate.shows == true}">显示</c:if>
@@ -75,7 +76,8 @@
                     </c:forEach>
                     <tr>
                         <td colspan="9">
-                            <page:pageInfo currentPage="${currentPage}" pageInfo="${tools.pager}" formId="queryForm"></page:pageInfo>
+                            <page:pageInfo currentPage="${currentPage}" pageInfo="${tools.pager}"
+                                           formId="queryForm"></page:pageInfo>
                         </td>
                     </tr>
                     </tbody>
@@ -97,13 +99,18 @@
     <script type="text/javascript">
 
         /*资讯-添加*/
-        function module_add() {
-            var title = '添加分类',url='${ctx}/article/category/add',w = 600,h = 500;
-            layer_show(title, url, w, h);
+        function _add() {
+            var title = '添加文章', url = '${ctx}/content/article/add';
+            var index = layer.open({
+                type: 2,
+                title: title,
+                content: url
+            });
+            layer.full(index);
         }
         /*资讯-编辑*/
         function module_edit(id) {
-            var url = '${ctx}/article/category/edit'
+            var url = '${ctx}/content/category/edit'
             url = url + "?id=" + id
             layer_show('修改分类', url, 600, 500);
         }
@@ -112,8 +119,9 @@
             layer.confirm('确认要删除吗？', function (index) {
                 $.ajax({
                     type: 'POST',
-                    url: '',
+                    url: '${ctx}/content/category/delete',
                     dataType: 'json',
+                    data: {id: id},
                     success: function (data) {
                         $(obj).parents("tr").remove();
                         layer.msg('已删除!', {icon: 1, time: 1000});

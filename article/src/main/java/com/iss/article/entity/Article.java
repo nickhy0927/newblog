@@ -1,6 +1,7 @@
 package com.iss.article.entity;
 
 import com.iss.category.entity.Category;
+import com.iss.emuns.SysConstant;
 import com.iss.platform.user.entity.User;
 import com.orm.commons.utils.IdEntity;
 
@@ -17,8 +18,17 @@ public class Article extends IdEntity{
     private String title;
     private String content;
 
+    private Integer approvalStatus = SysConstant.ApprovalStatus.DEFUALT;// 审核状态
     private User user;
     private Category category;
+
+    public Integer getApprovalStatus() {
+        return approvalStatus;
+    }
+
+    public void setApprovalStatus(Integer approvalStatus) {
+        this.approvalStatus = approvalStatus;
+    }
 
     public String getTitle() {
         return title;
@@ -28,6 +38,7 @@ public class Article extends IdEntity{
         this.title = title;
     }
 
+    @Lob
     public String getContent() {
         return content;
     }

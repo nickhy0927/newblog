@@ -35,19 +35,26 @@
             <div class="row cl">
                 <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>上级分类：</label>
                 <div class="formControls col-xs-9 col-sm-10">
-                    <input type="text" onclick="showTree()" class="input-text" value="${category.category.name}"
-                           readonly="readonly" placeholder="请选择上级分类" id="pName"
+                    <input type="text" onclick="showTree()" class="input-text" value="${article.category.name}"
+                           readonly="readonly" placeholder="请选择分类" id="pName"
                            name="pName">
-                    <input type="hidden" class="input-text" value="${category.category.id}" placeholder="" id="pId"
+                    <input type="hidden" class="input-text" value="${article.category.id}" placeholder="" id="pId"
                            name="pId">
                     <ul id="treeDemo" class="ztree" style="display: none;"></ul>
                 </div>
             </div>
             <div class="row cl">
-                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>分类名称：</label>
+                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>文章标题：</label>
                 <div class="formControls col-xs-9 col-sm-10">
-                    <input type="text" class="input-text" value="${category.name}" placeholder="请输入分类名称" id="name"
-                           name="name">
+                    <input type="text" class="input-text" value="${article.title}" placeholder="请输入分类名称" id="title"
+                           name="title">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>文章内容：</label>
+                <div class="formControls col-xs-9 col-sm-10">
+                    <input type="text" class="input-text" value="${article.content}" placeholder="请输入分类名称" id="content"
+                           name="content">
                 </div>
             </div>
             <div class="row cl">
@@ -102,7 +109,6 @@
             $("#treeDemo").attr('style', "display:block;z-index:100;position：absolute");
         }
         function zTreeOnClick(event, treeId, treeNode) {
-//            alert(treeId + ", " + treeNode.name + "," + treeNode.id);
             $("#pName").val(treeNode.name);
             $("#pId").val(treeNode.id);
             $("#treeDemo").attr('style', "display:none;z-index:100;position：absolute");
@@ -132,7 +138,7 @@
                     pName: {
                         required: true,
                     },
-                    name: {
+                    title: {
                         required: true,
                     },
                     pName: {
@@ -145,7 +151,7 @@
                 submitHandler: function (form) {
                     jQuery.ajax({
                         type: "POST",
-                        url: "${ctx}/article/category/save",
+                        url: "${ctx}/content/article/save",
                         data: $(form).serialize(),
                         error: function (XMLHttpRequest, error, errorThrown) {
                             alert(error);
