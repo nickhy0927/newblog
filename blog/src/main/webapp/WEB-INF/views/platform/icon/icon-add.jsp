@@ -35,7 +35,6 @@
             </div>
         </form>
     </article>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/admin/lib/layer/2.4/layer.js"></script>
     <script type="text/javascript" src="${ctx}/static/admin/h-ui/js/H-ui.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/admin/h-ui.admin/js/H-ui.admin.js"></script>
@@ -63,6 +62,7 @@
                 focusCleanup: true,
                 success: "valid",
                 submitHandler: function (form) {
+                    openLoading();
                     jQuery.ajax({
                         type: "POST",
                         url: "${ctx}/platform/icon/save",

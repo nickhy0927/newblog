@@ -28,63 +28,7 @@
         }
     </style>
 </pgs:extends>
-<pgs:extends name="body">
-    <article class="page-container">
-        <form class="form form-horizontal" id="form-article-add">
-            <input type="hidden" value="${module.id}" name="id" id="id">
-            <div class="row cl">
-                <input type="hidden" value="${category.id}" name="id">
-                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>上级分类：</label>
-                <div class="formControls col-xs-9 col-sm-10">
-                    <input type="text" onclick="showTree()" class="input-text" value="${category.category.name}"
-                           readonly="readonly" placeholder="请选择上级分类" id="pName"
-                           name="pName">
-                    <input type="hidden" class="input-text" value="${category.category.id}" placeholder="" id="pId"
-                           name="pId">
-                    <ul id="treeDemo" class="ztree" style="display: none;"></ul>
-                </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>分类名称：</label>
-                <div class="formControls col-xs-9 col-sm-10">
-                    <input type="text" class="input-text" value="${category.name}" placeholder="请输入分类名称" id="name"
-                           name="name">
-                </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">&nbsp;</span>是否显示：</label>
-                <div class="formControls col-xs-9 col-sm-10 skin-minimal">
-                    <c:if test="${category.shows != '' && category.shows != null}">
-                        <div class="radio-box">
-                            <input name="show" value="0" type="radio" <c:if test="${category.shows == '0'}">checked="checked"</c:if> id="sex-1">
-                            <label for="sex-1">不显示</label>
-                        </div>
-                        <div class="radio-box">
-                            <input type="radio" value="1" id="sex-2" <c:if test="${category.shows == true}">checked="checked"</c:if> name="shows">
-                            <label for="sex-2">显示</label>
-                        </div>
-                    </c:if>
-                    <c:if test="${category.shows == '' || category.shows == null}">
-                        <div class="radio-box">
-                            <input name="shows" value="0" type="radio" checked="checked">
-                            <label for="sex-1">不显示</label>
-                        </div>
-                        <div class="radio-box">
-                            <input type="radio" value="1" name="shows">
-                            <label for="sex-2">显示</label>
-                        </div>
-                    </c:if>
-                </div>
-            </div>
-            <div class="row cl" style="text-align: right;margin-right: 2px">
-                <button class="btn btn-success" type="submit">
-                    <i class="Hui-iconfont Hui-iconfont-save"></i>
-                    &nbsp;保存分类
-                </button>
-            </div>
-        </form>
-    </article>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<pgs:extends name="javascript">
     <script type="text/javascript" src="${ctx}/static/admin/lib/layer/2.4/layer.js"></script>
     <script type="text/javascript" src="${ctx}/static/admin/h-ui/js/H-ui.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/admin/h-ui.admin/js/H-ui.admin.js"></script>
@@ -144,6 +88,7 @@
                 focusCleanup: true,
                 success: "valid",
                 submitHandler: function (form) {
+                    openLoading();
                     jQuery.ajax({
                         type: "POST",
                         url: "${ctx}/content/category/save",
@@ -156,7 +101,7 @@
                             var data = eval("(" + response + ")");
                             if (data.resposecode == 200) {
                                 alert(data.message);
-                                parent.window.location.href = '${ctx}/article/category/list';
+                                parent.window.location.href = '${ctx}/content/category/list';
                                 var index = parent.layer.getFrameIndex(window.name);
                                 parent.layer.close(index);
                             }
@@ -166,5 +111,62 @@
             });
         });
     </script>
+</pgs:extends>
+<pgs:extends name="body">
+    <article class="page-container">
+        <form class="form form-horizontal" id="form-article-add">
+            <input type="hidden" value="${module.id}" name="id" id="id">
+            <div class="row cl">
+                <input type="hidden" value="${category.id}" name="id">
+                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>上级分类：</label>
+                <div class="formControls col-xs-9 col-sm-10">
+                    <input type="text" onclick="showTree()" class="input-text" value="${category.category.name}"
+                           readonly="readonly" placeholder="请选择上级分类" id="pName"
+                           name="pName">
+                    <input type="hidden" class="input-text" value="${category.category.id}" placeholder="" id="pId"
+                           name="pId">
+                    <ul id="treeDemo" class="ztree" style="display: none;"></ul>
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>分类名称：</label>
+                <div class="formControls col-xs-9 col-sm-10">
+                    <input type="text" class="input-text" value="${category.name}" placeholder="请输入分类名称" id="name"
+                           name="name">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">&nbsp;</span>是否显示：</label>
+                <div class="formControls col-xs-9 col-sm-10 skin-minimal">
+                    <c:if test="${category.shows != '' && category.shows != null}">
+                        <div class="radio-box">
+                            <input name="show" value="0" type="radio" <c:if test="${category.shows == '0'}">checked="checked"</c:if> id="sex-1">
+                            <label for="sex-1">不显示</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" value="1" id="sex-2" <c:if test="${category.shows == true}">checked="checked"</c:if> name="shows">
+                            <label for="sex-2">显示</label>
+                        </div>
+                    </c:if>
+                    <c:if test="${category.shows == '' || category.shows == null}">
+                        <div class="radio-box">
+                            <input name="shows" value="0" type="radio" checked="checked">
+                            <label for="sex-1">不显示</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" value="1" name="shows">
+                            <label for="sex-2">显示</label>
+                        </div>
+                    </c:if>
+                </div>
+            </div>
+            <div class="row cl" style="text-align: right;margin-right: 2px">
+                <button class="btn btn-success" type="submit">
+                    <i class="Hui-iconfont Hui-iconfont-save"></i>
+                    &nbsp;保存分类
+                </button>
+            </div>
+        </form>
+    </article>
 </pgs:extends>
 <jsp:include page="/parent_page/parent.jsp"/>

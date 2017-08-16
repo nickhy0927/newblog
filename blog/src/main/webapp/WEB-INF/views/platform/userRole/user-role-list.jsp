@@ -117,7 +117,6 @@
             layer_show('添加权限', url, 300, 500);
         }
         function queryDataGrid(id) {
-            console.log(id);
             var url = "${ctx}/platform/user/role/queryUserById.json";
             if (id) {
                 url += '?userId=' + id

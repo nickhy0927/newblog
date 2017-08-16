@@ -39,7 +39,6 @@
             </div>
         </form>
     </article>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/admin/lib/layer/2.4/layer.js"></script>
     <script type="text/javascript" src="${ctx}/static/admin/h-ui/js/H-ui.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/admin/h-ui.admin/js/H-ui.admin.js"></script>
@@ -68,7 +67,6 @@
             var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
             var nodes = treeObj.getCheckedNodes(true);
             for (var i = 0; i < nodes.length; i++) {
-                console.log(nodes[i].id);
                 ids += nodes[i].id + ",";
             }
             $("#ids").val(ids);
@@ -140,6 +138,7 @@
                     getetCheckedAll();
                     var ids = $("#ids").val();
                     if (ids) {
+                        openLoading();
                         jQuery.ajax({
                             type: "POST",
                             url: "${ctx}/platform/user/role/save",

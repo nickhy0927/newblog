@@ -162,6 +162,7 @@
 	        focusCleanup: true,
 	        success: "valid",
 	        submitHandler: function (form) {
+	            openLoading();
 	            jQuery.ajax({
 	                type: "POST",
 	                url: "${ctx}/content/article/save",
