@@ -173,7 +173,7 @@
 	                    var data = eval("(" + response + ")");
 	                    if (data.resposecode == 200) {
 	                        alert(data.message);
-	                        parent.window.location.href = '${ctx}/article/category/list';
+	                        parent.window.location.href = '${ctx}/content/article/list';
 	                        var index = parent.layer.getFrameIndex(window.name);
 	                        parent.layer.close(index);
 	                    }
