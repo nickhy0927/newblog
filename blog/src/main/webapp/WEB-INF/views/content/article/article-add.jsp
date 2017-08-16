@@ -50,6 +50,7 @@
 	                       name="title">
 	            </div>
 	        </div>
+			<textarea style="display: none" id="content" name="content"></textarea>
 	        <div class="row cl">
 	            <label class="form-label col-xs-3 col-sm-2"><span class="c-red">&nbsp;</span>是否显示：</label>
 	            <div class="formControls col-xs-9 col-sm-10 skin-minimal">
@@ -76,7 +77,10 @@
 	            </div>
 	        </div>
 	        <div class="row cl">
-	            <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>文章内容：</label>
+	            <label class="form-label col-xs-3 col-sm-2">
+					<span class="c-red">*</span>
+					文章内容：
+				</label>
 	            <div class="formControls col-xs-9 col-sm-10">
 	               <script id="editor" type="text/plain" style="width:100%;height:400px;"></script> 
 	            </div>
@@ -134,11 +138,11 @@
 			radioClass: 'iradio-blue',
 			increaseArea: '20%'
 		});
-		$("#article_save").click(function(){
+		$("#article_save_submit").click(function(){
 			var val = UE.getEditor('editor').getPlainTxt();
-			console.log(val)
+			$("#content").val(val);
 		});
-		var ue = UE.getEditor('editor');
+		UE.getEditor('editor');
 		
 		$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 	    //表单验证
@@ -164,7 +168,6 @@
 	                data: $(form).serialize(),
 	                error: function (XMLHttpRequest, error, errorThrown) {
 	                    alert(error);
-	                    alert(errorThrown);
 	                },
 	                success: function (response) {
 	                    var data = eval("(" + response + ")");

@@ -54,10 +54,10 @@
                         <tr class="text-l">
                             <td><input type="checkbox" value="" name=""></td>
                             <td class="text-l">
-                                    ${cate.name}
+                                ${cate.name}
                             </td>
                             <td>
-                                    ${cate.category.name}
+                                ${cate.category.name}
                             </td>
                             <td>
                                 <c:if test="${cate.shows == true}">显示</c:if>

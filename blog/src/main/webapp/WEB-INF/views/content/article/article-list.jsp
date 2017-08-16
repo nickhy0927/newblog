@@ -59,7 +59,7 @@
                            		${art.title}
                             </td>
                             <td>
-                                 ${art.content}
+                                 <pgs:string content="${art.content}" len="40" />
                             </td>
                             <td>
                                  ${art.category.name}
