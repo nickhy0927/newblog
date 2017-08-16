@@ -6,7 +6,7 @@
     用户登录
 </psg:extends>
 <psg:extends name="css">
-    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="shortcut icon" href="${ctx}/static/favicon.ico">
     <link rel="stylesheet" type="text/css" href="${ctx}/static/public/login/css/demo.css"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/static/public/login/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/static/public/login/css/animate-custom.css"/>
@@ -15,7 +15,6 @@
     <div class="container">
         <section>
             <div id="container_demo">
-                <!-- hidden anchor to stop jump http://www.css3create.com/Astuce-Empecher-le-scroll-avec-l-utilisation-de-target#wrap4  -->
                 <a class="hiddenanchor" id="toregister"></a>
                 <a class="hiddenanchor" id="tologin"></a>
                 <div id="wrapper">
