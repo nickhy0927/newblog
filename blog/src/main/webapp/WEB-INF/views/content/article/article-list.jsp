@@ -46,8 +46,8 @@
                         <th>文章标题</th>
                         <th>文章内容</th>
                         <th>栏目名称</th>
-                        <th>审核状态</th>
-                        <th>是否显示</th>
+                        <th class="text-c">审核状态</th>
+                        <th class="text-c">是否显示</th>
                         <th style="width: 50px;" class="text-c">操作</th>
                     </tr>
                     </thead>
@@ -55,8 +55,8 @@
                     <c:forEach items="${tools.entities}" var="art">
                         <tr class="text-l">
                             <td><input type="checkbox" value="" name=""></td>
-                            <td class="text-l">
-                           		${art.title}
+                            <td class="text-l" title="${art.title}">
+                           		<a href="#"><pgs:string content="${art.title}" len="20"/></a>
                             </td>
                             <td>
                                  <pgs:string content="${art.content}" len="40" />
@@ -64,14 +64,34 @@
                             <td>
                                  ${art.category.name}
                             </td>
-                            <td>
-                                <c:if test="${art.approvalStatus == 0}">未审核</c:if>
-                                <c:if test="${art.approvalStatus == 1}">审核通过</c:if>
-                                <c:if test="${art.approvalStatus == 2}">审核拒绝</c:if>
+                            <td class="text-c">
+                                <c:if test="${art.approvalStatus == 0}">
+                                    <span class="label label-default radius">
+                                        未审核
+                                    </span>
+                                </c:if>
+                                <c:if test="${art.approvalStatus == 1}">
+                                    <span class="label label-success radius">
+                                        审核通过
+                                    </span>
+                                </c:if>
+                                <c:if test="${art.approvalStatus == 2}">
+                                    <span class="label label-danger radius">
+                                        审核拒绝
+                                    </span>
+                                </c:if>
                             </td>
-                            <td>
-                                <c:if test="${art.shows == true}">显示</c:if>
-                                <c:if test="${art.shows == false}">不显示</c:if>
+                            <td class="td-status text-c">
+                                <c:if test="${art.shows == true}">
+                                    <span class="label label-success radius">
+                                        已发布
+                                    </span>
+                                </c:if>
+                                <c:if test="${art.shows == false}">
+                                    <span class="label label-warning radius">
+                                        未发布
+                                    </span>
+                                </c:if>
                             </td>
                             <td class="f-14 td-manage text-c">
                                 <a style="text-decoration:none" class="ml-5" onclick="module_edit('${cate.id}')"

@@ -6,22 +6,22 @@ import com.iss.category.entity.Category;
  * Created by yuanhuangd on 2017/8/8.
  */
 public class CategoryTree {
-    private String pid;
+    private String pId;
     private String name;
     private String id;
 
     public CategoryTree(Category category) {
         this.id = category.getId();
         this.name = category.getName();
-        this.pid = category.getCategory() != null ? category.getCategory().getId() : null;
+        this.pId = category.getCategory() != null ? category.getCategory().getId() : null;
     }
 
-    public String getPid() {
-        return pid;
+    public String getpId() {
+        return pId;
     }
 
-    public void setPid(String pid) {
-        this.pid = pid;
+    public void setpId(String pId) {
+        this.pId = pId;
     }
 
     public String getName() {

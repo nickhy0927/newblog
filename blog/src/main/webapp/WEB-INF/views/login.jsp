@@ -1,17 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="psg" uri="http://www.commons.page" %>
+<%@ taglib prefix="pgs" uri="http://www.commons.page" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="${pageContext.request.contextPath}" var="ctx"/>
-<psg:extends name="title">
+<pgs:extends name="title">
     用户登录
-</psg:extends>
-<psg:extends name="css">
-    <link rel="shortcut icon" href="${ctx}/static/favicon.ico">
+</pgs:extends>
+<pgs:extends name="css">
     <link rel="stylesheet" type="text/css" href="${ctx}/static/public/login/css/demo.css"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/static/public/login/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/static/public/login/css/animate-custom.css"/>
-</psg:extends>
-<psg:extends name="body">
+</pgs:extends>
+<pgs:extends name="body">
     <div class="container">
         <section>
             <div id="container_demo">
@@ -82,5 +81,5 @@
             </div>
         </section>
     </div>
-</psg:extends>
+</pgs:extends>
 <jsp:include page="/parent_page/parent.jsp"/>

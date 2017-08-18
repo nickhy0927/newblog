@@ -16,6 +16,7 @@
         <module>utils</module>
         <module>article</module>
         <module>client</module>
+        <module>member</module>
     </modules>
 
     <properties>

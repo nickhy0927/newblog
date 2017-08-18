@@ -5,6 +5,7 @@ import com.iss.article.service.ArticleService;
 import com.iss.category.dto.CategoryTree;
 import com.iss.category.entity.Category;
 import com.iss.category.service.CategoryService;
+import com.iss.emuns.SysConstant;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.JsonMapper;
 import com.orm.commons.utils.MessageObject;
@@ -42,6 +43,7 @@ public class ArticleController {
         List<CategoryTree> trees = new ArrayList<>();
         try {
             paramsMap.put("disabled_eq", Boolean.FALSE);
+            paramsMap.put("id_ne", String.valueOf(1));
             List<Category> categories = categoryService.queryByMap(paramsMap);
             for (Category category : categories) {
                 trees.add(new CategoryTree(category));
@@ -83,7 +85,7 @@ public class ArticleController {
                 trees.add(new CategoryTree(category));
             }
             request.setAttribute("json", new JsonMapper().toJson(trees));
-            request.setAttribute("acticle",articleService.get(id));
+            request.setAttribute("acticle", articleService.get(id));
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -105,6 +107,7 @@ public class ArticleController {
         }
         return "content/article/article-list";
     }
+
     @RequestMapping(value = "/content/article/delete", method = RequestMethod.POST)
     public void delete(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
@@ -121,6 +124,44 @@ public class ArticleController {
             messageObject.setErrorMessage("分类删除失败");
         } finally {
             messageObject.getWriter(response, messageObject);
+        }
+    }
+
+    @RequestMapping(value = "/content/article/approvalList", method = {RequestMethod.GET, RequestMethod.POST})
+    public String approvalList(HttpServletRequest request) {
+        Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
+        String currentPage = request.getParameter("currentPage");
+        try {
+            objectMap.put("disabled_eq", Boolean.FALSE);
+            objectMap.put("approvalStatus_eq", SysConstant.ApprovalStatus.DEFUALT);
+            ObjectTools<Article> tools = articleService.queryPageByMap(objectMap, currentPage, new Sort(Sort.Direction.DESC, "createTime"));
+            request.setAttribute("tools", tools);
+            request.setAttribute("currentPage", currentPage);
+            request.setAttribute("objectMap", objectMap);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+        return "content/article/article-approval";
+    }
+
+    @RequestMapping(value = "/content/article/approval", method = {RequestMethod.POST})
+    public void approval(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        String approvalStatus = request.getParameter("approvalStatus");
+        MessageObject message = new MessageObject();
+        try {
+            Article article = articleService.get(id);
+            article.setApprovalStatus(Integer.valueOf(approvalStatus));
+            articleService.save(article);
+            if (Integer.valueOf(approvalStatus) == SysConstant.ApprovalStatus.REFUSE)
+                message.setInforMessage("审核通过");
+            else
+                message.setInforMessage("审核拒绝");
+        } catch (ServiceException e) {
+            e.printStackTrace();
+            message.setInforMessage("审核失败");
+        } finally {
+            message.getWriter(response, message);
         }
     }
 }

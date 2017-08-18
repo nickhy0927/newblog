@@ -51,7 +51,7 @@
                         <th>菜单别名</th>
                         <th class="text-c">图标</th>
                         <th width="160">上级菜单</th>
-                        <th width="160">菜单描述</th>
+                        <th>菜单描述</th>
                         <th>是否显示</th>
                         <th style="width: 50px;" class="text-c">操作</th>
                     </tr>

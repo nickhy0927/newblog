@@ -34,13 +34,14 @@ public class SubString extends TagSupport {
 
     @Override
     public int doEndTag() throws JspException {
-        String c = getContent();
+        String c = "";
         if (getLen() > 0)
             if (StringUtils.isNotEmpty(getContent())) {
                 String content = trimHtml2Txt(getContent(), null);
                 if (StringUtils.isNotEmpty(content))
                     c = content.length() < getLen() ? content : content.substring(0, getLen()) + "...";
                 c = c.replaceAll("\\s*", "");
+                c = c.trim();
             }   
         try {
             pageContext.getOut().println(c);

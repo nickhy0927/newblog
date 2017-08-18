@@ -27,6 +27,11 @@
             <version>1.0</version>
         </dependency>
         <dependency>
+            <groupId>com.iss.member</groupId>
+            <artifactId>iss-member</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.iss.utils</groupId>
             <artifactId>iss-utils</artifactId>
             <version>1.0</version>

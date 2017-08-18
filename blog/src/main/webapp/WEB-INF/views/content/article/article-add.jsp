@@ -52,37 +52,12 @@
 	        </div>
 			<textarea style="display: none" id="content" name="content"></textarea>
 	        <div class="row cl">
-	            <label class="form-label col-xs-3 col-sm-2"><span class="c-red">&nbsp;</span>是否显示：</label>
-	            <div class="formControls col-xs-9 col-sm-10 skin-minimal">
-	                <c:if test="${category.shows != '' && category.shows != null}">
-	                    <div class="radio-box">
-	                        <input name="show" value="0" type="radio" <c:if test="${category.shows == '0'}">checked="checked"</c:if> id="sex-1">
-	                        <label for="sex-1" style="margin-left: 24px;height: 30px;line-height: 26px">不显示</label>
-	                    </div>
-	                    <div class="radio-box">
-	                        <input type="radio" value="1" id="sex-2" <c:if test="${category.shows == true}">checked="checked"</c:if> name="shows">
-	                        <label for="sex-2" style="margin-left: 24px;height: 30px;line-height: 26px">显示</label>
-	                    </div>
-	                </c:if>
-	                <c:if test="${category.shows == '' || category.shows == null}">
-	                    <div class="radio-box">
-	                        <input name="shows" value="0" type="radio" checked="checked">
-	                        <label for="sex-1" style="margin-left: 24px;height: 30px;line-height: 26px">不显示</label>
-	                    </div>
-	                    <div class="radio-box">
-	                        <input type="radio" value="1" name="shows">
-	                        <label for="sex-2" style="margin-left: 24px;height: 30px;line-height: 26px">显示</label>
-	                    </div>
-	                </c:if>
-	            </div>
-	        </div>
-	        <div class="row cl">
 	            <label class="form-label col-xs-3 col-sm-2">
 					<span class="c-red">*</span>
 					文章内容：
 				</label>
 	            <div class="formControls col-xs-9 col-sm-10">
-	               <script id="editor" type="text/plain" style="width:100%;height:400px;"></script> 
+					<script id="editor" type="text/plain"></script>
 	            </div>
 	        </div>
 			<div class="row cl">
@@ -95,7 +70,6 @@
 	</article>
 
 	<!--_footer 作为公共模版分离出去-->
-	<script type="text/javascript" src="${ctx}/static/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
 	<script type="text/javascript" src="${ctx}/static/admin/lib/layer/2.4/layer.js"></script>
 	<script type="text/javascript" src="${ctx}/static/admin/h-ui/js/H-ui.min.js"></script> 
 	<script type="text/javascript" src="${ctx}/static/admin//h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer /作为公共模版分离出去-->

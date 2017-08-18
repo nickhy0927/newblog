@@ -24,7 +24,7 @@ public class Article extends IdEntity{
     private String content;
 
     private Integer approvalStatus = SysConstant.ApprovalStatus.DEFUALT;// 审核状态
-    private Boolean shows = Boolean.TRUE;
+    private Boolean shows = Boolean.FALSE;
     private User user;
     private Category category;
 
