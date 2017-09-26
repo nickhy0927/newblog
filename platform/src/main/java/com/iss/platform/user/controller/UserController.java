@@ -1,19 +1,5 @@
 package com.iss.platform.user.controller;
 
-import java.io.IOException;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.iss.platform.user.entity.User;
 import com.iss.platform.user.service.UserService;
 import com.orm.commons.encryption.MD5Encryption;
@@ -21,6 +7,20 @@ import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.MessageObject;
 import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.WebUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Created by yuanhuangd on 2017/7/24.
@@ -35,7 +35,7 @@ public class UserController {
     public String list(HttpServletRequest request, Model model) {
         Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
         String currentPage = request.getParameter("currentPage");
-        objectMap.put("disabled_eq",Boolean.FALSE);
+        objectMap.put("disabled_eq", Boolean.FALSE);
         try {
             ObjectTools<User> tools = userService.queryPageByMap(objectMap, currentPage, new Sort(Sort.Direction.DESC, "createTime"));
             model.addAttribute("tools", tools);
@@ -50,6 +50,21 @@ public class UserController {
     @RequestMapping(value = "/platform/user/add")
     public String add() {
         return "platform/user/user_add";
+    }
+
+    @RequestMapping(value = "/platform/user/edit/{id}")
+    public String edit(@PathVariable String id, HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        String pattern = ".*/platform/user/edit/.*";
+        boolean isMatch = Pattern.matches(pattern, uri);
+        System.out.println(isMatch);
+        try {
+            User user = userService.get(id);
+            request.setAttribute("user", user);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+        return "platform/user/user_edit";
     }
 
     @RequestMapping(value = "/platform/user/save", method = RequestMethod.POST)

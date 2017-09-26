@@ -83,7 +83,7 @@
                                     <a style="text-decoration:none" onClick="article_stop(this,'10001')" href="javascript:;" title="下架">
                                         <i class="fa fa-save"></i>
                                     </a>
-                                    <a style="text-decoration:none" class="ml-5" onClick="article_edit('资讯编辑','article-add.html','10001')" href="javascript:;" title="编辑">
+                                    <a style="text-decoration:none" class="ml-5" onClick="article_edit('编辑用户信息','${ctx}/platform/user/edit/${user.id}','10001')" href="javascript:;" title="编辑">
                                         <i class="fa fa-edit"></i>
                                     </a>
                                     <a style="text-decoration:none" class="ml-5" onClick="article_del(this,'10001')" href="javascript:;" title="删除">
@@ -117,7 +117,7 @@
             layer_show(title,url,w,h);
         }
         /*资讯-编辑*/
-        function article_edit(title,url,id,w,h){
+        function article_edit(title,url){
             var index = layer.open({
                 type: 2,
                 title: title,
