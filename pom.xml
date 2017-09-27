@@ -13,6 +13,7 @@
         <module>system</module>
         <module>core</module>
         <module>blog</module>
+        <module>blogClinet</module>
         <module>utils</module>
         <module>article</module>
         <module>client</module>
@@ -285,8 +286,6 @@
             <version>${quartz.version}</version>
         </dependency>
         <!-- WEB end -->
-
-
 
         <!-- LOGGING 组件 -->
         <!-- slf4j -->
