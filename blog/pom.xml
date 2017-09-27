@@ -16,9 +16,9 @@
             <artifactId>iss-core</artifactId>
             <version>1.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.iss.platform</groupId>
-            <artifactId>iss-platform</artifactId>
+         <dependency>
+            <groupId>com.iss.system</groupId>
+            <artifactId>iss-system</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>

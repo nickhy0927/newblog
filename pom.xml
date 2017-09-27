@@ -10,7 +10,7 @@
     <version>1.0</version>
     <name>shop-root</name>
     <modules>
-        <module>platform</module>
+        <module>system</module>
         <module>core</module>
         <module>blog</module>
         <module>utils</module>

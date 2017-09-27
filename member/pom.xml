@@ -18,8 +18,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.iss.platform</groupId>
-            <artifactId>iss-platform</artifactId>
+            <groupId>com.iss.system</groupId>
+            <artifactId>iss-system</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
