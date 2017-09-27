@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * Created by yuanhuangd on 2017/7/24.
  */
+@SuppressWarnings("serial")
 public class SubString extends TagSupport {
     private Integer len;
     private String content;
