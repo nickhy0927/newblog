@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 import com.iss.category.entity.Category;
 import com.iss.emuns.SysConstant;
-import com.iss.platform.user.entity.User;
+import com.iss.system.user.entity.User;
 import com.orm.commons.utils.IdEntity;
 
 /**

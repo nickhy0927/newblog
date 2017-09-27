@@ -1,5 +1,5 @@
 <%@ page import="com.iss.listener.SingletonUser" %>
-<%@ page import="com.iss.platform.user.entity.User" %>
+<%@ page import="com.iss.system.user.entity.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="psg" uri="http://www.commons.page" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -21,7 +21,7 @@
                                 <li><a href="javascript:;" onclick="article_add('添加资讯','article-add.html')"><i class="Hui-iconfont">&#xe616;</i> 资讯</a></li>
                                 <li><a href="javascript:;" onclick="picture_add('添加资讯','picture-add.html')"><i class="Hui-iconfont">&#xe613;</i> 图片</a></li>
                                 <li><a href="javascript:;" onclick="product_add('添加资讯','product-add.html')"><i class="Hui-iconfont">&#xe620;</i> 产品</a></li>
-                                <li><a href="javascript:;" onclick="member_add('添加用户','${ctx}/platform/user/add','','510')"><i class="Hui-iconfont">&#xe60d;</i> 用户</a></li>
+                                <li><a href="javascript:;" onclick="member_add('添加用户','${ctx}/system/user/add','','510')"><i class="Hui-iconfont">&#xe60d;</i> 用户</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -96,7 +96,7 @@
         <div id="iframe_box" class="Hui-article">
             <div class="show_iframe">
                 <div style="display:none" class="loading"></div>
-                <iframe scrolling="yes" frameborder="0" src="${ctx}/platform/module/list"></iframe>
+                <iframe scrolling="yes" frameborder="0" src="${ctx}/system/module/list"></iframe>
             </div>
         </div>
     </section>

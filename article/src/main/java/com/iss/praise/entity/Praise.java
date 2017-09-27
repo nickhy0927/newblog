@@ -1,10 +1,14 @@
 package com.iss.praise.entity;
 
-import com.iss.article.entity.Article;
-import com.iss.platform.user.entity.User;
-import com.orm.commons.utils.IdEntity;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-import javax.persistence.*;
+import com.iss.article.entity.Article;
+import com.iss.system.user.entity.User;
+import com.orm.commons.utils.IdEntity;
 
 /**
  * Created by yuanhuangd on 2017/8/8.

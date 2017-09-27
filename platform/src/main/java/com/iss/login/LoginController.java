@@ -1,16 +1,17 @@
 package com.iss.login;
 
-import com.iss.listener.SingletonUser;
-import com.iss.platform.user.entity.User;
-import com.iss.platform.user.service.UserService;
-import com.iss.util.RandomString;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
+import com.iss.listener.SingletonUser;
+import com.iss.system.user.entity.User;
+import com.iss.system.user.service.UserService;
+import com.iss.util.RandomString;
 
 /**
  * Created by yuanhuangd on 2017/7/25.

@@ -1,17 +1,19 @@
 package com.iss.interceptor;
 
-import com.iss.listener.SingletonUser;
-import com.iss.platform.user.entity.User;
-import com.iss.util.RandomString;
-import com.orm.config.InitEnvironment;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+import com.iss.listener.SingletonUser;
+import com.iss.system.user.entity.User;
+import com.iss.util.RandomString;
+import com.orm.config.InitEnvironment;
 
 /**
  * Created by yuanhuangd on 2017/7/25.

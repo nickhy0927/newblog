@@ -1,16 +1,18 @@
 package com.iss.index;
 
-import com.iss.platform.module.dto.ModuleDto;
-import com.iss.platform.module.entity.Module;
-import com.iss.platform.module.service.ModuleService;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
+import com.iss.system.module.dto.ModuleDto;
+import com.iss.system.module.entity.Module;
+import com.iss.system.module.service.ModuleService;
 
 /**
  * Created by yuanhuangd on 2017/7/26.

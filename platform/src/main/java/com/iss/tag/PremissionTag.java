@@ -1,22 +1,24 @@
 package com.iss.tag;
 
-import com.iss.listener.SingletonUser;
-import com.iss.platform.module.entity.Module;
-import com.iss.platform.role.entity.Role;
-import com.iss.platform.user.entity.User;
-import com.iss.platform.user.service.UserService;
-import com.orm.commons.exception.ServiceException;
-import com.orm.config.InitEnvironment;
-import com.orm.config.SpringContextHolder;
-import org.apache.commons.lang3.StringUtils;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
-import java.util.ArrayList;
-import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 
+import com.iss.listener.SingletonUser;
+import com.iss.system.module.entity.Module;
+import com.iss.system.role.entity.Role;
+import com.iss.system.user.entity.User;
+import com.iss.system.user.service.UserService;
+import com.orm.commons.exception.ServiceException;
+import com.orm.config.InitEnvironment;
+import com.orm.config.SpringContextHolder;
+
+@SuppressWarnings("serial")
 public class PremissionTag extends BodyTagSupport {
 
     private String alias;
