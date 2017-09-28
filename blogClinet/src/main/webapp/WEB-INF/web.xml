@@ -60,7 +60,7 @@
     </session-config>
     <servlet-mapping>
         <servlet-name>applicationServlet</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>validateCodeServlet</servlet-name>

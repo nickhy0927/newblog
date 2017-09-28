@@ -3,11 +3,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="psg" uri="http://www.commons.page" %>
 <c:set value="${pageContext.request.contextPath}" var="ctx" />
-<pgs:extends name="body">
-    <%--<script type="text/javascript">
-        window.location.href = "${ctx}/index"
-    </script>--%>
-</pgs:extends>
 <psg:extends name="body">
     博客前台页面展示
 </psg:extends>
