@@ -18,11 +18,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.iss.core</groupId>
-            <artifactId>iss-core</artifactId>
-            <version>1.1</version>
-        </dependency>
          <dependency>
             <groupId>com.iss.system</groupId>
             <artifactId>iss-system</artifactId>

@@ -24,16 +24,6 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.iss.core</groupId>
-            <artifactId>iss-core</artifactId>
-            <version>1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.iss.utils</groupId>
-            <artifactId>iss-utils</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
             <groupId>com.iss.article</groupId>
             <artifactId>iss-article</artifactId>
             <version>1.0</version>
