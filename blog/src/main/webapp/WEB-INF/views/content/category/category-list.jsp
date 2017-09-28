@@ -67,7 +67,7 @@
                                 <a style="text-decoration:none" class="ml-5" onclick="module_edit('${cate.id}')"
                                    href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i>
                                 </a>
-                                <a style="text-decoration:none" class="ml-5" onClick="article_del(this,'10001')"
+                                <a style="text-decoration:none" class="ml-5" onClick="article_del(this,'${cate.id}')"
                                    href="javascript:;" title="删除">
                                     <i class="Hui-iconfont">&#xe6e2;</i>
                                 </a>

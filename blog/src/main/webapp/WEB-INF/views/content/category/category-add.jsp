@@ -115,7 +115,6 @@
 <pgs:extends name="body">
     <article class="page-container">
         <form class="form form-horizontal" id="form-article-add">
-            <input type="hidden" value="${module.id}" name="id" id="id">
             <div class="row cl">
                 <input type="hidden" value="${category.id}" name="id">
                 <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>上级分类：</label>
