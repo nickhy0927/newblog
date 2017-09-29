@@ -1,9 +1,9 @@
 package com.iss.system.attachment.entity;
 
+import com.orm.commons.utils.IdEntity;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import com.orm.commons.utils.IdEntity;
 
 /**
  * Created by yuanhuangd on 2017/8/17.
@@ -13,25 +13,65 @@ import com.orm.commons.utils.IdEntity;
 @Table(name = "t_s_picture")
 public class Attachment extends IdEntity {
 
-    private String fileName;// 图像名称
-    private String filePath;// 图像路径
-    private String fileSize;// 图像大小
-    private String fileType;// 图像类型
+    /**
+     * 附件的名称
+     */
+    private String name;
 
-    public String getFileName() {
-        return fileName;
+    /**
+     * 附件上传的路径
+     */
+    private String path;
+    /**
+     * 附件的类型
+     */
+    private String fileType;
+
+    /**
+     * 附件的大小
+     */
+    private String fileSize;
+
+    /**
+     * 文件后缀名
+     */
+    private String suffix;
+
+    public Attachment() {
+
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public Attachment(String name, String path, String type, String fileSize, String suffix) {
+        super();
+        this.name = name;
+        this.path = path;
+        this.fileType = type;
+        this.fileSize = fileSize;
+        this.suffix = suffix;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getName() {
+        return name;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
     }
 
     public String getFileSize() {
@@ -42,11 +82,11 @@ public class Attachment extends IdEntity {
         this.fileSize = fileSize;
     }
 
-    public String getFileType() {
-        return fileType;
+    public String getSuffix() {
+        return suffix;
     }
 
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
     }
 }
