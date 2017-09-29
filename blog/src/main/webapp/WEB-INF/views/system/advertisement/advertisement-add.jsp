@@ -56,7 +56,6 @@
             $(tr).after(trHtml);
             $('#createSlider tbody tr').each(function (index) {
                 var num = index;
-                console.log('---------------------------');
                 $(this).find('td>input').each(function () {
                     var name = $(this).attr('data-name');
                     if (name == 'sort') {
