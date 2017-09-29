@@ -18,6 +18,16 @@
         $(function () {
 
         })
+
+        function uploadFile(obj) {
+            var id = $(obj).parent().parent().attr('data-id');
+            $('input[name="file_' + id + '"]').click();
+            $('input[name="file_' + id + '"]').unbind('change').bind('change',function (data) {
+                alert($(this).val());
+                console.log(data);
+
+            });
+        }
         function deleteTrDom(obj) {
             var tr = $(obj).parent().parent();
             var dataId = $(tr).attr('data-id');
@@ -32,30 +42,30 @@
         function createTrDom(obj) {
             var tr = $(obj).parent().parent();
             var trHtml = '<tr>'
-                    + '<td>'
-                        + '<input class="form-control" data-name="title" name="title" type="text">'
-                    + '</td>'
-                    + '<td>'
-                        + '<input class="form-control" data-name="url" name="url" type="text">'
-                    + '</td>'
-                    + '<td>'
-                        + '<input class="form-control" data-name="sort" name="sort" type="text">'
-                    + '</td>'
-                    + '<td>'
-                        + '<input class="form-control" data-name="file" name="file" type="file">'
-                    + '</td>'
-                    + '<td style="text-align: center">'
-                        + '<a href="#" class="btn btn-secondary">选择文件</a>'
-                    + '</td>'
-                    + '<td style="text-align: center">'
-                        + '<i title="删除当前数据" style="cursor: pointer" onclick="deleteTrDom(this)" class="fa fa-2x fa-close"></i>'
-                        + '&nbsp;'
-                        + '<i title="新增一行数据" style="cursor: pointer" onclick="createTrDom(this)" class="fa fa-2x fa-plus-circle"></i>'
-                    + '</td>'
+                + '<td>'
+                    + '<input class="form-control" data-name="title" name="title" type="text">'
+                + '</td>'
+                + '<td>'
+                    + '<input class="form-control" data-name="url" name="url" type="text">'
+                + '</td>'
+                + '<td>'
+                    + '<input class="form-control" data-name="sort" name="sort" type="text">'
+                + '</td>'
+                + '<td>'
+                + '</td>'
+                + '<td style="text-align: center">'
+                    + '<input class="form-control" style="display: none" data-name="file" name="file" type="file">'
+                    + '<a href="#" class="btn btn-secondary" onclick="uploadFile(this)">选择文件</a>'
+                + '</td>'
+                + '<td style="text-align: center">'
+                    + '<a href="#" title="删除当前数据" onclick="deleteTrDom(this)" style="cursor: pointer"><i class="fa fa-close"></i></a>&nbsp;'
+                    + '<a href="#" title="新增一行数据" style="cursor: pointer" onclick="createTrDom(this)"><i class="fa fa-plus-circle"></i></a>'
+                + '</td>'
                 + '</tr>"';
             $(tr).after(trHtml);
             $('#createSlider tbody tr').each(function (index) {
                 var num = index;
+                $(this).attr('data-id', (index + 1));
                 $(this).find('td>input').each(function () {
                     var name = $(this).attr('data-name');
                     if (name == 'sort') {
@@ -77,7 +87,7 @@
                     <tr>
                         <th>标题</th>
                         <th>访问地址</th>
-                        <th style="width: 10px;">排序编号</th>
+                        <th style="width: 50px;">排序编号</th>
                         <th>文件名称</th>
                         <th style="text-align: center">选择文件</th>
                         <th style="text-align: center">操作</th>
@@ -86,26 +96,30 @@
                     <tbody>
                     <tr id="first" data-id="1">
                         <td>
-                            <input class="form-control"data-name="title" name="title" type="text">
+                            <input class="form-control" data-name="title" name="title_1" type="text">
                         </td>
                         <td>
-                            <input class="form-control"data-name="url" name="url" type="text">
+                            <input class="form-control" data-name="url" name="url_1" type="text">
                         </td>
                         <td>
-                            <input class="form-control"data-name="sort" name="sort" type="text">
+                            <input class="form-control" data-name="sort" name="sort_1" type="text">
                         </td>
                         <td>
-                            <input class="form-control"data-name="file" name="file" type="file">
+
                         </td>
                         <td style="text-align: center">
-                            <a href="#" class="btn btn-secondary">选择文件</a>
+                            <input class="form-control" style="display: none;" data-name="file" name="file_1" type="file">
+                            <a href="#" class="btn btn-secondary" onclick="uploadFile(this)">选择文件</a>
                         </td>
                         <td style="text-align: center">
-                            <i title="删除当前数据" style="cursor: pointer" onclick="deleteTrDom(this)"
-                               class="fa fa-2x fa-close"></i>
-                            &nbsp;
-                            <i title="新增一行数据" style="cursor: pointer" onclick="createTrDom(this)"
-                               class="fa fa-2x fa-plus-circle"></i>
+                            <a onclick="deleteTrDom(this)" title="删除当前数据">
+                                <i style="cursor: pointer"
+                                   class="fa fa-close"></i>
+                            </a>
+                            <a onclick="createTrDom(this)">
+                                <i title="新增一行数据" style="cursor: pointer"
+                                   class="fa fa-plus-circle"></i>
+                            </a>
                         </td>
                     </tr>
                     </tbody>

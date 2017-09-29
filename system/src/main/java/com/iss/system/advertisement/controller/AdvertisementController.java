@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -61,7 +62,7 @@ public class AdvertisementController {
     }
 
     @RequestMapping(value = "/system/advertisement/save", method = RequestMethod.POST)
-    public void save(HttpServletResponse response, Advertisement advertisement) {
+    public void save(MultipartHttpServletRequest request, HttpServletResponse response, Advertisement advertisement) {
         MessageObject message = new MessageObject();
         message.setResposecode(MessageObject.ResponseCode.code_200);
         try {
