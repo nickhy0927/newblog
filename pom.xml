@@ -13,7 +13,7 @@
         <module>system</module>
         <module>core</module>
         <module>blog</module>
-        <module>blogClinet</module>
+        <module>blogClient</module>
         <module>utils</module>
         <module>article</module>
         <module>client</module>
