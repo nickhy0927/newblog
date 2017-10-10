@@ -30,6 +30,6 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>blogClinet</finalName>
+        <finalName>blogClient</finalName>
     </build>
 </project>
