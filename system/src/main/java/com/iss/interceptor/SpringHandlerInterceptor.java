@@ -5,8 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -19,7 +17,7 @@ import com.orm.config.InitEnvironment;
  * Created by yuanhuangd on 2017/7/25.
  */
 public class SpringHandlerInterceptor extends HandlerInterceptorAdapter {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SpringHandlerInterceptor.class);
+//	private static final Logger LOGGER = LoggerFactory.getLogger(SpringHandlerInterceptor.class);
 
 	/**
 	 * 在业务处理器处理请求执行完成后,生成视图之前执行的动作 可在modelAndView中加入数据，比如当前时间

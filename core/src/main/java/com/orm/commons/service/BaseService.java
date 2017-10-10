@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.ObjectTools;
+import com.orm.commons.utils.Pager;
 
 public interface BaseService<E, ID extends Serializable> {
 
@@ -34,6 +35,8 @@ public interface BaseService<E, ID extends Serializable> {
 	Page<E> queryPageByMap(Map<String, Object> paramMap, Pageable paramPageable) throws ServiceException;
 
 	ObjectTools<E> queryPageByMap(Map<String, Object> map, String currentPage, Sort sort) throws ServiceException;
+	
+	ObjectTools<E> queryPageByMap(Map<String, Object> map, String currentPage, Sort sort,Pager pager) throws ServiceException;
 
 	E save(E entity) throws ServiceException;
 

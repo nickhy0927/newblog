@@ -1,9 +1,17 @@
 package com.iss.system.attachment.controller;
 
-import com.iss.system.attachment.entity.Attachment;
-import com.iss.system.attachment.service.AttachmentService;
-import com.orm.commons.exception.ServiceException;
-import com.orm.commons.utils.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.activation.MimetypesFileTypeMap;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +19,22 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.activation.MimetypesFileTypeMap;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.*;
+import com.iss.listener.SingletonUser;
+import com.iss.system.attachment.entity.Attachment;
+import com.iss.system.attachment.service.AttachmentService;
+import com.iss.system.user.entity.User;
+import com.orm.commons.exception.ServiceException;
+import com.orm.commons.utils.FileTools;
+import com.orm.commons.utils.JsonMapper;
+import com.orm.commons.utils.MessageObject;
+import com.orm.commons.utils.MyConfig;
+import com.orm.commons.utils.ObjectTools;
 
 /**
  * Created by yuanhuangd on 2017/9/29.
@@ -51,7 +64,8 @@ public class AttachmentController {
 
     @RequestMapping(value = "/attachment/fileUpload", method = RequestMethod.POST)
     public void fileUpload(HttpServletRequest request, HttpServletResponse response) {
-        String realPath = request.getSession().getServletContext().getRealPath("/upload/attachment");
+    	User user = SingletonUser.getContextUser(request);
+        String realPath = request.getSession().getServletContext().getRealPath("/upload/attachment" +  + File.separatorChar + user.getId());
         if (!new File(realPath).exists()) {
             new File(realPath).mkdirs();
         }
@@ -84,6 +98,7 @@ public class AttachmentController {
                 Object object = hashMap.get("upload");
                 if (object != null) {
                     tempDir = object.toString();
+                    tempDir += File.separatorChar + user.getId();
                 }
                 if (!new File(tempDir).exists()) {
                     new File(tempDir).mkdirs();

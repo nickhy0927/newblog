@@ -72,7 +72,7 @@
                 open: function (event, ui) {
                     $(".ui-dialog-titlebar-close", $(this).parent()).hide();
                     $(".ui-dialog-titlebar").remove();
-                    $("#submitDialog").attr('style', 'width: auto;min-height: 0px;max-height: none;height: 30px;color:white')
+                    $("#submitDialog").attr('style', 'width: auto;min-height: 0px;max-height: none;height: 45px;color:white')
                     $("#submitDialog").parent().css('background', "#969494");
                 }
             });

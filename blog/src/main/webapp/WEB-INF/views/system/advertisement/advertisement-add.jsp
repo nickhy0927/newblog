@@ -16,18 +16,61 @@
 <pgs:extends name="javascript">
     <script type="text/javascript">
         $(function () {
+			$('#saveSubmit').click(function() {
+				openLoading();
+                jQuery.ajax({
+                    type: "POST",
+                    url: "${ctx}/system/advertisement/save",
+                    data: $('#form-adver-add').serialize(),
+                    error: function (XMLHttpRequest, error, errorThrown) {
+                        alert(error);
+                        alert(errorThrown);
+                    },
+                    success: function (response) {
+                        var data = eval("(" + response + ")");
+                        console.log(data);
+                        if (data.resposecode == 200) {
+                            alert(data.message);
+                            parent.window.location.href = '${ctx}/system/advertisement/list';
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        }
 
+                    }
+                });
+			});
         })
 
         function uploadFile(obj) {
             var id = $(obj).parent().parent().attr('data-id');
-            $('input[name="file_' + id + '"]').click();
-            $('input[name="file_' + id + '"]').unbind('change').bind('change',function (data) {
-                alert($(this).val());
+            $('#adverFile').click();
+            $('#adverFile').unbind('change').bind('change',function (data) {
                 console.log(data);
-
+                _fileUpload($(obj).parent().parent());
             });
         }
+        
+        function _fileUpload(trObj) {
+        	var pic = $('#adverFile')[0].files[0];
+        	var fd = new FormData();
+	       	fd.append('file', pic);
+	        $.ajax({
+	            url:"${ctx}/attachment/copy",
+	            type:"post",
+	            data: fd,
+	            cache: false,
+	            contentType: false,
+	            processData: false,
+	            success:function(data){
+	                data = eval("(" + data + ")");
+	                $(trObj).find('td.file').text(data[0].name);
+	                var id =  $(trObj).attr('data-id');
+	                var n = 'myfiles_' + id;
+	                $('input[name="'+ n + '"]').val(data[0].path)
+	            }
+	        });
+        }
+        
         function deleteTrDom(obj) {
             var tr = $(obj).parent().parent();
             var dataId = $(tr).attr('data-id');
@@ -38,6 +81,20 @@
                 }
             }
             $(tr).remove();
+            $('#createSlider tbody tr').each(function (index) {
+                var num = index;
+                $(this).attr('data-id', (index + 1));
+                $(this).find('td>input').each(function () {
+                    var name = $(this).attr('data-name');
+                    if (name == 'sort') {
+                        $(this).val(num + 1);
+                    }
+                    if (name != 'title') {
+                    	$(this).attr('name', name + "_" + (num + 1)) 
+                    }
+                    /* $(this).attr('name', name + "_" + (num + 1)) */
+                });
+            })
         }
         function createTrDom(obj) {
             var tr = $(obj).parent().parent();
@@ -46,15 +103,14 @@
                     + '<input class="form-control" data-name="title" name="title" type="text">'
                 + '</td>'
                 + '<td>'
-                    + '<input class="form-control" data-name="url" name="url" type="text">'
+                    + '<input class="form-control" value="#" data-name="url" name="url" type="text">'
                 + '</td>'
                 + '<td>'
                     + '<input class="form-control" data-name="sort" name="sort" type="text">'
                 + '</td>'
-                + '<td>'
-                + '</td>'
+                + '<td class="file"></td>'
                 + '<td style="text-align: center">'
-                    + '<input class="form-control" style="display: none" data-name="file" name="file" type="file">'
+                    + '<input class="form-control" style="display: none" data-name="myfiles" name="myfiles" type="text">'
                     + '<a href="#" class="btn btn-secondary" onclick="uploadFile(this)">选择文件</a>'
                 + '</td>'
                 + '<td style="text-align: center">'
@@ -71,16 +127,21 @@
                     if (name == 'sort') {
                         $(this).val(num + 1);
                     }
-                    $(this).attr('name', name + "_" + (num + 1))
-
+                    if (name != 'title') {
+                    	$(this).attr('name', name + "_" + (num + 1)) 
+                    }
+                    /* */
                 });
             })
         }
     </script>
 </pgs:extends>
 <pgs:extends name="body">
+	<form action="${ctx}/attachment/copy" enctype="multipart/form-data" id="uploadForm" style="display: none;" method="post">
+		<input type="file" name="adverFile" id="adverFile" >
+	</form>
     <article class="page-container">
-        <form class="form form-horizontal" id="form-article-add">
+        <form class="" action="" id="form-adver-add">
             <div class="row cl">
                 <table id="createSlider" class="table table-bordered">
                     <thead>
@@ -96,19 +157,17 @@
                     <tbody>
                     <tr id="first" data-id="1">
                         <td>
-                            <input class="form-control" data-name="title" name="title_1" type="text">
+                            <input class="form-control" data-name="title" name="title" type="text">
                         </td>
                         <td>
-                            <input class="form-control" data-name="url" name="url_1" type="text">
+                            <input class="form-control" value="#" data-name="url" name="url" type="text">
                         </td>
                         <td>
                             <input class="form-control" data-name="sort" name="sort_1" type="text">
                         </td>
-                        <td>
-
-                        </td>
+                        <td class="file"></td>
                         <td style="text-align: center">
-                            <input class="form-control" style="display: none;" data-name="file" name="file_1" type="file">
+                            <input class="form-control" style="display: none;" data-name="myfiles" name="myfiles_1" type="text">
                             <a href="#" class="btn btn-secondary" onclick="uploadFile(this)">选择文件</a>
                         </td>
                         <td style="text-align: center">
@@ -126,9 +185,9 @@
                 </table>
             </div>
             <div class="row cl" style="text-align: right;margin-right: 2px">
-                <button class="btn btn-success" type="submit">
+                <button class="btn btn-success" type="button" id="saveSubmit">
                     <i class="Hui-iconfont Hui-iconfont-save"></i>
-                    &nbsp;保存图标
+                    &nbsp;保存提交
                 </button>
             </div>
         </form>
@@ -137,17 +196,9 @@
     <script type="text/javascript" src="${ctx}/static/admin/h-ui/js/H-ui.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/admin/h-ui.admin/js/H-ui.admin.js"></script>
     <!--/_footer /作为公共模版分离出去-->
-
     <!--请在下方写此页面业务相关的脚本-->
     <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
     <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
     <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
-    <script type="text/javascript">
-
-
-        $(function () {
-
-        });
-    </script>
 </pgs:extends>
 <jsp:include page="/parent_page/parent.jsp"/>

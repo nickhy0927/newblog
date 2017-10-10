@@ -17,6 +17,10 @@ public class Pager {
 		this.currentPage = currentpage;
 	}
 
+	public Pager(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
 	public Pager(long totalRecord, String currentPage) {
 		this.totlaRecord = (int) totalRecord;
 		int currentpage = 1;

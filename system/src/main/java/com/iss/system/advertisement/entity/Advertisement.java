@@ -3,6 +3,7 @@ package com.iss.system.advertisement.entity;
 import com.iss.system.attachment.entity.Attachment;
 import com.iss.system.user.entity.User;
 import com.orm.commons.utils.IdEntity;
+import com.orm.commons.utils.SysContants;
 
 import javax.persistence.*;
 
@@ -18,9 +19,18 @@ public class Advertisement extends IdEntity {
     private String title;
     private String url;
     private String sort;
+    private String shows = SysContants.IsDisplay.NO;
     private Attachment attachment;
     private User user;
 
+    public String getShows() {
+		return shows;
+	}
+    
+    public void setShows(String shows) {
+		this.shows = shows;
+	}
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attach_id")
     public Attachment getAttachment() {
@@ -32,7 +42,7 @@ public class Advertisement extends IdEntity {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pid")
+    @JoinColumn(name = "user_id")
     public User getUser() {
         return user;
     }

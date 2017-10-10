@@ -95,6 +95,25 @@ public abstract class DefaultAbstractService<E, ID extends Serializable> impleme
         object.setPager(pager);
         return object;
     }
+    
+    @Override
+    public ObjectTools<E> queryPageByMap(Map<String, Object> map, String currentPage, Sort sort, Pager pager)
+    		throws ServiceException {
+    	 List<E> list = queryByMap(map);
+         int pageSize = pager.getPageSize();
+    	 pager = new Pager(list.size(), currentPage);
+         pager.setPageSize(pageSize);
+         int page = 0;
+         if (pager.getCurrentPage() - 1 >= 0) {
+             page = pager.getCurrentPage() - 1;
+         }
+         PageSupport pageable = new PageSupport(page, pager.getPageSize(), sort);
+         Page<E> pageInfo = queryPageByMap(map, pageable);
+         ObjectTools<E> object = new ObjectTools<E>();
+         object.setEntities(pageInfo.getContent());
+         object.setPager(pager);
+         return object;
+    }
 
     @Override
     @Transactional(readOnly = false)

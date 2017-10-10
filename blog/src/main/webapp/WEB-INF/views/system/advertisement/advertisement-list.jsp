@@ -44,11 +44,12 @@
                     <thead>
                     <tr class="text-l">
                         <th width="15"><input type="checkbox" name="" value=""></th>
-                        <th style="width: 160px;">图片</th>
+                        <th style="width: 60px;" class="text-c">图片</th>
                         <th style="width: 160px;">标题</th>
                         <th>访问地址</th>
                         <th>文件名称</th>
-                        <th>文件大小</th>
+                        <th style="width: 60px;" class="text-c">文件大小</th>
+                        <th style="width: 60px;" class="text-c">是否显示</th>
                         <th style="width: 50px;" class="text-c">操作</th>
                     </tr>
                     </thead>
@@ -56,9 +57,7 @@
                     <c:forEach items="${tools.entities}" var="advertisement">
                         <tr class="text-l">
                             <td><input type="checkbox" value="" name=""></td>
-                            <td class="text-l">
-                                ${advertisement.title}
-                            </td>
+                            <td class="text-c"><img alt="" style="width: 40px;height: 40px;" src="${ctx}/${advertisement.attachment.path }"></td>
                             <td class="text-l">
                                 ${advertisement.title}
                             </td>
@@ -66,12 +65,16 @@
                                 ${advertisement.url}
                             </td>
                             <td class="text-l">
-                               文件名称
+                                ${advertisement.attachment.name }
                             </td>
                             <td class="text-l">
-                                文件大小
+                                 ${advertisement.attachment.fileSize }
                             </td>
-                            <td>${icon.url}</td>
+                            <td class="text-c">
+                                 <c:if test="${advertisement.shows == '0' || advertisement.shows == '' || advertisement.shows == null}">否</c:if>
+                                 <c:if test="${advertisement.shows == '1'}">是</c:if>
+                            </td>
+                            
                             <td class="f-14 td-manage text-c">
                                 <a style="text-decoration:none" class="ml-5" onclick="icon_edit('${icon.id}')"
                                    href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i>
