@@ -6,7 +6,7 @@
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>iss-blog</artifactId>
+    <artifactId>blog</artifactId>
     <packaging>war</packaging>
     <name>com.iss.blog</name>
     <url>http://maven.apache.org</url>
