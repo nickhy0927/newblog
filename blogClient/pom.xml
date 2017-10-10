@@ -9,7 +9,7 @@
     </parent>
     <artifactId>blogClient</artifactId>
     <packaging>war</packaging>
-    <name>blogClinet Maven Webapp</name>
+    <name>blogClient Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
