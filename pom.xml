@@ -15,6 +15,7 @@
         <module>blog</module>
         <module>blogClient</module>
         <module>utils</module>
+        <module>webBlog</module>
         <module>article</module>
         <module>client</module>
         <module>member</module>
