@@ -2,9 +2,6 @@
 <%@ taglib prefix="pgs" uri="http://www.commons.page" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="file" uri="http://file-upload.upload" %>
-
-
 <c:set value="${pageContext.request.contextPath}" var="ctx"></c:set>
 <link rel="stylesheet" href="${ctx}/static/bootstrap/css/bootstrap.css">
 <pgs:extends name="css">
