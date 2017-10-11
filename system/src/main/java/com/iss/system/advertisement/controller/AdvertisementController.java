@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.iss.init.EnvironmentServer;
 import com.iss.listener.SingletonUser;
 import com.iss.system.advertisement.entity.Advertisement;
 import com.iss.system.advertisement.service.AdvertisementService;
@@ -43,10 +44,10 @@ public class AdvertisementController {
 		Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
 		String currentPage = request.getParameter("currentPage");
 		try {
-			ObjectTools<Advertisement> tools = advertisementService.queryPageByMap(objectMap, currentPage,
-					new Sort(Sort.Direction.DESC, "createTime"), new Pager(6));
+			ObjectTools<Advertisement> tools = advertisementService.queryPageByMap(objectMap, currentPage, new Sort(Sort.Direction.DESC, "createTime"), new Pager(6));
 			model.addAttribute("tools", tools);
 			model.addAttribute("currentPage", currentPage);
+			model.addAttribute("server", EnvironmentServer.getEnvironmentServerInstance().getNginxServer());
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}

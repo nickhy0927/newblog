@@ -57,7 +57,7 @@
                     <c:forEach items="${tools.entities}" var="advertisement">
                         <tr class="text-l">
                             <td><input type="checkbox" value="" name=""></td>
-                            <td class="text-c"><img alt="" style="width: 40px;height: 40px;" src="${ctx}/${advertisement.attachment.path }"></td>
+                            <td class="text-c"><img alt="" style="width: 40px;height: 40px;" src="${server}/${advertisement.attachment.path }"></td>
                             <td class="text-l">
                                 ${advertisement.title}
                             </td>

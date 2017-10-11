@@ -1,22 +1,9 @@
 package com.iss.system.attachment.service.impl;
 
-import com.iss.listener.SingletonUser;
-import com.iss.system.attachment.entity.Attachment;
-import com.iss.system.attachment.service.AttachmentService;
-import com.iss.system.user.entity.User;
-import com.orm.commons.service.impl.DefaultAbstractService;
-import com.orm.commons.utils.FileTools;
-import com.orm.commons.utils.MessageObject;
-import com.orm.commons.utils.MyConfig;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,6 +14,21 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.iss.listener.SingletonUser;
+import com.iss.system.attachment.entity.Attachment;
+import com.iss.system.attachment.service.AttachmentService;
+import com.iss.system.user.entity.User;
+import com.orm.commons.service.impl.DefaultAbstractService;
+import com.orm.commons.utils.FileTools;
+import com.orm.commons.utils.MessageObject;
+import com.orm.commons.utils.MyConfig;
+
 /**
  * Created by yuanhuangd on 2017/8/17.
  */
@@ -36,12 +38,11 @@ public class AttachmentServiceImpl extends DefaultAbstractService<Attachment, St
 
 	public List<Attachment> fileUpload(MultipartHttpServletRequest request) {
 		User user = SingletonUser.getContextUser(request);
-		tempDir = request.getSession().getServletContext()
-				.getRealPath("/upload/temp" + File.separatorChar + user.getId());
+		tempDir = request.getSession().getServletContext().getRealPath("/upload/temp" + File.separatorChar + user.getId());
 		HashMap<String, Object> hashMap = MyConfig.getConfig();
 		Object object = hashMap.get("upload");
 		if (object != null) {
-			tempDir = object.toString();
+			tempDir = object.toString() + File.separatorChar + "temp";
 			tempDir += File.separatorChar + user.getId();
 		}
 		if (!new File(tempDir).exists()) {
@@ -80,6 +81,11 @@ public class AttachmentServiceImpl extends DefaultAbstractService<Attachment, St
 		MessageObject message = new MessageObject();
 		User user = SingletonUser.getContextUser(request);
 		String realPath = request.getSession().getServletContext().getRealPath("/upload/attachment/" + user.getId());
+		HashMap<String, Object> hashMap = MyConfig.getConfig();
+		Object object = hashMap.get("upload");
+		if (object != null) {
+			realPath = object.toString();
+		}
 		if (!new File(realPath).exists()) {
 			new File(realPath).mkdirs();
 		}
@@ -94,8 +100,9 @@ public class AttachmentServiceImpl extends DefaultAbstractService<Attachment, St
 				String name = file.getName();
 				name = name.substring(0, name.lastIndexOf("."));
 				String filename = UUID.randomUUID().toString().replaceAll("-", "") + "." + suffix;
+				String pString = "attachment/" + dateFormate("yyyyMMdd") + "/" + filename;
+				realPath += "attachment/" + dateFormate("yyyyMMdd") + "/";
 				FileUtils.copyInputStreamToFile(fin, new File(realPath, filename));
-				String pString = "/upload/attachment/" + user.getId() + "/" + filename;
 				Attachment attachment = new Attachment(name, pString, contentType, fileSize, suffix);
 				message.setObject(save(attachment));
 				message.setInforMessage("上传成功");
@@ -108,5 +115,11 @@ public class AttachmentServiceImpl extends DefaultAbstractService<Attachment, St
 			message.setErrorMessage("上传文件失败");
 		}
 		return message;
+	}
+	
+	private String dateFormate(String patten) {
+		SimpleDateFormat sdf = new SimpleDateFormat(patten);
+		String format = sdf.format(new java.util.Date());
+		return format;
 	}
 }

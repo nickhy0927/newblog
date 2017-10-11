@@ -24,13 +24,13 @@ public class CategoryDto {
         this.id = category.getId();// ID
         this.updateTime = category.getUpdateTime();
         this.disabled = category.getDisabled();
+        List<CategoryDto> cates = new ArrayList<>();
         if (categories.size() > 0) {
-            List<CategoryDto> cates = new ArrayList<>();
             for (Category cate : categories) {
                 cates.add(new CategoryDto(cate, new ArrayList<Category>()));
             }
-            this.children = cates;
         }
+        this.children = cates;
     }
 
     public String getName() {

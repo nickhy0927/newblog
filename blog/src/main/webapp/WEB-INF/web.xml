@@ -35,7 +35,7 @@
   </context-param>
   <context-param>
     <param-name>upload</param-name>
-    <param-value>/home/upload/temp</param-value>
+    <param-value>/home/upload</param-value>
   </context-param>
   <listener>
     <listener-class>com.orm.commons.utils.ServletLister</listener-class>
