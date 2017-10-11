@@ -59,7 +59,8 @@
                            		<a href="#"><pgs:string content="${art.title}" len="20"/></a>
                             </td>
                             <td>
-                                 <pgs:string content="${art.content}" len="40" />
+                                 <%-- <pgs:string content="${art.content}" len="40" /> --%>
+                                 <pgs:html htmlStr="${art.content}" length="45"/>
                             </td>
                             <td>
                                  ${art.category.name}

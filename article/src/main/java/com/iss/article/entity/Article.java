@@ -22,12 +22,22 @@ public class Article extends IdEntity{
 
     private String title;
     private String content;
+    
+    private Integer groom = SysConstant.isGroom.DEFUALT;// 是否推荐
 
     private Integer approvalStatus = SysConstant.ApprovalStatus.DEFUALT;// 审核状态
     private Boolean shows = Boolean.FALSE;
     private User user;
     private Category category;
 
+    public Integer getGroom() {
+		return groom;
+	}
+    
+    public void setGroom(Integer groom) {
+		this.groom = groom;
+	}
+    
     public Boolean getShows() {
 		return shows;
 	}

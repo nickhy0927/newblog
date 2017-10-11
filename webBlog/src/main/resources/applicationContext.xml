@@ -80,12 +80,14 @@
         <property name="urls">
             <list>
                 <value>/loginOut.html</value>
-                <value>b</value>
-                <value>c</value>
-                <value>d</value>
             </list>
         </property>
     </bean>
+    
+    <bean class="com.iss.init.EnvironmentServer" id="environmentServer">
+    	<property name="nginxServer" value="${nginx.server}" />
+    </bean>
+    
     <!-- development 环境 -->
     <beans profile="development">
         <!-- <context:property-placeholder ignore-unresolvable="true"  location="classpath*:/application.development.properties"/> -->
