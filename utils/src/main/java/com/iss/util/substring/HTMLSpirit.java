@@ -7,8 +7,6 @@ import java.util.regex.Pattern;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.commons.lang3.StringUtils;
-
 public class HTMLSpirit extends TagSupport {
 
 	private static final long serialVersionUID = 6723627357868152819L;
