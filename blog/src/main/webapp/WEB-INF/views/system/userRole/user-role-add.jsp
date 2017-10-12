@@ -137,28 +137,36 @@
                 submitHandler: function (form) {
                     getetCheckedAll();
                     var ids = $("#ids").val();
-                    if (ids) {
-                        openLoading();
-                        jQuery.ajax({
-                            type: "POST",
-                            url: "${ctx}/system/user/role/save",
-                            data: $(form).serialize(),
-                            error: function (XMLHttpRequest, error, errorThrown) {
-                                alert(error);
-                                alert(errorThrown);
-                            },
-                            success: function (response) {
-                                var data = eval("(" + response + ")");
-                                if (data.resposecode == 200) {
-                                    alert(data.message);
-                                    parent.window.location.href = '${ctx}/system/user/role/list';
-                                    var index = parent.layer.getFrameIndex(window.name);
-                                    parent.layer.close(index);
-                                }
+                    if(!ids) ids = "";
+                    $.openLoading('正在修改数据,请稍等...');
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "${ctx}/system/user/role/save",
+                        data: $(form).serialize(),
+                        error: function (XMLHttpRequest, error, errorThrown) {
+                           	$.openTip('添加权限失败',true,function(dialog) {
+                           		$(dialog).dialog('close');
+                           	});
+                        },
+                        success: function (response) {
+                            var data = eval("(" + response + ")");
+                            if (data.resposecode == 200) {
+                                alert(data.message);
+                                $.openTip('添加权限成功',true,function(dialog) {
+                               		$(dialog).dialog('close');
+	                               	 parent.window.location.href = '${ctx}/system/user/role/list';
+	                                 var index = parent.layer.getFrameIndex(window.name);
+	                                 parent.layer.close(index);
+                               	});
+                               
+                            } else {
+                            	$.closeLoading();
+                            	$.openTip('添加权限失败',true,function(dialog) {
+                               		$(dialog).dialog('close');
+                               	});
                             }
-                        });
-                    } else
-                        alert('请选择角色');
+                        }
+                    });
                 }
             });
         });

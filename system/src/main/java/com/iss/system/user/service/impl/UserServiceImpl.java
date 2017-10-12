@@ -1,5 +1,6 @@
 package com.iss.system.user.service.impl;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -47,6 +48,8 @@ public class UserServiceImpl extends DefaultAbstractService<User, String> implem
                 String s = user.getPassword();
                 String s1 = MD5Encryption.MD5(password);
                 if (s.equals(s1)) {
+                	user.setLastLoginTime(new Date());
+                    userDao.saveAndFlush(user);
                     user.setRoles(null);
                     return user;
                 } else
