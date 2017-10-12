@@ -415,7 +415,7 @@
                     <configuration>
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
-                        <showWarnings>true</showWarnings>
+                        <showWarnings>false</showWarnings>
                     </configuration>
                 </plugin>
                 <plugin>
