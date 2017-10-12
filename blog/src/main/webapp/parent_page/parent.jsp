@@ -8,8 +8,7 @@
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <title>
         <pgs:block name="title"></pgs:block>
@@ -36,8 +35,12 @@
     <![endif]-->
     <![endif]-->
     <!--/meta 作为公共模版分离出去-->
+    <script type="text/javascript">
+    	var ctx = '${ctx}'
+    </script>
     <script type="text/javascript" src="${ctx}/static/jquery-ui/external/jquery/jquery.js"></script>
     <script type="text/javascript" src="${ctx}/static/jquery-ui/jquery-ui.js"></script>
+    <script type="text/javascript" src="${ctx}/static/jquery-ui/iss-util.js"></script>
     <style type="text/css">
         #submitDialog img {
             opacity: 0.5;
@@ -53,39 +56,22 @@
         #submitDialog span {
             padding-left: 10px;
         }
+        
+        .ui-dialog .ui-dialog-buttonpane button {
+        	margin: 0em 0em 0em 1em;
+        }
+        
+        .ui-dialog .ui-dialog-buttonpane {
+        	
+		    padding: .3em 0em 0.3em .4em;
+		}
     </style>
     <script type="text/javascript">
-
-        function closeLoading() {
-            $("#submitDialog").dialog('close')
-        }
-        function openLoading() {
-            $("#submitDialog").dialog({
-                closeOnEscape: false,
-                width: 250,
-                dialogClass: "no-close",
-                height: 100,
-                resizable: false,
-                draggable: false,
-                modal: true,
-                //隐藏默认的关闭按钮
-                open: function (event, ui) {
-                    $(".ui-dialog-titlebar-close", $(this).parent()).hide();
-                    $(".ui-dialog-titlebar").remove();
-                    $("#submitDialog").attr('style', 'width: auto;min-height: 0px;max-height: none;height: 30px;color:white')
-                    $("#submitDialog").parent().css('background', "#969494");
-                }
-            });
-//            $("#submitDialog").dialog('close');
-        }
+        
     </script>
     <pgs:block name="javascript"></pgs:block>
 </head>
 <body>
 <pgs:block name="body"></pgs:block>
-<div id="submitDialog" style="display: none;">
-    <img style="height: 30px;" src="${ctx}/static/jquery-ui/loading_circle_40b82ef.gif">
-    &nbsp;&nbsp;<span>正在操作，请稍候...</span>
-</div>
 </body>
 </html>

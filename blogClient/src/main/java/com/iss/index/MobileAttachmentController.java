@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -16,10 +15,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,12 +25,10 @@ import com.iss.listener.SingletonUser;
 import com.iss.system.attachment.entity.Attachment;
 import com.iss.system.attachment.service.AttachmentService;
 import com.iss.system.user.entity.User;
-import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.FileTools;
 import com.orm.commons.utils.JsonMapper;
 import com.orm.commons.utils.MessageObject;
 import com.orm.commons.utils.MyConfig;
-import com.orm.commons.utils.ObjectTools;
 
 /**
  * Created by yuanhuangd on 2017/9/29.

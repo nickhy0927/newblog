@@ -39,6 +39,14 @@ public interface BaseService<E, ID extends Serializable> {
 	ObjectTools<E> queryPageByMap(Map<String, Object> map, String currentPage, Sort sort,Pager pager) throws ServiceException;
 
 	E save(E entity) throws ServiceException;
+	
+	/**
+	 * 批量保存
+	 * @param iterable
+	 * @return
+	 * @throws ServiceException
+	 */
+	List<E> saveBatch(Iterable<E> iterable) throws ServiceException;
 
 	Page<E> queryPageByCriteria(Criteria paramCriteria, Pageable paramPageable);
 

@@ -197,6 +197,10 @@ public class HyJpaRepostioryImpl<T, ID extends Serializable> extends SimpleJpaRe
         }
         return saveAndFlush(entity);
     }
+    
+    public List<T> saveBatch(Iterable<T> iterables) {
+    	return save(iterables);
+    }
 
     @SuppressWarnings("unchecked")
     public List<T> queryByMap(Map<String, Object> map, int limit) {

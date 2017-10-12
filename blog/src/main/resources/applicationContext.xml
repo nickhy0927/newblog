@@ -80,6 +80,9 @@
         <property name="urls">
             <list>
                 <value>/loginOut.html</value>
+                <value>/login</value>
+                <value>/static</value>
+                <value>/unauthUrl</value>
             </list>
         </property>
     </bean>

@@ -22,6 +22,8 @@ public interface HyJpaRepostiory<T, ID extends Serializable> extends JpaReposito
 	Criteria createCriteria(Map<String, Object> paramMap);
 
 	T saveEntity(T paramT);
+	
+	List<T> saveBatch(Iterable<T> iterables);
 
 	List<T> queryByMap(Map<String, Object> paramMap,Sort sort);
 

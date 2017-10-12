@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.iss.init.EnvironmentServer;
 import com.iss.listener.SingletonUser;
 import com.iss.system.user.entity.User;
 import com.iss.util.RandomString;
@@ -17,7 +18,8 @@ import com.orm.config.InitEnvironment;
  * Created by yuanhuangd on 2017/7/25.
  */
 public class SpringHandlerInterceptor extends HandlerInterceptorAdapter {
-//	private static final Logger LOGGER = LoggerFactory.getLogger(SpringHandlerInterceptor.class);
+	// private static final Logger LOGGER =
+	// LoggerFactory.getLogger(SpringHandlerInterceptor.class);
 
 	/**
 	 * 在业务处理器处理请求执行完成后,生成视图之前执行的动作 可在modelAndView中加入数据，比如当前时间
@@ -36,21 +38,23 @@ public class SpringHandlerInterceptor extends HandlerInterceptorAdapter {
 	 * 从最后一个拦截器往回执行所有的postHandle() 接着再从最后一个拦截器往回执行所有的afterCompletion()
 	 */
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
 		String requestUri = request.getRequestURI();
 		User user = SingletonUser.getContextUser(request);
 		InitEnvironment environment = InitEnvironment.getInitEnvironmentInstance();
 		String contextPath = request.getContextPath();
 		String url = requestUri.substring(contextPath.length());
 		List<String> urls = environment.getUrls();
-		boolean bool = urls.contains(url) || url.contains(environment.getLoginUrl())
-				|| url.contains(environment.getUnauthUrl());
+		List<String> allowUrls = EnvironmentServer.getAllowUrls(user);
+		String loginUrl = environment.getLoginUrl();
+		String unauthUrl = environment.getUnauthUrl();
+		boolean bool = urls.contains(url) || url.contains(loginUrl) || url.contains(unauthUrl);
 		if (user == null) {
 			if (bool) {
 				return true;
 			} else {
-				String path = request.getContextPath() + environment.getLoginUrl() + "?SESSIONID="
-						+ RandomString.getUUID();
+				String path = request.getContextPath() + loginUrl + "?SESSIONID=" + RandomString.getUUID();
 				response.sendRedirect(path);
 				return false;
 			}
@@ -58,7 +62,17 @@ public class SpringHandlerInterceptor extends HandlerInterceptorAdapter {
 			String path = request.getContextPath() + environment.getIndexUrl() + "?SESSIONID=" + RandomString.getUUID();
 			response.sendRedirect(path);
 			return false;
-		}
+		} 
+		/*if (!allowUrls.contains(url) && !bool) {
+			for (String u : urls) {
+				if (url.startsWith(u)) {
+					return true;
+				}
+			}
+			String path = request.getContextPath() + environment.getUnauthUrl() + "?SESSIONID=" + RandomString.getUUID();
+			response.sendRedirect(path);
+			return false;
+		}*/
 		return true;
 	}
 }

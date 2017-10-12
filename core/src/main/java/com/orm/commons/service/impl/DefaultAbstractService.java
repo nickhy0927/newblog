@@ -118,7 +118,13 @@ public abstract class DefaultAbstractService<E, ID extends Serializable> impleme
     @Override
     @Transactional(readOnly = false)
     public E save(E entity) throws ServiceException {
-        return this.dao.saveEntity(entity);
+        return (E) this.dao.saveEntity(entity);
+    }
+    
+    @Override
+    @Transactional(readOnly = false)
+    public List<E> saveBatch(Iterable<E> entity) throws ServiceException {
+    	return this.dao.save(entity);
     }
 
     @Override
