@@ -62,7 +62,6 @@
         }
         
         .ui-dialog .ui-dialog-buttonpane {
-        	
 		    padding: .3em 0em 0.3em .4em;
 		}
     </style>

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.google.common.collect.Lists;
 import com.iss.system.icon.entity.Icon;
 import com.iss.system.icon.service.IconService;
 import com.iss.system.module.entity.Module;
@@ -23,6 +24,7 @@ import com.iss.system.module.tree.ModuleTree;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.JsonMapper;
 import com.orm.commons.utils.MessageObject;
+import com.orm.commons.utils.ObjectIterable;
 import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.WebUtils;
 
@@ -122,13 +124,19 @@ public class ModuleController {
 
     @RequestMapping(value = "/system/module/delete", method = RequestMethod.POST)
     public void delete(HttpServletRequest request, HttpServletResponse response) {
-        String id = request.getParameter("id");
+        String ids = request.getParameter("id");
         MessageObject messageObject = new MessageObject();
         try {
-            if (StringUtils.isNotEmpty(id)) {
-                Module module = moduleService.get(id);
-                module.setDisabled(Boolean.TRUE);
-                moduleService.save(module);
+            if (StringUtils.isNotEmpty(ids)) {
+            	String[] strings = ids.split(",");
+            	List<Module> modules = Lists.newArrayList();
+            	for (int i = 0; i < strings.length; i++) {
+					String id = strings[i];
+					Module module = moduleService.get(id);
+					module.setDisabled(Boolean.TRUE);
+					modules.add(module);
+				}
+                moduleService.saveBatch(new ObjectIterable<Module>(modules));
                 messageObject.setInforMessage("角色菜单成功");
             }
         } catch (ServiceException e) {

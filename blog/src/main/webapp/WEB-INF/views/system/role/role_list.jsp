@@ -3,6 +3,7 @@
 <%@ taglib prefix="page" uri="http://www.page.com" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://hy.premission.com" prefix="premission" %>
 <c:set value="${pageContext.request.contextPath}" var="ctx"></c:set>
 <pgs:extends name="body">
     <form action="" method="post" id="queryForm" name="queryForm">
@@ -21,14 +22,18 @@
                     </tr>
                     <tr>
                         <td colspan="4">
-                            <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
-                                <i class="Hui-iconfont">&#xe6e2;</i>
-                               	批量删除
-                            </a>
-                            <a class="btn btn-primary radius" data-title="添加角色" data-href="article-add.html" onclick="article_add()" href="javascript:;">
-                                <i class="Hui-iconfont">&#xe600;</i>
-                               	 添加角色
-                            </a>
+                            <premission:tag alias="system-role-delete">
+                            	<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
+	                                <i class="Hui-iconfont">&#xe6e2;</i>
+	                               	批量删除
+	                            </a>
+                            </premission:tag>
+                           	<premission:tag alias="system-role-add">
+                           		 <a class="btn btn-primary radius" data-title="添加角色" data-href="article-add.html" onclick="role_add()" href="javascript:;">
+	                                <i class="Hui-iconfont">&#xe600;</i>
+	                               	 添加角色
+	                            </a>
+                           	</premission:tag>
                             <button name="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i>搜索</button>
                         </td>
                     </tr>
@@ -38,16 +43,16 @@
                 <table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
                     <thead>
                         <tr class="text-l">
-                            <th width="25"><input type="checkbox" name="" value=""></th>
+                            <th width="25"><input type="checkbox" name="chks" value=""></th>
                             <th width="160">角色名称</th>
                             <th>角色描述</th>
-                            <th width="120" class="text-c">操作</th>
+                            <th width="80" class="text-c">操作</th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach items="${tools.entities}" var="role">
                             <tr class="text-l">
-                                <td><input type="checkbox" value="" name=""></td>
+                                <td><input type="checkbox" data-id="${role.id }" value="" name="chk"></td>
                                 <td class="text-l">
                                     <u style="cursor:pointer" class="text-primary" onClick="article_edit('查看','article-zhang.html','10001')" title="查看">
                                         ${role.roleName}
@@ -55,15 +60,21 @@
                                 </td>
                                 <td>${role.roleDesc}</td>
                                 <td class="f-14 td-manage text-c">
-                                    <a style="text-decoration:none" onClick="add_menu('${role.id}')" href="javascript:;" title="添加菜单">
-                                        <i class="Hui-iconfont">&#xe6de;</i>
-                                    </a>
-                                    <a style="text-decoration:none" class="ml-5" onClick="article_edit('资讯编辑','article-add.html','10001')" href="javascript:;" title="编辑">
-                                        <i class="Hui-iconfont">&#xe6df;</i>
-                                    </a>
-                                    <a style="text-decoration:none" class="ml-5" onClick="role_del(this,'${role.id}')" href="javascript:;" title="删除">
-                                        <i class="Hui-iconfont">&#xe6e2;</i>
-                                    </a>
+                                    <premission:tag alias="system-role-menu-add">
+                                    	<a style="text-decoration:none" class="ml-5" onClick="add_menu('${role.id}')" href="javascript:;" title="添加菜单权限">
+	                                        <i class="Hui-iconfont">&#xe604;</i>
+	                                    </a>
+                                    </premission:tag>
+                                    <premission:tag alias="system-role-edit">
+                                    	<a style="text-decoration:none" class="ml-5" onClick="role_edit('角色编辑','article-add.html','10001')" href="javascript:;" title="编辑">
+	                                        <i class="Hui-iconfont">&#xe6df;</i>
+	                                    </a>
+                                    </premission:tag>
+                                    <premission:tag alias="system-role-delete">
+                                    	<a style="text-decoration:none" class="ml-5" onClick="role_del(this,'${role.id}')" href="javascript:;" title="删除">
+	                                        <i class="Hui-iconfont">&#xe6e2;</i>
+	                                    </a>
+                                    </premission:tag>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -87,9 +98,50 @@
     <script type="text/javascript" src="${ctx}/static/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/admin/lib/laypage/1.2/laypage.js"></script>
     <script type="text/javascript">
-
+	    function datadel() {
+			var ids = $.getCheckboxIds('chk');
+			if(!ids) {
+				$.openTip("请选择一项再进行操作.",true,function(dialog) {
+					$(dialog).dialog('close');
+					return;
+				})
+			} else {
+				$.openTip('你确定删除吗？',false, function(dialogConfirm) {
+					$(dialogConfirm).dialog( "close" );
+					$.openLoading('正在删除，请稍等...');
+					$.ajax({
+		                url: '${ctx}/system/role/delete',
+		                type: 'post',
+		                dataType: 'JSON',
+		                data: {id: ids},
+		                success: function (data) {
+		                	console.log(data);
+							$.closeLoading();
+							if(data.resposecode == 200) {
+								$.openTip('删除成功',true, function(dialogAlert) {
+									$(dialogAlert).dialog( "close" );
+									$.openLoading('正在刷新，请稍等...');
+									window.location.href = "${ctx}/system/role/list"
+								});
+							} else {
+								$.closeLoading();
+								$.openTip('删除失败',true, function(dialogAlert) {
+									$(dialogAlert).dialog( "close" );
+								});
+							}
+		                },
+		                error: function (err) {
+		                	$.closeLoading();
+		                	$.openTip('删除失败',true, function(dialogAlert) {
+								$(dialogAlert).dialog( "close" );
+							});
+		                }
+		            })
+				});
+			}
+		}
         /*资讯-添加*/
-        function article_add(){
+        function role_add(){
             var url = "${ctx}/system/role/add";
             layer_show('添加角色', url, 600, 400);
         }
@@ -98,7 +150,7 @@
             layer_show('添加权限', url, 300, 500);
         }
         /*资讯-编辑*/
-        function article_edit(title,url,id,w,h){
+        function role_edit(title,url,id,w,h){
             var index = layer.open({
                 type: 2,
                 title: title,
@@ -106,71 +158,27 @@
             });
             layer.full(index);
         }
-        /*资讯-删除*/
+        /* 删除*/
         function role_del(obj,id){
-        	console.log(id);
-            layer.confirm('确认要删除吗？',function(index){
-                $.ajax({
+        	$.openTip('确定删除该角色吗？',false,function(d) {
+        		$(d).dialog('close');
+        		$.ajax({
                     type: 'POST',
                     url: '${ctx}/system/role/delete',
                     dataType: 'json',
                     data:{id:id},
                     success: function(data){
-                        /* $(obj).parents("tr").remove(); */
-                        layer.msg('已删除!',{icon:1,time:1500});
-                        window.location.href = '${ctx}/system/role/list'
+                    	$.openTip(data.message,true,function(dialog) {
+                       		$(dialog).dialog('close');
+                       		window.location.href = '${ctx}/system/role/list'
+                       	});
+                        
                     },
                     error:function(data) {
                         console.log(data.message);
                     },
                 });
-            });
-        }
-
-        /*资讯-审核*/
-        function article_shenhe(obj,id){
-            layer.confirm('审核文章？', {
-                    btn: ['通过','不通过','取消'],
-                    shade: false,
-                    closeBtn: 0
-                },
-                function(){
-                    $(obj).parents("tr").find(".td-manage").prepend('<a class="c-primary" onClick="article_start(this,id)" href="javascript:;" title="申请上线">申请上线</a>');
-                    $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已发布</span>');
-                    $(obj).remove();
-                    layer.msg('已发布', {icon:6,time:1000});
-                },
-                function(){
-                    $(obj).parents("tr").find(".td-manage").prepend('<a class="c-primary" onClick="article_shenqing(this,id)" href="javascript:;" title="申请上线">申请上线</a>');
-                    $(obj).parents("tr").find(".td-status").html('<span class="label label-danger radius">未通过</span>');
-                    $(obj).remove();
-                    layer.msg('未通过', {icon:5,time:1000});
-                });
-        }
-        /*资讯-下架*/
-        function article_stop(obj,id){
-            layer.confirm('确认要下架吗？',function(index){
-                $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="article_start(this,id)" href="javascript:;" title="发布"><i class="Hui-iconfont">&#xe603;</i></a>');
-                $(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已下架</span>');
-                $(obj).remove();
-                layer.msg('已下架!',{icon: 5,time:1000});
-            });
-        }
-
-        /*资讯-发布*/
-        function article_start(obj,id){
-            layer.confirm('确认要发布吗？',function(index){
-                $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="article_stop(this,id)" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a>');
-                $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已发布</span>');
-                $(obj).remove();
-                layer.msg('已发布!',{icon: 6,time:1000});
-            });
-        }
-        /*资讯-申请上线*/
-        function article_shenqing(obj,id){
-            $(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">待审核</span>');
-            $(obj).parents("tr").find(".td-manage").html("");
-            layer.msg('已提交申请，耐心等待审核!', {icon: 1,time:2000});
+        	});
         }
     </script>
 </pgs:extends>

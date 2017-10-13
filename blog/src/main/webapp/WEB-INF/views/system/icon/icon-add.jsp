@@ -62,25 +62,38 @@
                 focusCleanup: true,
                 success: "valid",
                 submitHandler: function (form) {
-                    openLoading();
-                    jQuery.ajax({
-                        type: "POST",
-                        url: "${ctx}/system/icon/save",
-                        data: $(form).serialize(),
-                        error: function (XMLHttpRequest, error, errorThrown) {
-                            alert(error);
-                            alert(errorThrown);
-                        },
-                        success: function (response) {
-                            var data = eval("(" + response + ")");
-                            if (data.resposecode == 200) {
-                                alert(data.message);
-                                parent.window.location.href = '${ctx}/platform/icon/list';
-                                var index = parent.layer.getFrameIndex(window.name);
-                                parent.layer.close(index);
-                            }
-                        }
-                    });
+                	 $.openTip('确定保存吗？',false,function(d){
+                      	$(d).dialog('close');
+ 	                    $.openLoading('正在保存，请稍等...');
+	                    jQuery.ajax({
+	                        type: "POST",
+	                        url: "${ctx}/system/icon/save",
+	                        data: $(form).serialize(),
+	                        error: function (XMLHttpRequest, error, errorThrown) {
+	                        	$.closeLoading();
+	                        	$.openTip('保存失败，请稍候再试...',true, function(dialogAlert) {
+									$(dialogAlert).dialog( "close" );
+									return ;
+								});
+	                        },
+	                        success: function (response) {
+	                            var data = eval("(" + response + ")");
+	                            if (data.resposecode == 200) {
+	                            	$.openTip(data.message,true, function(dialogAlert) {
+	                            		parent.window.location.href = '${ctx}/platform/icon/list';
+	 	                                var index = parent.layer.getFrameIndex(window.name);
+	 	                                parent.layer.close(index);
+	    							});
+	                            } else {
+		                        	$.closeLoading();
+	                            	$.openTip(data.message,true, function(dialogAlert) {
+	    								$(dialogAlert).dialog( "close" );
+	    								return ;
+	    							});
+		                        }
+	                        } 
+	                    });
+                	 }
                 }
             });
         });

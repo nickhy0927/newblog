@@ -50,7 +50,6 @@ function _getCheckboxIds (chkName) {
 	$("input[name='" + chkName + "']").each(function () {
 		if(this.checked) {
 			var id = $(this).attr('data-id');
-			console.log();
 			ids += id + ",";
 		}
 	});

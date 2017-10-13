@@ -8,9 +8,6 @@
 
 <pgs:extends name="javascript">
 	<script type="text/javascript">
-		function getCheckboxIds () {
-			
-		}
 		function datadel() {
 			var ids = $.getCheckboxIds('chk');
 			if(!ids) {
@@ -34,7 +31,7 @@
 								$.openTip('删除成功',true, function(dialogAlert) {
 									$(dialogAlert).dialog( "close" );
 									$.openLoading('正在刷新，请稍等...');
-									window.location.href = "${ctx}/content/article/approvalList"
+									window.location.href = "${ctx}/system/user/list"
 								});
 							} else {
 								$.closeLoading();
@@ -53,7 +50,6 @@
 					
 				});
 			}
-			
 		}
 	</script>
 </pgs:extends>

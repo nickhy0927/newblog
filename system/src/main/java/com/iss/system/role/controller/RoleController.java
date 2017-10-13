@@ -16,12 +16,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.google.common.collect.Lists;
 import com.iss.system.role.entity.Role;
 import com.iss.system.role.service.RoleService;
 import com.iss.system.userRole.tree.TreeObj;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.JsonMapper;
 import com.orm.commons.utils.MessageObject;
+import com.orm.commons.utils.ObjectIterable;
 import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.WebUtils;
 
@@ -88,13 +90,18 @@ public class RoleController {
 
 	@RequestMapping(value = "/system/role/delete", method = RequestMethod.POST)
 	public void delete(HttpServletRequest request, HttpServletResponse response) {
-		String id = request.getParameter("id");
+		String ids = request.getParameter("id");
 		MessageObject messageObject = new MessageObject();
 		try {
-			if (StringUtils.isNotEmpty(id)) {
-				Role role = roleService.get(id);
-				role.setDisabled(Boolean.TRUE);
-				roleService.save(role);
+			if (StringUtils.isNotEmpty(ids)) {
+				String[] strings = ids.split(",");
+				List<Role> roles = Lists.newArrayList();
+				for (String id : strings) {
+					Role role = roleService.get(id);
+					role.setDisabled(Boolean.TRUE);
+					roles.add(role);
+				}
+				roleService.saveBatch(new ObjectIterable<Role>(roles));
 				messageObject.setInforMessage("角色删除成功");
 			}
 		} catch (ServiceException e) {

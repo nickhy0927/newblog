@@ -137,29 +137,38 @@
                 submitHandler: function (form) {
                     getetCheckedAll();
                     var ids = $("#ids").val();
-                    if (ids) {
-                        openLoading();
-                        jQuery.ajax({
+                    if(!ids) ids = "";
+                    $.openTip('确定保存吗？',false,function (obj) {
+                    	$.openLoading('正在保存，请稍等...');
+                    	$( obj ).dialog( "close" );
+                        $.ajax({
                             type: "POST",
                             url: "${ctx}/system/role/module/save",
                             data: $(form).serialize(),
                             error: function (XMLHttpRequest, error, errorThrown) {
-                                alert(error);
-                                alert(errorThrown);
+                            	$.openTip('保存失败',false,function (a) {
+                            		$(a).dialog( "close" );
+                            		return;
+                            	});
                             },
                             success: function (response) {
-                            	console.log(response);
                                	var data = eval("(" + response + ")");
                                 if (data.resposecode == 200) {
-                                    alert(data.message);
-                                    parent.window.location.href = '${ctx}/system/role/list';
-                                    var index = parent.layer.getFrameIndex(window.name);
-                                    parent.layer.close(index);
-                                }
+                                    $.openTip(data.message,true,function (a) {
+                                		$(a).dialog( "close" );
+                                		 parent.window.location.href = '${ctx}/system/role/list';
+                                         var index = parent.layer.getFrameIndex(window.name);
+                                         parent.layer.close(index);
+                                	});
+                                } else {
+                                	$.openTip(data.message,false,function (a) {
+                                		$(a).dialog( "close" );
+                                		return;
+                                	});
+								}
                             }
                         });
-                    } else
-                        alert('请选择角色');
+                    });
                 }
             });
         });

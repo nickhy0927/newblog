@@ -75,7 +75,8 @@
         var setting = {
             check: {
                 enable: true,
-                nocheckInherit: false
+                nocheckInherit: false,
+                chkboxType: { "Y": "s", "N": "s" }
             },
             data: {
                 simpleData: {
@@ -138,35 +139,37 @@
                     getetCheckedAll();
                     var ids = $("#ids").val();
                     if(!ids) ids = "";
-                    $.openLoading('正在修改数据,请稍等...');
-                    jQuery.ajax({
-                        type: "POST",
-                        url: "${ctx}/system/user/role/save",
-                        data: $(form).serialize(),
-                        error: function (XMLHttpRequest, error, errorThrown) {
-                           	$.openTip('添加权限失败',true,function(dialog) {
-                           		$(dialog).dialog('close');
-                           	});
-                        },
-                        success: function (response) {
-                            var data = eval("(" + response + ")");
-                            if (data.resposecode == 200) {
-                                alert(data.message);
-                                $.openTip('添加权限成功',true,function(dialog) {
+                    $.openTip('确定进行此操作吗？', false, function(dialog) {
+                   		$(dialog).dialog('close');
+                   		$.openLoading('正在修改数据,请稍等...');
+                   		jQuery.ajax({
+                            type: "POST",
+                            url: "${ctx}/system/user/role/save",
+                            data: $(form).serialize(),
+                            error: function (XMLHttpRequest, error, errorThrown) {
+                               	$.openTip('添加权限失败',true,function(dialog) {
                                		$(dialog).dialog('close');
-	                               	 parent.window.location.href = '${ctx}/system/user/role/list';
-	                                 var index = parent.layer.getFrameIndex(window.name);
-	                                 parent.layer.close(index);
+                               		return;
                                	});
-                               
-                            } else {
-                            	$.closeLoading();
-                            	$.openTip('添加权限失败',true,function(dialog) {
-                               		$(dialog).dialog('close');
-                               	});
+                            },
+                            success: function (response) {
+                                var data = eval("(" + response + ")");
+                                if (data.resposecode == 200) {
+                                    $.openTip('添加权限成功',true,function(dialog) {
+                                   		$(dialog).dialog('close');
+    	                               	 parent.window.location.href = '${ctx}/system/user/role/list';
+    	                                 var index = parent.layer.getFrameIndex(window.name);
+    	                                 parent.layer.close(index);
+                                   	});
+                                } else {
+                                	$.closeLoading();
+                                	$.openTip('添加权限失败',true,function(dialog) {
+                                   		$(dialog).dialog('close');
+                                   	});
+                                }
                             }
-                        }
-                    });
+                        });
+                   	});
                 }
             });
         });

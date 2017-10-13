@@ -103,27 +103,39 @@
                 focusCleanup: true,
                 success: "valid",
                 submitHandler: function (form) {
-                    openLoading();
-                    jQuery.ajax({
-                        type: "POST",
-                        url: "${ctx}/system/role/save",
-                        data: $(form).serialize(),
-                        error: function (XMLHttpRequest, error, errorThrown) {
-                            alert(error);
-                            alert(errorThrown);
-                        },
-                        success: function (response) {
-                            var data = eval("(" + response + ")");
-                            if (data.resposecode == 200) {
-                                alert(data.message);
-                                parent.window.location.href = '${ctx}/system/role/list'
-                                var index = parent.layer.getFrameIndex(window.name);
-                                parent.layer.close(index);
-                            }
+                	$.openTip('确定保存吗？', false, function(dialog) {
+                   		$(dialog).dialog('close');
+                   		$.openLoading('正在添加角色信息,请稍等...');
+                   		jQuery.ajax({
+                            type: "POST",
+                            url: "${ctx}/system/role/save",
+                            data: $(form).serialize(),
+                            error: function (XMLHttpRequest, error, errorThrown) {
+                            	$.closeLoading();
+                            	$.openTip('角色添加失败',true,function(dialog) {
+                               		$(dialog).dialog('close');
+                               		return;
+                               	});
+                            },
+                            success: function (response) {
+                                var data = eval("(" + response + ")");
+                                if (data.resposecode == 200) {
+                                    $.openTip(data.message,true,function(dialog) {
+                                   		$(dialog).dialog('close');
+                                   		parent.window.location.href = '${ctx}/system/role/list'
+                                        var index = parent.layer.getFrameIndex(window.name);
+                                        parent.layer.close(index);
+                                   	});
+                                } else {
+                                	$.closeLoading();
+                                	$.openTip('添加权限失败',true,function(dialog) {
+                                   		$(dialog).dialog('close');
+                                   	});
+                                }
 
-                        }
-                        //${ctx}/system/role/save
-                    });
+                            }
+                        });
+                	});
 //
                 }
             });
