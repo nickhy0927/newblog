@@ -1,14 +1,10 @@
 package com.iss.interceptor;
 
-import com.iss.listener.SingletonUser;
-import com.iss.system.user.entity.User;
-import com.orm.config.InitEnvironment;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
  * Created by yuanhuangd on 2017/7/25.
@@ -31,13 +27,13 @@ public class SpringHandlerInterceptor extends HandlerInterceptorAdapter {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String requestUri = request.getRequestURI();
-        User user = SingletonUser.getContextUser(request);
-        InitEnvironment environment = InitEnvironment.getInitEnvironmentInstance();
-        String contextPath = request.getContextPath();
-        String url = requestUri.substring(contextPath.length());
-        List<String> urls = environment.getUrls();
-        System.out.println("requestUri" + requestUri);
+//        String requestUri = request.getRequestURI();
+//        User user = SingletonUser.getContextUser(request);
+//        InitEnvironment environment = InitEnvironment.getInitEnvironmentInstance();
+//        String contextPath = request.getContextPath();
+//        String url = requestUri.substring(contextPath.length());
+//        List<String> urls = environment.getUrls();
+//        System.out.println("requestUri" + requestUri);
         return true;
     }
 }

@@ -15,6 +15,7 @@ import java.util.Map;
 /**
  * Created by yuanhuangd on 2017/9/29.
  */
+@SuppressWarnings("serial")
 public class FileUploadTag extends BodyTagSupport {
 
     private Map<String, Object> model = new HashMap<String, Object>();

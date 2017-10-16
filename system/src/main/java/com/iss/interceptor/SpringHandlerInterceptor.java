@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.iss.init.EnvironmentServer;
 import com.iss.listener.SingletonUser;
 import com.iss.system.user.entity.User;
 import com.iss.util.RandomString;
@@ -46,7 +45,7 @@ public class SpringHandlerInterceptor extends HandlerInterceptorAdapter {
 		String contextPath = request.getContextPath();
 		String url = requestUri.substring(contextPath.length());
 		List<String> urls = environment.getUrls();
-		List<String> allowUrls = EnvironmentServer.getAllowUrls(user);
+//		List<String> allowUrls = EnvironmentServer.getAllowUrls(user);
 		String loginUrl = environment.getLoginUrl();
 		String unauthUrl = environment.getUnauthUrl();
 		boolean bool = urls.contains(url) || url.contains(loginUrl) || url.contains(unauthUrl);
