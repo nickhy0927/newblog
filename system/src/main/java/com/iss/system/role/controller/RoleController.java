@@ -88,6 +88,27 @@ public class RoleController {
 
 	}
 
+	@RequestMapping(value = "/system/role/edit", method = RequestMethod.GET)
+	public String edit(HttpServletRequest request,Model model) {
+		Map<String, Object> paramsMap = new HashMap<>();
+		paramsMap.put("disabled_eq", Boolean.FALSE);
+		List<TreeObj> trees = new ArrayList<>();
+		try {
+			List<Role> roles = roleService.queryByMap(paramsMap);
+			for (Role role : roles) {
+				trees.add(new TreeObj(role));
+			}
+			request.setAttribute("json", new JsonMapper().toJson(trees));
+			String id = request.getParameter("id");
+			Role role = roleService.get(id);
+			model.addAttribute("role", role);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+		return "system/role/role_add";
+	}
+	
+	
 	@RequestMapping(value = "/system/role/delete", method = RequestMethod.POST)
 	public void delete(HttpServletRequest request, HttpServletResponse response) {
 		String ids = request.getParameter("id");

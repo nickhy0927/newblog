@@ -101,6 +101,17 @@ public class ModuleController {
         }
         return "system/module/module_add";
     }
+    @RequestMapping(value = "/system/module/view")
+    public String view(HttpServletRequest request) {
+    	String id = request.getParameter("id");
+    	try {
+    		Module module = moduleService.get(id);
+    		request.setAttribute("module", module);
+    	} catch (ServiceException e) {
+    		e.printStackTrace();
+    	}
+    	return "system/module/module_view";
+    }
 
     @RequestMapping(value = "/system/module/save", method = RequestMethod.POST)
     public void save(HttpServletRequest request, HttpServletResponse response, Module module) {

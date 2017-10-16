@@ -16,6 +16,7 @@
         <module>blogClient</module>
         <module>utils</module>
         <module>webBlog</module>
+        <module>pageCreate</module>
         <module>article</module>
         <module>client</module>
         <module>member</module>
