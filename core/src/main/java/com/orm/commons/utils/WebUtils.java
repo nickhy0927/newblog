@@ -40,11 +40,7 @@ public class WebUtils {
 			if (paramValues.length == 1) {
 				String paramValue = paramValues[0];
 				if (paramValue.length() != 0) {
-					String[] str = paramName.split("_");
-					// System.out.println(paramName + "==" + paramValue);
-					if (str.length == 1) {
-						map.put(paramName, paramValue);
-					}
+					map.put(paramName, paramValue);
 				}
 			}
 		}

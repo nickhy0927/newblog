@@ -163,18 +163,10 @@
             //表单验证
             $("#form-article-add").validate({
                 rules: {
-                    pName: {
-                        required: true,
-                    },
-                    name: {
-                        required: true,
-                    },
-                    url: {
-                        required: true,
-                    },
-                    pName: {
-                        required: true,
-                    },
+                    pName: { required: true },
+                    name: { required: true },
+                    url: { required: true },
+                    pName: { required: true },
                 },
                 onkeyup: false,
                 focusCleanup: true,
@@ -185,7 +177,7 @@
                      	$.openLoading('正在保存，请稍等...');
 	                    jQuery.ajax({
 	                        type: "POST",
-	                        url: "${ctx}/system/module/save",
+	                        url: "",
 	                        data: $(form).serialize(),
 	                        error: function (XMLHttpRequest, error, errorThrown) {
 	                        	$.closeLoading();
@@ -199,7 +191,7 @@
 	                            if (data.resposecode == 200) {
 	                            	$.openTip(data.message,true, function(dialogAlert) {
 	    								$(dialogAlert).dialog( "close" );
-	    								 parent.window.location.href = '${ctx}/system/module/list';
+	    								 parent.window.location.href = '';
 	    	                             var index = parent.layer.getFrameIndex(window.name);
 	    	                             parent.layer.close(index);
 	    							});
@@ -212,7 +204,7 @@
 								}
 	                        }
 	                    });
-                	 });
+                	});
                 }
             });
         });

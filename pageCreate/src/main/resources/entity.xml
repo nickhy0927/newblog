@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <items>
-	<item entityPackage="com.iss.pages.data.entity.Friends" createController="true" createPage="true" />
+	<item direcroy="D:\soft\springtools\works\newblog\blog\src\main\webapp\WEB-INF\views" name="后台管理系统"/>
+	<item direcroy="D:\soft\springtools\works\newblog\webBlog\src\main\webapp\WEB-INF\views" name="博客前台系统"/>
+	<item direcroy="D:\soft\springtools\works\newblog\pageCreate\src\main\webapp\" name="测试页面是否可以成功访问"/>
 </items>
