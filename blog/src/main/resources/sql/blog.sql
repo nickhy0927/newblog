@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `t_c_article` (
   CONSTRAINT `FK_oi095swawmh241css0lsdx7f3` FOREIGN KEY (`user_id`) REFERENCES `t_s_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 正在导出表  blog.t_c_article 的数据：~15 rows (大约)
+-- 正在导出表  blog.t_c_article 的数据：~13 rows (大约)
 DELETE FROM `t_c_article`;
 /*!40000 ALTER TABLE `t_c_article` DISABLE KEYS */;
 INSERT INTO `t_c_article` (`id`, `create_time`, `disabled`, `update_time`, `approval_status`, `content`, `title`, `category_id`, `user_id`, `shows`, `groom`) VALUES
@@ -289,7 +289,7 @@ CREATE TABLE IF NOT EXISTS `t_s_module` (
   CONSTRAINT `FK_tlvag5oykuyhu8wfg2m7g1g43` FOREIGN KEY (`icon_id`) REFERENCES `t_s_icon` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 正在导出表  blog.t_s_module 的数据：~28 rows (大约)
+-- 正在导出表  blog.t_s_module 的数据：~30 rows (大约)
 DELETE FROM `t_s_module`;
 /*!40000 ALTER TABLE `t_s_module` DISABLE KEYS */;
 INSERT INTO `t_s_module` (`id`, `create_time`, `disabled`, `update_time`, `name`, `url`, `pid`, `descs`, `alias`, `shows`, `icon_id`) VALUES
@@ -300,7 +300,9 @@ INSERT INTO `t_s_module` (`id`, `create_time`, `disabled`, `update_time`, `name`
 	('22c9ee7b-2f6b-48ed-9acc-ffec2df2c614', '2017-07-31 10:02:06', b'0', '2017-07-31 10:02:06', '修改菜单', '/system/module/edit', '56688a3d-fda3-41b1-90db-2af1957e249c', '修改菜单', 'system-module-edit', '0', NULL),
 	('302bbf0c-d0da-4496-af90-33fbaa222321', '2017-09-29 12:02:05', b'0', '2017-09-29 12:03:07', '广告管理', '/system/advertisement/list', '610c0493-aeca-47d3-83b8-38c285656ae5', '轮播图', 'system-advertisement-manager', '1', 'e6b58065-a6ca-41d1-906c-5f19917256a9'),
 	('36f5380d-9c48-4891-a089-e83748fd15b9', '2017-08-09 12:55:48', b'0', '2017-08-09 12:55:48', '文章管理', '/content/article/list', '56173b0a-2493-4ebc-8ba8-3ebc833ec2b8', '管理博客中的文章', 'article-manager', '1', 'e6b58065-a6ca-41d1-906c-5f19917256a9'),
+	('395135c1-1d33-49a7-9a1d-81f28e3ae247', '2017-10-16 14:19:25', b'0', '2017-10-16 15:02:09', '查看菜单', '/system/module/view', '56688a3d-fda3-41b1-90db-2af1957e249c', '查看菜单信息', 'system-module-view', '0', '0fbdfb98-fdbc-423a-88a0-45c2b12d575a'),
 	('3ad9a2d5-367f-4c86-a3ed-380ad94e7911', '2017-08-17 11:18:44', b'0', '2017-08-17 11:18:44', '文章审核', '/content/article/approvalList', '56173b0a-2493-4ebc-8ba8-3ebc833ec2b8', '文章审核通过显示在前台页面上', 'article-approvalList', '1', 'e6b58065-a6ca-41d1-906c-5f19917256a9'),
+	('3ed15185-eecb-4ae4-984b-f75e744c32d3', '2017-10-16 13:15:40', b'0', '2017-10-16 13:15:40', '角色菜单', '#', 'be6debfe-a075-416f-ad9d-d53785c86520', '角色所拥有的菜单权限', 'system-role-menu-add', '0', 'e6b58065-a6ca-41d1-906c-5f19917256a9'),
 	('4210dc83-2d04-40db-95cc-f0d3f7b8c0bc', '2017-07-31 10:04:51', b'0', '2017-07-31 10:04:51', '添加角色', '/system/role/add', 'be6debfe-a075-416f-ad9d-d53785c86520', '添加角色', 'system-role-add', '0', NULL),
 	('495c99b8-62b7-4d30-ac5e-7716adf64c0c', '2017-07-28 16:20:55', b'0', '2017-09-27 15:04:28', '系统用户', '/system/user/list', '610c0493-aeca-47d3-83b8-38c285656ae5', '管理所有的用户信息', 'system-user-manager', '1', 'e6b58065-a6ca-41d1-906c-5f19917256a9'),
 	('52d2382f-1d07-4e46-92fd-972c2b069eb5', '2017-09-29 12:07:19', b'0', '2017-09-29 12:07:29', '删除广告', '/system/advertisement/delete', '302bbf0c-d0da-4496-af90-33fbaa222321', '删除广告', 'system-advertisement-delete', '0', '8d9397d0-89f3-473b-9317-4880aeb06047'),
@@ -383,9 +385,9 @@ DELETE FROM `t_s_role`;
 INSERT INTO `t_s_role` (`id`, `create_time`, `disabled`, `update_time`, `role_desc`, `role_name`, `pid`) VALUES
 	('031adfe8-ff19-46df-aa1c-2fc0b6149189', '2017-07-31 16:37:07', b'1', '2017-08-04 14:53:01', '222', '222', '1b6f84eb-5d4c-49d0-8393-14b511b56ef1'),
 	('1', '2017-07-31 16:06:06', b'0', NULL, '根节点', '根节点', NULL),
-	('1b6f84eb-5d4c-49d0-8393-14b511b56ef1', '2017-07-31 16:36:56', b'0', '2017-08-05 11:25:32', '1111', '111', 'db8fa132-1e5d-48d2-bd42-9c6d7291c639'),
+	('1b6f84eb-5d4c-49d0-8393-14b511b56ef1', '2017-07-31 16:36:56', b'0', '2017-10-16 14:20:20', '信息管理员是管理员所管辖的，只能查看信息，无其他的权限', '信息管理员', 'db8fa132-1e5d-48d2-bd42-9c6d7291c639'),
 	('7bf92529-2298-4374-b8ab-45b360cc5554', '2017-08-04 14:44:16', b'1', '2017-08-04 14:51:10', '333', '333', 'db8fa132-1e5d-48d2-bd42-9c6d7291c639'),
-	('c15cc5a0-4e67-493a-864f-21a007d6b2ad', '2017-07-31 16:12:47', b'0', '2017-10-11 16:47:52', '管理员角色', '管理员', '1'),
+	('c15cc5a0-4e67-493a-864f-21a007d6b2ad', '2017-07-31 16:12:47', b'0', '2017-10-16 13:16:33', '管理员角色', '管理员', '1'),
 	('db8fa132-1e5d-48d2-bd42-9c6d7291c639', '2017-07-31 16:36:33', b'0', '2017-08-08 12:34:08', '测试角色0001', '测试部门', '1'),
 	('efd2bf21-d928-4aec-a486-7aacbaf51c29', '2017-07-31 16:37:19', b'1', '2017-08-04 14:52:57', '333', '333', '1b6f84eb-5d4c-49d0-8393-14b511b56ef1');
 /*!40000 ALTER TABLE `t_s_role` ENABLE KEYS */;
@@ -401,7 +403,7 @@ CREATE TABLE IF NOT EXISTS `t_s_role_module` (
   CONSTRAINT `FK_nyeeltyagdtxtuqpdt9pdka3a` FOREIGN KEY (`role_id`) REFERENCES `t_s_role` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 正在导出表  blog.t_s_role_module 的数据：~33 rows (大约)
+-- 正在导出表  blog.t_s_role_module 的数据：~37 rows (大约)
 DELETE FROM `t_s_role_module`;
 /*!40000 ALTER TABLE `t_s_role_module` DISABLE KEYS */;
 INSERT INTO `t_s_role_module` (`role_id`, `module_id`) VALUES
@@ -418,6 +420,7 @@ INSERT INTO `t_s_role_module` (`role_id`, `module_id`) VALUES
 	('c15cc5a0-4e67-493a-864f-21a007d6b2ad', '302bbf0c-d0da-4496-af90-33fbaa222321'),
 	('c15cc5a0-4e67-493a-864f-21a007d6b2ad', '36f5380d-9c48-4891-a089-e83748fd15b9'),
 	('c15cc5a0-4e67-493a-864f-21a007d6b2ad', '3ad9a2d5-367f-4c86-a3ed-380ad94e7911'),
+	('c15cc5a0-4e67-493a-864f-21a007d6b2ad', '3ed15185-eecb-4ae4-984b-f75e744c32d3'),
 	('c15cc5a0-4e67-493a-864f-21a007d6b2ad', '4210dc83-2d04-40db-95cc-f0d3f7b8c0bc'),
 	('c15cc5a0-4e67-493a-864f-21a007d6b2ad', '495c99b8-62b7-4d30-ac5e-7716adf64c0c'),
 	('c15cc5a0-4e67-493a-864f-21a007d6b2ad', '52d2382f-1d07-4e46-92fd-972c2b069eb5'),
@@ -437,7 +440,10 @@ INSERT INTO `t_s_role_module` (`role_id`, `module_id`) VALUES
 	('c15cc5a0-4e67-493a-864f-21a007d6b2ad', 'c83cc0d6-e8a5-4b73-a214-1a6727fa086e'),
 	('c15cc5a0-4e67-493a-864f-21a007d6b2ad', 'e35bb92d-53b9-469c-8f7b-bff1d8e8c493'),
 	('c15cc5a0-4e67-493a-864f-21a007d6b2ad', 'e7f32c96-1d5f-474f-95df-84116a71a20a'),
-	('c15cc5a0-4e67-493a-864f-21a007d6b2ad', 'eb3eacee-0c37-456f-8bf2-2b376ef37aa0');
+	('c15cc5a0-4e67-493a-864f-21a007d6b2ad', 'eb3eacee-0c37-456f-8bf2-2b376ef37aa0'),
+	('1b6f84eb-5d4c-49d0-8393-14b511b56ef1', '22c9ee7b-2f6b-48ed-9acc-ffec2df2c614'),
+	('1b6f84eb-5d4c-49d0-8393-14b511b56ef1', '56688a3d-fda3-41b1-90db-2af1957e249c'),
+	('1b6f84eb-5d4c-49d0-8393-14b511b56ef1', '610c0493-aeca-47d3-83b8-38c285656ae5');
 /*!40000 ALTER TABLE `t_s_role_module` ENABLE KEYS */;
 
 -- 导出  表 blog.t_s_user 结构
@@ -462,9 +468,9 @@ CREATE TABLE IF NOT EXISTS `t_s_user` (
 DELETE FROM `t_s_user`;
 /*!40000 ALTER TABLE `t_s_user` DISABLE KEYS */;
 INSERT INTO `t_s_user` (`id`, `create_time`, `disabled`, `update_time`, `card_type`, `id_card`, `last_login_time`, `locked`, `login_name`, `password`, `phone_number`, `real_name`) VALUES
-	('60e95e04-9ce7-48aa-b360-943cab0eaf68', '2017-08-08 12:43:26', b'0', '2017-08-08 12:43:39', '1', '123456789123456789', NULL, b'0', 'wangwu', 'e10adc3949ba59abbe56e057f20f883e', '13299999999', '王五'),
+	('60e95e04-9ce7-48aa-b360-943cab0eaf68', '2017-08-08 12:43:26', b'0', '2017-10-16 14:12:57', '1', '123456789123456789', '2017-10-16 15:02:26', b'0', 'wangwu', 'e10adc3949ba59abbe56e057f20f883e', '13299999999', '王五'),
 	('bc7809fe-b085-4ea1-bbe7-584e73a8bd5e', '2017-07-27 16:49:03', b'0', '2017-08-08 12:33:54', '1', '123456789123456789', NULL, b'0', 'lisi10010', 'e10adc3949ba59abbe56e057f20f883e', '13299999998', '李四'),
-	('cb19a72c-1496-492b-9440-51241cdc3485', '2017-07-27 16:40:09', b'0', '2017-08-08 12:33:47', '1', '123456789123456789', NULL, b'0', 'zhangsan', 'e10adc3949ba59abbe56e057f20f883e', '13299999999', '张三');
+	('cb19a72c-1496-492b-9440-51241cdc3485', '2017-07-27 16:40:09', b'0', '2017-08-08 12:33:47', '1', '123456789123456789', '2017-10-17 16:31:58', b'0', 'zhangsan', 'e10adc3949ba59abbe56e057f20f883e', '13299999999', '张三');
 /*!40000 ALTER TABLE `t_s_user` ENABLE KEYS */;
 
 -- 导出  表 blog.t_s_user_role 结构
@@ -478,15 +484,13 @@ CREATE TABLE IF NOT EXISTS `t_s_user_role` (
   CONSTRAINT `FK_mk0l42w3v5e0xkrfxpa97w3bv` FOREIGN KEY (`role_id`) REFERENCES `t_s_role` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 正在导出表  blog.t_s_user_role 的数据：~6 rows (大约)
+-- 正在导出表  blog.t_s_user_role 的数据：~4 rows (大约)
 DELETE FROM `t_s_user_role`;
 /*!40000 ALTER TABLE `t_s_user_role` DISABLE KEYS */;
 INSERT INTO `t_s_user_role` (`user_id`, `role_id`) VALUES
 	('cb19a72c-1496-492b-9440-51241cdc3485', 'c15cc5a0-4e67-493a-864f-21a007d6b2ad'),
 	('bc7809fe-b085-4ea1-bbe7-584e73a8bd5e', 'db8fa132-1e5d-48d2-bd42-9c6d7291c639'),
 	('bc7809fe-b085-4ea1-bbe7-584e73a8bd5e', '1b6f84eb-5d4c-49d0-8393-14b511b56ef1'),
-	('60e95e04-9ce7-48aa-b360-943cab0eaf68', 'c15cc5a0-4e67-493a-864f-21a007d6b2ad'),
-	('60e95e04-9ce7-48aa-b360-943cab0eaf68', 'db8fa132-1e5d-48d2-bd42-9c6d7291c639'),
 	('60e95e04-9ce7-48aa-b360-943cab0eaf68', '1b6f84eb-5d4c-49d0-8393-14b511b56ef1');
 /*!40000 ALTER TABLE `t_s_user_role` ENABLE KEYS */;
 
