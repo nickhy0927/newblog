@@ -50,6 +50,13 @@
 	                       name="title">
 	            </div>
 	        </div>
+	        <div class="row cl">
+	            <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>文章logo：</label>
+	            <div class="formControls col-xs-9 col-sm-10">
+	                <input type="text" class="input-text" value="" placeholder="请输入分类名称" id="title"
+	                       name="title">
+	            </div>
+	        </div>
 			<textarea style="display: none" id="content" name="content"></textarea>
 	        <div class="row cl">
 	            <label class="form-label col-xs-3 col-sm-2">
