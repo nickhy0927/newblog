@@ -80,7 +80,7 @@
 	                            var data = eval("(" + response + ")");
 	                            if (data.resposecode == 200) {
 	                            	$.openTip(data.message,true, function(dialogAlert) {
-	                            		parent.window.location.href = '${ctx}/platform/icon/list';
+	                            		parent.window.location.href = '${ctx}/system/icon/list';
 	 	                                var index = parent.layer.getFrameIndex(window.name);
 	 	                                parent.layer.close(index);
 	    							});
@@ -93,7 +93,7 @@
 		                        }
 	                        } 
 	                    });
-                	 }
+                	 });
                 }
             });
         });
