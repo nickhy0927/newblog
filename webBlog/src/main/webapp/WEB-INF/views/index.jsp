@@ -5,8 +5,7 @@
 <c:set value="${pageContext.request.contextPath}" var="ctx" />
 <pgs:extends name="title">博客</pgs:extends>
 <pgs:extends name="javascript">
-	<script type="text/javascript"
-		src="${ctx}/static/lib/js/jquery.marquee.min.js"></script>
+	<script type="text/javascript" src="${ctx}/static/lib/js/jquery.marquee.min.js"></script>
 	<script src="${ctx}/static/lib/js/classie.js"></script>
 	<script src="${ctx}/static/lib/js/uisearch.js"></script>
 	<script type="text/javascript">
@@ -56,7 +55,7 @@
 					</ul>
 				</div>
 				<div class="num">
-					<p>Call us : 032 2352 782</p>
+					<p><a style="color: white;" href="${ctx}/member/register">注册</a></p>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -892,8 +891,6 @@
 								</p>
 							</div>
 							<div class="popular-grid">
-								<iframe width="100%" src="http://www.cssmoban.com/"
-									frameborder="0" allowfullscreen></iframe>
 								<a class="title" href="single.html">Aishwarya Rai Bachchan's
 									Latest SHOCKING News For Ex Salman Khan</a>
 								<p>
@@ -954,22 +951,14 @@
 				<div class="col-md-4 col-xs-6 col-sm-6 footer-grid">
 					<h4 class="footer-head">赞助商</h4>
 					<ul class="flickr">
-						<li><a href="#"><img
-								src="${ctx}/static/lib/images/bus4.jpg"></a></li>
-						<li><a href="#"><img
-								src="${ctx}/static/lib/images/bus2.jpg"></a></li>
-						<li><a href="#"><img
-								src="${ctx}/static/lib/images/bus3.jpg"></a></li>
-						<li><a href="#"><img
-								src="${ctx}/static/lib/images/tec4.jpg"></a></li>
-						<li><a href="#"><img
-								src="${ctx}/static/lib/images/tec2.jpg"></a></li>
-						<li><a href="#"><img
-								src="${ctx}/static/lib/images/tec3.jpg"></a></li>
-						<li><a href="#"><img
-								src="${ctx}/static/lib/images/bus2.jpg"></a></li>
-						<li><a href="#"><img
-								src="${ctx}/static/lib/images/bus3.jpg"></a></li>
+						<li><a href="#"><img src="${ctx}/static/lib/images/bus4.jpg"></a></li>
+						<li><a href="#"><img src="${ctx}/static/lib/images/bus2.jpg"></a></li>
+						<li><a href="#"><img src="${ctx}/static/lib/images/bus3.jpg"></a></li>
+						<li><a href="#"><img src="${ctx}/static/lib/images/tec4.jpg"></a></li>
+						<li><a href="#"><img src="${ctx}/static/lib/images/tec2.jpg"></a></li>
+						<li><a href="#"><img src="${ctx}/static/lib/images/tec3.jpg"></a></li>
+						<li><a href="#"><img src="${ctx}/static/lib/images/bus2.jpg"></a></li>
+						<li><a href="#"><img src="${ctx}/static/lib/images/bus3.jpg"></a></li>
 						<div class="clearfix"></div>
 					</ul>
 				</div>
