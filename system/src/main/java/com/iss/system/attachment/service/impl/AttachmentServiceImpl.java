@@ -77,10 +77,9 @@ public class AttachmentServiceImpl extends DefaultAbstractService<Attachment, St
 		return versions;
 	}
 
-	public MessageObject fileUpload(HttpServletRequest request, String filePath) {
+	public MessageObject fileUpload(HttpServletRequest request, String filePath,String id) {
 		MessageObject message = new MessageObject();
-		User user = SingletonUser.getContextUser(request);
-		String realPath = request.getSession().getServletContext().getRealPath("/upload/attachment/" + user.getId());
+		String realPath = request.getSession().getServletContext().getRealPath("/upload/attachment/" + id);
 		HashMap<String, Object> hashMap = MyConfig.getConfig();
 		Object object = hashMap.get("upload");
 		if (object != null) {

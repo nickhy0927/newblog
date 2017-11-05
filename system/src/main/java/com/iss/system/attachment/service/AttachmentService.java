@@ -17,5 +17,5 @@ public interface AttachmentService extends BaseService<Attachment, String> {
 
     List<Attachment> fileUpload(MultipartHttpServletRequest request);
     
-    MessageObject fileUpload(HttpServletRequest request,String filePath);
+    MessageObject fileUpload(HttpServletRequest request, String filePath,String id);
 }

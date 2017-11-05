@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +40,7 @@ public class IndexController {
 		try {
 			List<CategoryDto> cates = new ArrayList<>();
 			paramMap.put("category.id_eq", "1");
-			List<Category> categories = categoryService.queryByMap(paramMap);
+			List<Category> categories = categoryService.queryByMap(paramMap,new Sort(Sort.Direction.ASC, "sort"));
 			for (Category category : categories) {
 				paramMap.put("category.id_eq", category.getId());
 				List<Category> list = categoryService.queryByMap(paramMap);

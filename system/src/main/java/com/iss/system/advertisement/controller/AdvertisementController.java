@@ -20,6 +20,7 @@ import com.iss.system.advertisement.entity.Advertisement;
 import com.iss.system.advertisement.service.AdvertisementService;
 import com.iss.system.attachment.entity.Attachment;
 import com.iss.system.attachment.service.AttachmentService;
+import com.iss.system.user.entity.User;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.MessageObject;
 import com.orm.commons.utils.ObjectTools;
@@ -85,7 +86,8 @@ public class AdvertisementController {
 				advertisement.setSort(StringUtils.isNotEmpty(request.getParameter("url_" + (i + 1)))
 						? request.getParameter("sort_" + (i + 1)) : 0 + "");
 				String filePath = request.getParameter("myfiles_" + (i + 1));
-				MessageObject messageObject = attachmentService.fileUpload(request, filePath);
+				User user = SingletonUser.getContextUser(request);
+				MessageObject messageObject = attachmentService.fileUpload(request, filePath,user.getId());
 				Object object = messageObject.getObject();
 				advertisement.setAttachment((Attachment) object);
 				advertisement.setUser(SingletonUser.getContextUser(request));

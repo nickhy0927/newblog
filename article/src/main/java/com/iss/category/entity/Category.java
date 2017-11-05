@@ -5,41 +5,49 @@ import com.orm.commons.utils.IdEntity;
 import javax.persistence.*;
 
 /**
- * Created by yuanhuangd on 2017/8/8.
- * 文章分类
+ * Created by yuanhuangd on 2017/8/8. 文章分类
  */
 @Entity
 @Table(name = "t_c_category")
 public class Category extends IdEntity {
 
-    private String name;
+	private String name;
 
-    private Boolean shows = Boolean.TRUE;
-    private Category category;
+	private Boolean shows = Boolean.TRUE;
+	private Category category;
+	private Integer sort;// 排序
 
-    public Boolean getShows() {
-        return shows;
-    }
+	public Integer getSort() {
+		return sort;
+	}
 
-    public void setShows(Boolean shows) {
-        this.shows = shows;
-    }
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public Boolean getShows() {
+		return shows;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setShows(Boolean shows) {
+		this.shows = shows;
+	}
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pid")
-    public Category getCategory() {
-        return category;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "pid")
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 }
