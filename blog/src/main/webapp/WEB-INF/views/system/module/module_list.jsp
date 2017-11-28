@@ -57,8 +57,8 @@
                         <th class="text-c">图标</th>
                         <th width="160">上级菜单</th>
                         <th>菜单描述</th>
-                        <th>是否显示</th>
-                        <th style="width: 50px;" class="text-c">操作</th>
+                        <th class="text-c">是否显示</th>
+                        <th style="width: 70px;" class="text-c">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -75,7 +75,7 @@
                                 ${menu.module.name}
                             </td>
                             <td>${menu.descs}</td>
-                            <td>
+                            <td class="text-c">
                                 <c:if test="${menu.shows == 1}">显示</c:if>
                                 <c:if test="${menu.shows != 1}">不显示</c:if>
                             </td>

@@ -14,22 +14,8 @@
             <div class="row cl">
                 <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>用户名：</label>
                 <div class="formControls col-xs-9 col-sm-10">
-                    <input type="text" class="input-text" value="" placeholder="请输入登录账户" id="loginName"
+                    <input readonly="readonly" type="text" class="input-text" value="${user.loginName }" placeholder="请输入登录账户" id="loginName"
                            name="loginName">
-                </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>用户密码：</label>
-                <div class="formControls col-xs-9 col-sm-10">
-                    <input type="password" class="input-text" value="" placeholder="请输入用户密码" id="password"
-                           name="password">
-                </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>确认密码：</label>
-                <div class="formControls col-xs-9 col-sm-10">
-                    <input type="password" class="input-text" value="" placeholder="请输入确认密码" id="repassword"
-                           name="repassword">
                 </div>
             </div>
             <div class="row cl">
@@ -42,13 +28,13 @@
             <div class="row cl">
                 <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>证件号码：</label>
                 <div class="formControls col-xs-9 col-sm-10">
-                    <input type="text" class="input-text" placeholder="请输入证件号码" id="idCard" name="idCard">
+                    <input type="text" value="${user.idCard}" class="input-text" placeholder="请输入证件号码" id="idCard" name="idCard">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>电话号码：</label>
                 <div class="formControls col-xs-9 col-sm-10">
-                    <input type="text" class="input-text" placeholder="请输入电话号码" id="phoneNumber" name="phoneNumber">
+                    <input type="text" class="input-text" placeholder="请输入电话号码" value="${user.phoneNumber}" id="phoneNumber" name="phoneNumber">
                 </div>
             </div>
             <div class="row cl" style="text-align: right;margin-right: 2px">

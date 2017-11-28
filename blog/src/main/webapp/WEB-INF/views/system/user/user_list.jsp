@@ -107,12 +107,10 @@
                             <tr class="text-l">
                                 <td><input type="checkbox" data-id="${user.id}" value="" name="chk"></td>
                                 <td class="text-l">
-                                        ${user.realName}
+                                	${user.realName}
                                 </td>
                                 <td class="text-l">
-                                    <u style="cursor:pointer" class="text-primary" onClick="article_edit('查看','article-zhang.html','10001')" title="查看">
-                                        ${user.loginName}
-                                    </u>
+                                	${user.loginName}
                                 </td>
                                 <td>身份证</td>
                                 <td>${user.idCard}</td>
@@ -127,16 +125,16 @@
                                     </c:if>
                                 </td>
                                 <td class="f-14 td-manage text-c">
-                                	<a style="text-decoration:none" class="ml-5" onClick="article_edit('编辑用户信息','${ctx}/system/user/edit/${user.id}','10001')" href="javascript:;" title="查看">
+                                	<a style="text-decoration:none" class="ml-5" onClick="user_view('查看用户信息','${ctx}/system/user/edit?id=${user.id}')" href="javascript:;" title="查看">
 	                                     <i class="fa fa-search"></i>
                                     </a>
                                     <premission:tag alias="system-user-edit">
-                                    	<a style="text-decoration:none" class="ml-5" onClick="article_edit('编辑用户信息','${ctx}/system/user/edit/${user.id}','10001')" href="javascript:;" title="编辑">
+                                    	<a style="text-decoration:none" class="ml-5" onClick="user_edit('编辑用户信息','${ctx}/system/user/edit?id=${user.id}')" href="javascript:;" title="编辑">
 	                                        <i class="fa fa-edit"></i>
 	                                    </a>
                                     </premission:tag>
                                     <premission:tag alias="system-user-delete">
-	                                    <a style="text-decoration:none" class="ml-5" onClick="article_del(this,'10001')" href="javascript:;" title="删除">
+	                                    <a style="text-decoration:none" class="ml-5" onClick="user_del(this,'10001')" href="javascript:;" title="删除">
 	                                        <i class="Hui-iconfont">&#xe6e2;</i>
 	                                    </a>
                                     </premission:tag>
@@ -167,7 +165,7 @@
             layer_show(title,url,w,h);
         }
         /*资讯-编辑*/
-        function article_edit(title,url){
+        function user_edit(title,url){
             var index = layer.open({
                 type: 2,
                 title: title,
