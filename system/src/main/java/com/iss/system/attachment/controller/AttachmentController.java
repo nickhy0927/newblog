@@ -33,6 +33,7 @@ import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.FileTools;
 import com.orm.commons.utils.JsonMapper;
 import com.orm.commons.utils.MessageObject;
+import com.orm.commons.utils.MessageObject.ResponseCode;
 import com.orm.commons.utils.MyConfig;
 import com.orm.commons.utils.ObjectTools;
 
@@ -45,7 +46,7 @@ public class AttachmentController {
     @Autowired
     private AttachmentService attachmentService;
 
-    private MessageObject message = new MessageObject();
+    private MessageObject message = MessageObject.getDefaultMessageObjectInstance();
     private static String tempDir = "";
 
     @RequestMapping(value = "/attachment/create")
@@ -92,7 +93,7 @@ public class AttachmentController {
                     versionIds = versionIds.substring(0, versionIds.length() - 1);
                 }
                 message.setObject(versionIds);
-                message.setInforMessage("上传成功");
+                message.setResponseMessage("上传成功");
                 tempDir = request.getSession().getServletContext().getRealPath("/upload/temp");
                 HashMap<String, Object> hashMap = MyConfig.getConfig();
                 Object object = hashMap.get("upload");
@@ -105,17 +106,19 @@ public class AttachmentController {
                 }
                 FileTools.delFolder(tempDir);
             } else {
-                message.setErrorMessage("请先选择文件，再上传");
+            	message.setResponseCode(ResponseCode.FAILIAR);
+                message.setResponseMessage("请先选择文件，再上传");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            message.setErrorMessage("上传文件失败");
+            message.setResponseCode(ResponseCode.FAILIAR);
+            message.setResponseMessage("上传文件失败");
         } finally {
             try {
-                response.getWriter().write(message.getJsonMapper(message));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+				message.returnData(response, message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     }
 
@@ -141,19 +144,23 @@ public class AttachmentController {
                 Attachment attachment = attachmentService.get(id);
                 if (attachment != null){
                     message.setObject(attachment);
-                    message.setInforMessage("查询数据成功");
+                    message.setResponseCode(ResponseCode.SUCCESS);
+                    message.setResponseMessage("查询数据成功");
                 }else {
-                    message.setErrorMessage("没有查询到该附件");
+                	message.setResponseCode(ResponseCode.FAILIAR);
+                    message.setResponseMessage("没有查询到该附件");
                 }
             }else {
-                message.setErrorMessage("没有查询到该附件");
+            	message.setResponseCode(ResponseCode.FAILIAR);
+                message.setResponseMessage("没有查询到该附件");
             }
         } catch (ServiceException e) {
             e.printStackTrace();
-            message.setErrorMessage("没有查询到该附件");
+            message.setResponseCode(ResponseCode.FAILIAR);
+            message.setResponseMessage("没有查询到该附件");
         } finally {
             try {
-                response.getWriter().write(message.getJsonMapper(message));
+                message.returnData(response, message);
             } catch (IOException e) {
                 e.printStackTrace();
             }

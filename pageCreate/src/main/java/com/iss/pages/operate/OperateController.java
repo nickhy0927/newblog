@@ -24,7 +24,7 @@ public class OperateController {
 	@RequestMapping(value = "/execate.json", method = { RequestMethod.POST })
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> paramsToMap = WebUtils.getParamsToMap(request);
-		MessageObject messageObject = new MessageObject();
+		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();;
 		try {
 			Map<String, Object> maps = ReadXml.getInstance().getProperties(paramsToMap);
 			Map<String, String> map = (Map<String, String>) maps.get("content");
@@ -45,7 +45,7 @@ public class OperateController {
 		}
 
 		try {
-			response.getWriter().write(messageObject.getJsonMapper(messageObject));
+			messageObject.returnData(response, messageObject);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

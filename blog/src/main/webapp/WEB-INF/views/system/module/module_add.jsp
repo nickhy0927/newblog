@@ -1,17 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: yuanhuangd
-  Date: 2017/7/26
-  Time: 17:22
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="pgs" uri="http://www.commons.page" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="${pageContext.request.contextPath}" var="ctx"></c:set>
 <pgs:extends name="css">
-    <link rel="stylesheet" href="${ctx}/static/ztree/css/demo.css" type="text/css">
-    <link rel="stylesheet" href="${ctx}/static/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
     <style type="text/css">
         ul.ztree {
             margin-top: 0px;
@@ -118,20 +109,7 @@
             </div>
         </form>
     </article>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/layer/2.4/layer.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/h-ui/js/H-ui.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/h-ui.admin/js/H-ui.admin.js"></script>
-    <!--/_footer /作为公共模版分离出去-->
-
-    <!--请在下方写此页面业务相关的脚本-->
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
-    <script type="text/javascript" src="${ctx}/static/ztree/js/jquery.ztree.core.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/ztree/js/jquery.ztree.excheck.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/ztree/js/jquery.ztree.exedit.min.js"></script>
     <script type="text/javascript">
-
         function showTree() {
             $("#treeDemo").attr('style', "display:block;z-index:100;position：absolute");
         }

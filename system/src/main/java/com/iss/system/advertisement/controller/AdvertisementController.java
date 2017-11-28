@@ -1,5 +1,6 @@
 package com.iss.system.advertisement.controller;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,8 +75,7 @@ public class AdvertisementController {
 
 	@RequestMapping(value = "/system/advertisement/save", method = RequestMethod.POST)
 	public void save(HttpServletRequest request, HttpServletResponse response) {
-		MessageObject message = new MessageObject();
-		message.setResposecode(MessageObject.ResponseCode.code_200);
+		MessageObject message = MessageObject.getDefaultMessageObjectInstance();
 		try {
 			String[] titles = request.getParameterValues("title");
 			for (int i = 0; i < titles.length; i++) {
@@ -83,8 +83,7 @@ public class AdvertisementController {
 				Advertisement advertisement = new Advertisement();
 				advertisement.setTitle(title);
 				advertisement.setUrl(request.getParameter("url_" + (i + 1)));
-				advertisement.setSort(StringUtils.isNotEmpty(request.getParameter("url_" + (i + 1)))
-						? request.getParameter("sort_" + (i + 1)) : 0 + "");
+				advertisement.setSort(StringUtils.isNotEmpty(request.getParameter("url_" + (i + 1))) ? request.getParameter("sort_" + (i + 1)) : 0 + "");
 				String filePath = request.getParameter("myfiles_" + (i + 1));
 				User user = SingletonUser.getContextUser(request);
 				MessageObject messageObject = attachmentService.fileUpload(request, filePath,user.getId());
@@ -93,12 +92,18 @@ public class AdvertisementController {
 				advertisement.setUser(SingletonUser.getContextUser(request));
 				advertisementService.save(advertisement);
 			}
-			message.setInforMessage("添加广告成功");
+			message.setResponseCode(MessageObject.ResponseCode.SUCCESS);
+			message.setResponseMessage("添加广告成功");
 		} catch (ServiceException e) {
+			message.setResponseCode(MessageObject.ResponseCode.FAILIAR);
 			e.printStackTrace();
-			message.setErrorMessage("添加广告失败，请稍候再试");
+			message.setResponseMessage("添加广告失败，请稍候再试");
 		} finally {
-			message.getWriter(response, message);
+			try {
+				message.returnData(response, message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

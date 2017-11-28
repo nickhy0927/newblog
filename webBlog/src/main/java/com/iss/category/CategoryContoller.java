@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +28,7 @@ public class CategoryContoller {
     @RequestMapping(value = "/index.json")
     public void getIndexContent(HttpServletResponse response) {
         Map<String, Object> paramMap = new HashMap<>();
-        MessageObject messageObject = new MessageObject();
+        MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();;
         try {
             List<CategoryDto> cates = new ArrayList<>();
             paramMap.put("category.id_eq", "1");
@@ -37,14 +39,17 @@ public class CategoryContoller {
                 cates.add(new CategoryDto(category, list));
             }
             messageObject.setInforMessage("获取栏目信息成功");
-            messageObject.setResposecode(ResponseCode.code_200);
             Map<String, Object> resultMap = new HashMap<>();
             resultMap.put("categories", cates);
             messageObject.setObject(resultMap);
         } catch (ServiceException e) {
             e.printStackTrace();
         } finally {
-            messageObject.getWriter(response, messageObject);
+            try {
+				messageObject.returnData(response, messageObject);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     }
 }

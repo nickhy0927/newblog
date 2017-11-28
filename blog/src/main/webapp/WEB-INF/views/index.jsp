@@ -8,6 +8,19 @@
 <psg:extends name="title">
     后台管理系统
 </psg:extends>
+<psg:extends name="javascript">
+	<script type="text/javascript" src="${ctx}/static/lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+	<script type="text/javascript">
+		$(function () {
+			$("body").Huitab({
+				tabBar:".navbar-wrapper .navbar-levelone",
+				tabCon:".Hui-aside .menu_dropdown",
+				className:"current",
+				index:0
+			});
+		})
+	</script>
+</psg:extends>
 <psg:extends name="body">
     <header class="navbar-wrapper">
         <div class="navbar navbar-fixed-top">
@@ -76,7 +89,6 @@
                         </dd>
                     </dl>
                 </premission:tag>
-
             </c:forEach>
         </div>
     </aside>
@@ -107,13 +119,6 @@
             <li id="closeall">关闭全部 </li>
         </ul>
     </div>
-    <!--_footer 作为公共模版分离出去-->
-    <script type="text/javascript" src="${ctx}/static/admin/lib/layer/2.4/layer.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/h-ui/js/H-ui.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
-
-    <!--请在下方写此页面业务相关的脚本-->
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
     <script type="text/javascript">
         function logout() {
             window.location.href = '${ctx}/logout';

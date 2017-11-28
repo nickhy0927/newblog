@@ -124,7 +124,7 @@ public class UserRoleController {
 	@RequestMapping(value = "/system/user/role/save", method = RequestMethod.POST)
 	public void updateUser(HttpServletRequest request, HttpServletResponse response) {
 		String userId = request.getParameter("userId");
-		MessageObject message = new MessageObject();
+		MessageObject message = MessageObject.getDefaultMessageObjectInstance();
 		String ids = request.getParameter("ids");
 		try {
 			User user = userService.get(userId);
@@ -145,7 +145,11 @@ public class UserRoleController {
 			e.printStackTrace();
 			message.setInforMessage("角色权限赋值失败");
 		} finally {
-			message.getWriter(response, message);
+			try {
+				message.returnData(response, message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

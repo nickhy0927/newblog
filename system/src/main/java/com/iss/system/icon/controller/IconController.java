@@ -1,5 +1,6 @@
 package com.iss.system.icon.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import com.iss.system.icon.entity.Icon;
 import com.iss.system.icon.service.IconService;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.MessageObject;
+import com.orm.commons.utils.MessageObject.ResponseCode;
 import com.orm.commons.utils.ObjectIterable;
 import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.WebUtils;
@@ -66,23 +68,28 @@ public class IconController {
 
     @RequestMapping(value = "/system/icon/save", method = RequestMethod.POST)
     public void save(HttpServletResponse response, Icon icon) {
-        MessageObject message = new MessageObject();
-        message.setResposecode(MessageObject.ResponseCode.code_200);
+        MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
         try {
+        	messageObject.setResponseCode(MessageObject.ResponseCode.SUCCESS);
             iconService.save(icon);
-            message.setInforMessage("添加图标成功");
+            messageObject.setResponseMessage("添加图标成功");
         } catch (ServiceException e) {
             e.printStackTrace();
-            message.setErrorMessage("添加菜单图标，请稍候再试");
+            messageObject.setResponseCode(ResponseCode.SUCCESS);
+            messageObject.setResponseMessage("添加菜单图标失败，请稍候再试");
         } finally {
-            message.getWriter(response, message);
+            try {
+				messageObject.returnData(response, messageObject);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     }
     
     @RequestMapping(value = "/system/icon/delete", method = RequestMethod.POST)
     public void delete(HttpServletRequest request, HttpServletResponse response) {
         String ids = request.getParameter("id");
-        MessageObject messageObject = new MessageObject();
+        MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
         try {
             if (StringUtils.isNotEmpty(ids)) {
             	String[] strings = ids.split(",");
@@ -94,13 +101,19 @@ public class IconController {
 					icons.add(icon);
 				}
                 iconService.saveBatch(new ObjectIterable<Icon>(icons));
-                messageObject.setInforMessage("图标删除成功");
+                messageObject.setResponseCode(ResponseCode.SUCCESS);
+                messageObject.setResponseMessage("图标删除成功");
             }
         } catch (ServiceException e) {
             e.printStackTrace();
-            messageObject.setErrorMessage("图标删除失败");
+            messageObject.setResponseCode(ResponseCode.FAILIAR);
+            messageObject.setResponseMessage("图标删除失败");
         } finally {
-            messageObject.getWriter(response, messageObject);
+            try {
+				messageObject.returnData(response, messageObject);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     }
 }

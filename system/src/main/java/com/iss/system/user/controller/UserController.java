@@ -21,6 +21,7 @@ import com.iss.system.user.service.UserService;
 import com.orm.commons.encryption.MD5Encryption;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.MessageObject;
+import com.orm.commons.utils.MessageObject.ResponseCode;
 import com.orm.commons.utils.ObjectIterable;
 import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.WebUtils;
@@ -70,25 +71,34 @@ public class UserController {
 
 	@RequestMapping(value = "/system/user/save", method = RequestMethod.POST)
 	public void save(User user, HttpServletResponse response) {
-		MessageObject message = new MessageObject();
-		message.setResposecode(MessageObject.ResponseCode.code_200);
+		MessageObject message = MessageObject.getDefaultMessageObjectInstance();
 		try {
+			message.setResponseCode(MessageObject.ResponseCode.SUCCESS);
 			user.setPassword(MD5Encryption.MD5(user.getPassword()));
 			userService.save(user);
-			message.setInforMessage("添加用户成功");
+			message.setResponseMessage("添加用户成功");
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			message.setErrorMessage("添加用户异常，请稍候再试");
+			message.setResponseCode(MessageObject.ResponseCode.FAILIAR);
+			message.setResponseMessage("添加用户异常，请稍候再试");
 		} finally {
-			message.getWriter(response, message);
+			try {
+				message.returnData(response, message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	@RequestMapping(value = "/user/query.json", method = { RequestMethod.POST, RequestMethod.GET })
 	public void query(HttpServletResponse response) {
-		MessageObject messageObject = new MessageObject();
-		messageObject.setInforMessage("查询成功");
-		messageObject.getWriter(response, messageObject);
+		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
+		messageObject.setResponseMessage("查询成功");
+		try {
+			messageObject.returnData(response, messageObject);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@RequestMapping(value = "/system/user/checkLoginName.json", method = { RequestMethod.POST, RequestMethod.GET })
@@ -108,7 +118,7 @@ public class UserController {
 	@RequestMapping(value = "/system/user/delete", method = RequestMethod.POST)
 	public void delete(HttpServletRequest request, HttpServletResponse response) {
 		String id = request.getParameter("id");
-		MessageObject messageObject = new MessageObject();
+		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
 		try {
 			if (StringUtils.isNotEmpty(id)) {
 				String[] ids = id.split(",");
@@ -120,13 +130,19 @@ public class UserController {
 					users.add(user);
 				}
 				userService.saveBatch(new ObjectIterable<User>(users));
-				messageObject.setInforMessage("删除用户成功");
+				messageObject.setResponseCode(ResponseCode.SUCCESS);
+				messageObject.setResponseMessage("删除用户成功");
 			}
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			messageObject.setErrorMessage("删除用户失败");
+			messageObject.setResponseCode(ResponseCode.FAILIAR);
+			messageObject.setResponseMessage("删除用户失败");
 		} finally {
-			messageObject.getWriter(response, messageObject);
+			try {
+				messageObject.returnData(response, messageObject);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

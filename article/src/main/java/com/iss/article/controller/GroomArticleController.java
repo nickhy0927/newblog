@@ -1,5 +1,6 @@
 package com.iss.article.controller;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +48,7 @@ public class GroomArticleController {
 	public void approval(HttpServletRequest request, HttpServletResponse response) {
 		String id = request.getParameter("id");
 		String groom = request.getParameter("groom");
-		MessageObject message = new MessageObject();
+		MessageObject message = MessageObject.getDefaultMessageObjectInstance();;
 		try {
 			Article article = articleService.get(id);
 			article.setGroom(Integer.valueOf(groom));
@@ -57,7 +58,11 @@ public class GroomArticleController {
 			e.printStackTrace();
 			message.setInforMessage("推荐失败");
 		} finally {
-			message.getWriter(response, message);
+			try {
+				message.returnData(response, message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

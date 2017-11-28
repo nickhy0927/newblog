@@ -3,8 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set value="${pageContext.request.contextPath}" var="ctx"></c:set>
-<link rel="stylesheet" href="${ctx}/static/bootstrap/css/bootstrap.css">
 <pgs:extends name="css">
+	<link rel="stylesheet" href="${ctx}/static/bootstrap/css/bootstrap.css">
     <style type="text/css">
         .page-container {
         }
@@ -189,13 +189,5 @@
             </div>
         </form>
     </article>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/layer/2.4/layer.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/h-ui/js/H-ui.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/h-ui.admin/js/H-ui.admin.js"></script>
-    <!--/_footer /作为公共模版分离出去-->
-    <!--请在下方写此页面业务相关的脚本-->
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 </pgs:extends>
 <jsp:include page="/parent_page/parent.jsp"/>

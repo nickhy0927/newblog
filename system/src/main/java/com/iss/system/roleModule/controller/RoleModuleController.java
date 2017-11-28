@@ -1,5 +1,6 @@
 package com.iss.system.roleModule.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,6 +24,7 @@ import com.iss.system.role.service.RoleService;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.JsonMapper;
 import com.orm.commons.utils.MessageObject;
+import com.orm.commons.utils.MessageObject.ResponseCode;
 
 /**
  * Created by yuanhuangd on 2017/8/2.
@@ -67,7 +69,7 @@ public class RoleModuleController {
 	@RequestMapping(value = "/system/role/module/save", method = { RequestMethod.POST })
 	public void save(HttpServletRequest request, HttpServletResponse response) {
 		String roleId = request.getParameter("roleId");
-		MessageObject message = new MessageObject();
+		MessageObject message = MessageObject.getDefaultMessageObjectInstance();
 		try {
 			Role role = roleService.get(roleId);
 			String ids = request.getParameter("ids");
@@ -76,12 +78,17 @@ public class RoleModuleController {
 				role.setModules(modules);
 			}
 			roleService.save(role);
+			message.setResponseCode(ResponseCode.SUCCESS);
 			message.setInforMessage("角色权限赋值成功");
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			message.setInforMessage("角色权限赋值失败");
+			message.setErrorMessage("角色权限赋值失败");
 		} finally {
-			message.getWriter(response, message);
+			try {
+				message.returnData(response, message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

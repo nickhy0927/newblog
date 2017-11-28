@@ -11,66 +11,52 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <title>
-        <pgs:block name="title"></pgs:block>
-    </title>
-    <link rel="Bookmark" href="${ctx}/static/favicon.ico">
-    <link rel="Shortcut Icon" href="${ctx}/static/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/admin/h-ui/css/H-ui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/admin/h-ui.admin/css/H-ui.admin.css"/>
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/admin/lib/Hui-iconfont/1.0.8/iconfont.css"/>
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/admin/h-ui.admin/skin/default/skin.css" id="skin"/>
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/admin/h-ui.admin/css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/lib/style.css"/>
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/font-awesome/css/font-awesome.min.css"/>
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/jquery-ui/jquery-ui.css"/>
-
-    <pgs:block name="css"></pgs:block>
-    <!--[if lt IE 9]>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/html5shiv.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/respond.min.js"></script>
-    <![endif]-->
-    <!--[if IE 6]>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/DD_belatedPNG_0.0.8a-min.js"></script>
-    <script>DD_belatedPNG.fix('*');</script>
-    <![endif]-->
-    <![endif]-->
-    <!--/meta 作为公共模版分离出去-->
-    <script type="text/javascript">
+		<pgs:block name="title"></pgs:block>
+	</title>
+	
+	<link rel="favicon.ico" href="${ctx}/static/images/favicon.ico"  type="image/x-icon"/>
+	<link rel="icon" href="${ctx}/static/favicon.ico"  type="image/x-icon"/>
+	<link rel="shortcut icon" href="${ctx}/static/images/favicon.ico"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/static/css/H-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="${ctx}/static/css/H-ui.admin.css" />
+	<link rel="stylesheet" type="text/css" href="${ctx}/static/lib/Hui-iconfont/1.0.8/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="${ctx}/static/skin/green/skin.css" />
+	<link rel="stylesheet" type="text/css" href="${ctx}/static/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css"> <!-- zTree插件 -->
+	<link rel="stylesheet" type="text/css" href="${ctx}/static/css/pagination.css" media="screen"/> <!-- 分页样式 -->
+	<link rel="stylesheet" type="text/css" href="${ctx}/static/css/style.css" /> <!-- 自定义样式 -->
+	<pgs:block name="css"></pgs:block>
+	<style type="text/css">
+		.ui-widget-overlay {
+		    opacity: .5;
+		    background: #eee;
+		    filter: Alpha(Opacity=80);
+		}
+	</style>
+	<script type="text/javascript">
     	var ctx = '${ctx}'
     </script>
-    <script type="text/javascript" src="${ctx}/static/jquery-ui/external/jquery/jquery.js"></script>
-    <script type="text/javascript" src="${ctx}/static/jquery-ui/jquery-ui.js"></script>
-    <script type="text/javascript" src="${ctx}/static/jquery-ui/iss-util.js"></script>
-    <style type="text/css">
-        #submitDialog img {
-            opacity: 0.5;
-            filter: "alpha(opacity=50)";
-            -ms-filter: "alpha(opacity=50)"; /* 旧版IE */
-        }
-
-        #submitDialog img, #submitDialog span {
-            float: left;
-            line-height: 30px;
-        }
-
-        #submitDialog span {
-            padding-left: 10px;
-        }
-        
-        .ui-dialog .ui-dialog-buttonpane button {
-        	margin: 0em 0em 0em 1em;
-        }
-        
-        .ui-dialog .ui-dialog-buttonpane {
-		    padding: .3em 0em 0.3em .4em;
-		}
-    </style>
-    <script type="text/javascript">
-        
-    </script>
-    <pgs:block name="javascript"></pgs:block>
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="${ctx}/static/lib/html5shiv.js"></script>
+	<script type="text/javascript" src="${ctx}/static/lib/respond.min.js"></script>
+	<![endif]-->
+	<!--[if IE 6]>
+	<script type="text/javascript" src="${ctx}/static/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+	<script>DD_belatedPNG.fix('*');</script>
+	<![endif]-->
+	<script type="text/javascript" src="${ctx}/static/lib/jquery/1.9.1/jquery.min.js"></script> 
+	<script type="text/javascript" src="${ctx}/static/lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript" src="${ctx}/static/js/H-ui.min.js"></script>
+	<script type="text/javascript" src="${ctx}/static/js/H-ui.admin.js"></script>
+	<script type="text/javascript" src="${ctx}/static/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script> <!-- zTree插件 -->
+	<script type="text/javascript" src="${ctx}/static/js/jquery.core.ajaxtable.js"></script> <!-- table插件 -->
+	<script type="text/javascript" src="${ctx}/static/js/jquery.pagination.js"></script> <!-- 翻页插件 -->
+	<script type="text/javascript" src="${ctx}/static/lib/jquery-ui/iss-util.js"></script> <!-- 信息提示框 -->
+	<script type="text/javascript" src="${ctx}/static/lib/jquery.validation/1.14.0/jquery.validate.js"></script> <!-- 表单验证插件 -->
+	<script type="text/javascript" src="${ctx}/static/lib/jquery.validation/1.14.0/validate-methods.js"></script> <!-- 表单验证插件 -->
+	<script type="text/javascript" src="${ctx}/static/lib/jquery.validation/1.14.0/messages_zh.js"></script> <!-- 表单验证插件 -->
+	<pgs:block name="javascript"></pgs:block>
 </head>
 <body>
-<pgs:block name="body"></pgs:block>
+	<pgs:block name="body"></pgs:block>
 </body>
 </html>

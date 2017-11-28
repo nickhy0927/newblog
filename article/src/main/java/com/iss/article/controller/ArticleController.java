@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,19 +59,22 @@ public class ArticleController {
 
     @RequestMapping(value = "/content/article/save", method = RequestMethod.POST)
     public void save(HttpServletRequest request, HttpServletResponse response, Article article) {
-        MessageObject message = new MessageObject();
+        MessageObject message = MessageObject.getDefaultMessageObjectInstance();;
         try {
             String pid = request.getParameter("pId");
             Category parent = categoryService.get(pid);
             article.setCategory(parent);
             articleService.save(article);
-            message.setResposecode(MessageObject.ResponseCode.code_200);
             message.setInforMessage("添加文章成功");
         } catch (ServiceException e) {
             e.printStackTrace();
             message.setErrorMessage("添加文章异常，请稍候再试");
         } finally {
-            message.getWriter(response, message);
+            try {
+				message.returnData(response, message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     }
 
@@ -111,7 +116,7 @@ public class ArticleController {
     @RequestMapping(value = "/content/article/delete", method = RequestMethod.POST)
     public void delete(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
-        MessageObject messageObject = new MessageObject();
+        MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();;
         try {
             if (StringUtils.isNotEmpty(id)) {
                 Category category = categoryService.get(id);
@@ -123,7 +128,11 @@ public class ArticleController {
             e.printStackTrace();
             messageObject.setErrorMessage("分类删除失败");
         } finally {
-            messageObject.getWriter(response, messageObject);
+            try {
+				messageObject.returnData(response, messageObject);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     }
 
@@ -148,7 +157,7 @@ public class ArticleController {
     public void approval(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
         String approvalStatus = request.getParameter("approvalStatus");
-        MessageObject message = new MessageObject();
+        MessageObject message = MessageObject.getDefaultMessageObjectInstance();
         try {
             Article article = articleService.get(id);
             article.setApprovalStatus(Integer.valueOf(approvalStatus));
@@ -161,7 +170,11 @@ public class ArticleController {
             e.printStackTrace();
             message.setInforMessage("审核失败");
         } finally {
-            message.getWriter(response, message);
+            try {
+				message.returnData(response, message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     }
 }

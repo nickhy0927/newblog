@@ -16,8 +16,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencies>
-
+        <dependency>
+            <groupId>com.iss.utils</groupId>
+            <artifactId>iss-utils</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>

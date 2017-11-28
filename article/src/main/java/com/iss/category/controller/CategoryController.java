@@ -1,5 +1,6 @@
 package com.iss.category.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,19 +53,22 @@ public class CategoryController {
 
     @RequestMapping(value = "/content/category/save", method = RequestMethod.POST)
     public void save(HttpServletRequest request, HttpServletResponse response, Category category) {
-        MessageObject message = new MessageObject();
+        MessageObject message = MessageObject.getDefaultMessageObjectInstance();;
         try {
             String pid = request.getParameter("pId");
             Category parent = categoryService.get(pid);
             category.setCategory(parent);
             categoryService.save(category);
-            message.setResposecode(MessageObject.ResponseCode.code_200);
             message.setInforMessage("添加分类成功");
         } catch (ServiceException e) {
             e.printStackTrace();
             message.setErrorMessage("添加分类异常，请稍候再试");
         } finally {
-            message.getWriter(response, message);
+            try {
+				message.returnData(response, message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     }
 
@@ -106,7 +110,7 @@ public class CategoryController {
     @RequestMapping(value = "/content/category/delete", method = RequestMethod.POST)
     public void delete(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
-        MessageObject messageObject = new MessageObject();
+        MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();;
         try {
             if (StringUtils.isNotEmpty(id)) {
                 Category category = categoryService.get(id);
@@ -118,7 +122,11 @@ public class CategoryController {
             e.printStackTrace();
             messageObject.setErrorMessage("分类删除失败");
         } finally {
-            messageObject.getWriter(response, messageObject);
+            try {
+				messageObject.returnData(response, messageObject);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     }
 

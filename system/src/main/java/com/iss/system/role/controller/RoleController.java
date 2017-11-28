@@ -1,5 +1,6 @@
 package com.iss.system.role.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import com.iss.system.userRole.tree.TreeObj;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.JsonMapper;
 import com.orm.commons.utils.MessageObject;
+import com.orm.commons.utils.MessageObject.ResponseCode;
 import com.orm.commons.utils.ObjectIterable;
 import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.WebUtils;
@@ -72,18 +74,24 @@ public class RoleController {
 
 	@RequestMapping(value = "/system/role/save", method = RequestMethod.POST)
 	public void save(Role role, HttpServletResponse response, HttpServletRequest request) {
-		MessageObject message = new MessageObject();
+		MessageObject message = MessageObject.getDefaultMessageObjectInstance();
 		try {
 			String pid = request.getParameter("pId");
 			Role r = roleService.get(pid);
 			role.setRole(r);
 			roleService.save(role);
-			message.setInforMessage("添加角色成功");
+			message.setResponseCode(ResponseCode.SUCCESS);
+			message.setResponseMessage("添加角色成功");
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			message.setErrorMessage("添加角色失败");
+			message.setResponseCode(ResponseCode.FAILIAR);
+			message.setResponseMessage("添加角色失败");
 		} finally {
-			message.getWriter(response, message);
+			try {
+				message.returnData(response, message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -112,7 +120,7 @@ public class RoleController {
 	@RequestMapping(value = "/system/role/delete", method = RequestMethod.POST)
 	public void delete(HttpServletRequest request, HttpServletResponse response) {
 		String ids = request.getParameter("id");
-		MessageObject messageObject = new MessageObject();
+		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
 		try {
 			if (StringUtils.isNotEmpty(ids)) {
 				String[] strings = ids.split(",");
@@ -123,13 +131,19 @@ public class RoleController {
 					roles.add(role);
 				}
 				roleService.saveBatch(new ObjectIterable<Role>(roles));
-				messageObject.setInforMessage("角色删除成功");
+				messageObject.setResponseCode(ResponseCode.SUCCESS);
+				messageObject.setResponseMessage("角色删除成功");
 			}
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			messageObject.setErrorMessage("角色删除失败");
+			messageObject.setResponseCode(ResponseCode.SUCCESS);
+			messageObject.setResponseMessage("角色删除失败");
 		} finally {
-			messageObject.getWriter(response, messageObject);
+			try {
+				messageObject.returnData(response, messageObject);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

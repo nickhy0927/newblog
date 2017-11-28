@@ -39,7 +39,7 @@ public class MobileAttachmentController {
     @Autowired
     private AttachmentService attachmentService;
 
-    private MessageObject message = new MessageObject();
+    private MessageObject message = MessageObject.getDefaultMessageObjectInstance();
     private static String tempDir = "";
 
 
@@ -101,7 +101,7 @@ public class MobileAttachmentController {
             message.setErrorMessage("上传文件失败");
         } finally {
             try {
-                response.getWriter().write(message.getJsonMapper(message));
+                message.returnData(response, message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
