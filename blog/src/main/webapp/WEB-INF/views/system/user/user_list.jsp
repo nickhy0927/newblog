@@ -32,7 +32,7 @@
 		    	<premission:tag alias="system-user-add">
                    	<a class="btn btn-primary radius" data-title="添加菜单" onclick="user_add('添加用户','${ctx}/system/user/add',600,550)" href="javascript:;">
                         <i class="Hui-iconfont">&#xe600;</i>
-                                                       添加用户
+                        添加用户
                     </a>
                   </premission:tag>
 		    </span>
