@@ -45,49 +45,14 @@
             </div>
         </form>
     </article>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/layer/2.4/layer.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/h-ui/js/H-ui.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/h-ui.admin/js/H-ui.admin.js"></script>
-    <!--/_footer /作为公共模版分离出去-->
-
-    <!--请在下方写此页面业务相关的脚本-->
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
     <script type="text/javascript">
         $(function () {
             //表单验证
             $("#form-article-add").validate({
                 rules: {
-                    realName: {required: true,},
-                    loginName: {
-                        required: true, rangelength: [6, 20],
-                        remote: {
-                            type: "POST",
-                            url: "${ctx}/system/user/checkLoginName.json",
-                            data: {
-                                loginName: function () {
-                                    return $("#loginName").val();
-                                }
-                            }
-                        }
-                    },
-                    password: {required: true, minlength: 6},
-                    repassword: {
-                        required: true, minlength: 6, equalTo: "#password"
-                    },
+                	realName: {required: true,},
                     idCard: {required: true,},
                     phoneNumber: {required: true, maxlength: 13, number: true}
-                },
-                messages: {
-                    loginName: {
-                        required: "用户名不能为空！",
-                        rangelength: "用户名位数必须在6~20字符之间！",
-                        remote: "用户名已经被注册"
-                    },
-                    password: {required: "密码不能为空！", minlength: "密码位数必须大于等于6个字符！"},
-                    repassword: {required: "确认密码不能为空！", equalTo: "确认密码和密码不一致！"},
-                    veryCode: {required: "请输入验证码", remote: "验证码错误"}
                 },
                 onkeyup: false,
                 focusCleanup: true,

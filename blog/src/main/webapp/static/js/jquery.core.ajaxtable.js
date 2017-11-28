@@ -36,10 +36,8 @@
             });
         }
         $.openLoading('正在加载数据，请稍等...');
-        setTimeout(function () {
-            _query_data_ajxa(settings);
-            _select_checkbox_all();
-        } , 1000);
+        _query_data_ajxa(settings);
+        _select_checkbox_all();
 
     }
 })(jQuery);
@@ -101,6 +99,19 @@ var _query_data_ajxa = function (settings) {
     });
 };
 
+var _each_value = function(key, json) {
+	var ks = key.split(".");
+	if (ks.length > 1) {
+		var k = ks[0];
+		var jsonStr = json[k];
+		if (json instanceof Object) {
+			var v = _each_value(ks[1], jsonStr);
+			return v;
+		}
+	} else 
+		return json ? json[key] : "";
+}
+
 // 创建表格
 var _create_grid_table = function (data , settings) {
 	var tableId = settings.tableId.substring(1);
@@ -120,7 +131,7 @@ var _create_grid_table = function (data , settings) {
         var tdObj = "";
         for ( var i = 0 ; i < array.length ; i++ ) {
             var key = array[ i ].field;
-            var value = jsonStr[ key ];
+            var value = _each_value(key, jsonStr);
             if ( array[ i ].paramFormatter ) {
                 value = array[ i ].paramFormatter;
                 var fn = eval(value);
@@ -169,7 +180,7 @@ var _create_grid_table = function (data , settings) {
         trStr += "<tr class=\"borpage-none\"><td class=\"bor-none tdpage-pos text-r\" style=\"\" colspan=\"" + (array.length + 1) + "\">没有符合条件的数据</div></td></tr>"
     var tableId = settings.tableId.substring(1);
     var _tb_id = tableId + "-data-body";
-    /*$("#" + _tb_id).empty();*/
+    $("#" + _tb_id).empty();
     $("#" + _tb_id).html(trStr);
     $.closeLoading();
     $('#' + pagerId).pagination({

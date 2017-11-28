@@ -107,16 +107,14 @@ public class AttachmentServiceImpl extends DefaultAbstractService<Attachment, St
 				message.setObject(save(attachment));
 				message.setResponseCode(ResponseCode.SUCCESS);
 				message.setResponseCode(ResponseCode.SUCCESS);
-				message.setResponseMessage("上传成功");
+				message.setInforMessage("上传成功");
 				FileTools.delAllFile(filePath);
 			} else {
-				message.setResponseCode(ResponseCode.FAILIAR);
-				message.setResponseMessage("请先选择文件，再上传");
+				message.setErrorMessage("请先选择文件，再上传");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			message.setResponseCode(ResponseCode.FAILIAR);
-			message.setResponseMessage("上传文件失败");
+			message.setErrorMessage("上传文件失败");
 		}
 		return message;
 	}

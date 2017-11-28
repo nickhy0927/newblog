@@ -81,11 +81,11 @@ public class RoleController {
 			role.setRole(r);
 			roleService.save(role);
 			message.setResponseCode(ResponseCode.SUCCESS);
-			message.setResponseMessage("添加角色成功");
+			message.setInforMessage("添加角色成功");
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			message.setResponseCode(ResponseCode.FAILIAR);
-			message.setResponseMessage("添加角色失败");
+			message.setErrorMessage("添加角色失败");
 		} finally {
 			try {
 				message.returnData(response, message);
@@ -131,13 +131,11 @@ public class RoleController {
 					roles.add(role);
 				}
 				roleService.saveBatch(new ObjectIterable<Role>(roles));
-				messageObject.setResponseCode(ResponseCode.SUCCESS);
-				messageObject.setResponseMessage("角色删除成功");
+				messageObject.setInforMessage("角色删除成功");
 			}
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			messageObject.setResponseCode(ResponseCode.SUCCESS);
-			messageObject.setResponseMessage("角色删除失败");
+			messageObject.setErrorMessage("角色删除失败");
 		} finally {
 			try {
 				messageObject.returnData(response, messageObject);

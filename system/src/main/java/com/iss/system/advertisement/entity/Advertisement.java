@@ -31,7 +31,7 @@ public class Advertisement extends IdEntity {
 		this.shows = shows;
 	}
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "attach_id")
     public Attachment getAttachment() {
         return attachment;
@@ -41,7 +41,7 @@ public class Advertisement extends IdEntity {
         this.attachment = attachment;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     public User getUser() {
         return user;

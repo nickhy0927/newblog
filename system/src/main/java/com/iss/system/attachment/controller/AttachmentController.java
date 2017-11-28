@@ -93,7 +93,7 @@ public class AttachmentController {
                     versionIds = versionIds.substring(0, versionIds.length() - 1);
                 }
                 message.setObject(versionIds);
-                message.setResponseMessage("上传成功");
+                message.setInforMessage("上传成功");
                 tempDir = request.getSession().getServletContext().getRealPath("/upload/temp");
                 HashMap<String, Object> hashMap = MyConfig.getConfig();
                 Object object = hashMap.get("upload");
@@ -107,12 +107,12 @@ public class AttachmentController {
                 FileTools.delFolder(tempDir);
             } else {
             	message.setResponseCode(ResponseCode.FAILIAR);
-                message.setResponseMessage("请先选择文件，再上传");
+                message.setErrorMessage("请先选择文件，再上传");
             }
         } catch (Exception e) {
             e.printStackTrace();
             message.setResponseCode(ResponseCode.FAILIAR);
-            message.setResponseMessage("上传文件失败");
+            message.setErrorMessage("上传文件失败");
         } finally {
             try {
 				message.returnData(response, message);
@@ -144,20 +144,19 @@ public class AttachmentController {
                 Attachment attachment = attachmentService.get(id);
                 if (attachment != null){
                     message.setObject(attachment);
-                    message.setResponseCode(ResponseCode.SUCCESS);
-                    message.setResponseMessage("查询数据成功");
+                    message.setInforMessage("查询数据成功");
                 }else {
                 	message.setResponseCode(ResponseCode.FAILIAR);
-                    message.setResponseMessage("没有查询到该附件");
+                    message.setErrorMessage("没有查询到该附件");
                 }
             }else {
             	message.setResponseCode(ResponseCode.FAILIAR);
-                message.setResponseMessage("没有查询到该附件");
+                message.setErrorMessage("没有查询到该附件");
             }
         } catch (ServiceException e) {
             e.printStackTrace();
             message.setResponseCode(ResponseCode.FAILIAR);
-            message.setResponseMessage("没有查询到该附件");
+            message.setErrorMessage("没有查询到该附件");
         } finally {
             try {
                 message.returnData(response, message);

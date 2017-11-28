@@ -66,7 +66,7 @@ public class Module extends IdEntity {
         this.url = url;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "pid")
     public Module getModule() {
         return module;
@@ -76,7 +76,7 @@ public class Module extends IdEntity {
         this.module = module;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "icon_id")
     public Icon getIcon() {
         return icon;

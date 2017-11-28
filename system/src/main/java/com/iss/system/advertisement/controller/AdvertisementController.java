@@ -92,12 +92,11 @@ public class AdvertisementController {
 				advertisement.setUser(SingletonUser.getContextUser(request));
 				advertisementService.save(advertisement);
 			}
-			message.setResponseCode(MessageObject.ResponseCode.SUCCESS);
-			message.setResponseMessage("添加广告成功");
+			message.setInforMessage("添加广告成功");
 		} catch (ServiceException e) {
 			message.setResponseCode(MessageObject.ResponseCode.FAILIAR);
 			e.printStackTrace();
-			message.setResponseMessage("添加广告失败，请稍候再试");
+			message.setErrorMessage("添加广告失败，请稍候再试");
 		} finally {
 			try {
 				message.returnData(response, message);

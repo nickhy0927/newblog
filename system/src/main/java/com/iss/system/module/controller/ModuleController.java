@@ -30,7 +30,6 @@ import com.orm.commons.utils.MessageObject;
 import com.orm.commons.utils.MessageObject.ResponseCode;
 import com.orm.commons.utils.MessageObject.ResponseMessage;
 import com.orm.commons.utils.ObjectIterable;
-import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.WebUtils;
 
 /**
@@ -45,41 +44,31 @@ public class ModuleController {
 	@Autowired
 	private IconService iconService;
 
-	@RequestMapping(value = "/system/module/menuList", method = { RequestMethod.GET })
-	public String menuList() {
-		return "system/module/module-list";
-	}
-	@RequestMapping(value = "/system/module/menuList", method = { RequestMethod.GET })
-	public void menuList(HttpServletResponse response,HttpServletRequest request,PageSupport support) {
-		Map<String, Object> objectMap = WebUtils.getParamsToMap(request);
+	@RequestMapping(value = "/system/module/moduleList.json", method = { RequestMethod.POST })
+	public void moduleList(HttpServletResponse response,HttpServletRequest request,PageSupport support) {
+		Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
 		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
+		objectMap.put("disabled_eq",Boolean.FALSE);
+        objectMap.put("id_ne", String.valueOf(1));
 		try {
 			PagerInfo<Module> pagerInfo = moduleService.queryPagerInfoByMap(objectMap , support, new Sort(Sort.Direction.DESC, "createTime"));
-			messageObject.setResponseCode(ResponseCode.SUCCESS);
-			messageObject.setResponseMessage(ResponseMessage.LIST_SUCCESS_MESSAGE);
 			messageObject.setObject(pagerInfo);
+			messageObject.setInforMessage(ResponseMessage.LIST_SUCCESS_MESSAGE);
 		} catch (ServiceException e) {
 			e.printStackTrace();
+			messageObject.setErrorMessage(ResponseMessage.LIST_FAILIAR_MESSAGE);
+		} finally {
+			try {
+				messageObject.returnData(response, messageObject);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	@RequestMapping(value = "/system/module/list", method = { RequestMethod.GET, RequestMethod.POST })
-	public String list(HttpServletRequest request, Map<String, Object> paramMap) {
-		Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
-		String currentPage = request.getParameter("currentPage");
-		try {
-			objectMap.put("disabled_eq", Boolean.FALSE);
-			objectMap.put("id_ne", String.valueOf(1));
-			ObjectTools<Module> tools = moduleService.queryPageByMap(objectMap, currentPage,
-					new Sort(Sort.Direction.DESC, "createTime"));
-			request.setAttribute("tools", tools);
-			request.setAttribute("currentPage", currentPage);
-			request.setAttribute("objectMap", objectMap);
-
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
-		return "system/module/module_list";
+	public String moduleList(HttpServletRequest request, Map<String, Object> paramMap) {
+		return "system/module/module-list";
 	}
 
 	@RequestMapping(value = "/system/module/add")
@@ -150,10 +139,10 @@ public class ModuleController {
 			String iconId = request.getParameter("iconId");
 			module.setIcon(iconService.get(iconId));
 			moduleService.save(module);
-			message.setResponseMessage(ResponseMessage.SAVE_SUCCESS_MESSAGE);
+			message.setInforMessage(ResponseMessage.SAVE_SUCCESS_MESSAGE);
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			message.setResponseMessage(ResponseMessage.SAVE_FAILIAR_MESSAGE);
+			message.setErrorMessage(ResponseMessage.SAVE_FAILIAR_MESSAGE);
 		} finally {
 			try {
 				message.returnData(response, message);
@@ -178,12 +167,12 @@ public class ModuleController {
 					modules.add(module);
 				}
 				moduleService.saveBatch(new ObjectIterable<Module>(modules));
-				messageObject.setResponseMessage("角色菜单成功");
+				messageObject.setInforMessage("角色菜单成功");
 			}
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			messageObject.setResponseCode(ResponseCode.FAILIAR);
-			messageObject.setResponseMessage("角色菜单失败");
+			messageObject.setErrorMessage("角色菜单失败");
 		} finally {
 			try {
 				messageObject.returnData(response, messageObject);

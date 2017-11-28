@@ -8,11 +8,37 @@
 <c:set value="${pageContext.request.contextPath}" var="ctx"></c:set>
 <pgs:extends name="javascript">
 	<script type="text/javascript">
-	
+		$(function () {
+			$("#dataGridTable").dataGrid({
+				url : ctx + '/system/module/moduleList.json',
+				title:'菜单列表',
+				checkbox : true,
+				pageSize: 7,
+		        searchButtonId: '#searchButton',
+				queryParamsId:['#name_li',"#alias_li","#url_li"],
+				tableId: '#dataGridTable',
+				columns:[
+		            { field : 'id', className:'text-c'},
+					{ field : 'name',className:'text-l',description : '菜单名称'},
+					{ field : 'url',className:'text-l',description : '菜单地址'},
+					{ field : 'alias',className:'text-l',description : '菜单别名'},
+					{ field : 'module.name',className:'text-l',description : '上级菜单'},
+					{ field : 'icon.className',className:'text-c',description : '菜单图标'},
+					{ field : 'operate',className:'text-c',description : '操作', paramFormatter : function(row) {
+						return "<a href=\"#\" title=\"修改\" onclick=\"data_edit('" + row.id + "')\">"
+									+ "<i class=\"Hui-iconfont\">&#xe60c;</i>"
+							 + "</a>&nbsp;&nbsp;"
+							 + "<a href=\"#\" title=\"删除\" onclick=\"datadel('" + row.id + "',true)\">"
+									+ "<i class=\"Hui-iconfont\">&#xe609;</i>"
+							 + "</a>";
+					}}
+				]
+			})
+		})
 	</script>
 </pgs:extends>
 <pgs:extends name="body">
-    <form action="${ctx}/system/module/list" method="post" id="queryForm" name="queryForm">
+    <form method="post" id="queryForm" name="queryForm">
     	<div class="pd-20">
 		  	<div class="text-l cl">
 				<ul class="sel-list">
@@ -23,8 +49,8 @@
 						菜单地址：<input type="text" class="input-text" value="${objectMap.url_li}" name="url_li" id="url_li" placeholder="菜单地址" style="width:auto;" placeholder="输入菜单地址">
 					</li>
 					<li>
-						菜单别名：<input type="text" class="input-text" value="${objectMap.alias_li}" name="alias_li" id="url_li" placeholder="菜单地址" style="width:auto;" placeholder="输入菜单别名">
-						<button type="submit" class="btn btn-success radius" id="searchButton" name="searchButton"><i class="Hui-iconfont">&#xe665;</i> 搜菜单</button>
+						菜单别名：<input type="text" class="input-text" value="${objectMap.alias_li}" name="alias_li" id="alias_li" placeholder="菜单地址" style="width:auto;" placeholder="输入菜单别名">
+						<button type="button" class="btn btn-success radius" id="searchButton" name="searchButton"><i class="Hui-iconfont">&#xe665;</i> 搜菜单</button>
 					</li>
 				</ul>
 			</div>
@@ -42,66 +68,7 @@
 		  	</div>
 		  	<div class="mt-20">
 	  			<div class="mt-20">
-	                <table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
-	                    <thead>
-		                    <tr class="text-l">
-		                        <th width="15"><input type="checkbox" name="chks" value=""></th>
-		                        <th>菜单名称</th>
-		                        <th>菜单地址</th>
-		                        <th>菜单别名</th>
-		                        <th class="text-c">图标</th>
-		                        <th width="160">上级菜单</th>
-		                        <th>菜单描述</th>
-		                        <th class="text-c">是否显示</th>
-		                        <th style="width: 70px;" class="text-c">操作</th>
-		                    </tr>
-	                    </thead>
-	                    <tbody>
-		                    <c:forEach items="${tools.entities}" var="menu">
-		                        <tr class="text-l">
-		                            <td><input type="checkbox" data-id="${menu.id}" value="" name="chk"></td>
-		                            <td class="text-l">
-		                                ${menu.name}
-		                            </td>
-		                            <td>${menu.url}</td>
-		                            <td>${menu.alias}</td>
-		                            <td class="text-c">${menu.icon.className}</td>
-		                            <td>
-		                                ${menu.module.name}
-		                            </td>
-		                            <td>${menu.descs}</td>
-		                            <td class="text-c">
-		                                <c:if test="${menu.shows == 1}">显示</c:if>
-		                                <c:if test="${menu.shows != 1}">不显示</c:if>
-		                            </td>
-		                            <td class="f-14 td-manage text-c">
-		                            	<premission:tag alias="system-module-view">
-			                                <a style="text-decoration:none" class="ml-5" onclick="module_view('${menu.id}')"
-			                                   href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i>
-			                                </a>
-		                                </premission:tag>
-		                            	<premission:tag alias="system-module-edit">
-			                                <a style="text-decoration:none" class="ml-5" onclick="module_edit('${menu.id}')"
-			                                   href="javascript:;" title="查看"><i class="Hui-iconfont">&#xe725;</i>
-			                                </a>
-		                                </premission:tag>
-		                                <premission:tag alias="system-module-delete">
-			                                <a style="text-decoration:none" class="ml-5" onClick="data_del(this,'${menu.id}')"
-			                                   href="javascript:;" title="删除">
-			                                    <i class="Hui-iconfont">&#xe6e2;</i>
-			                                </a>
-		                                </premission:tag>
-		                            </td>
-		                        </tr>
-		                    </c:forEach>
-		                    <input type="hidden" name="name_li" value="用户">
-		                    <tr>
-		                        <td colspan="9">
-		                            <page:pageInfo currentPage="${currentPage}" pageInfo="${tools.pager}" formId="queryForm"></page:pageInfo>
-		                        </td>
-		                    </tr>
-	                    </tbody>
-	                </table>
+	                <table id="dataGridTable" class="table table-border table-bordered table-bg table-hover table-sort table-responsive"></table>
 	            </div>
 	  		</div>
 		</div>

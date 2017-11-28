@@ -72,11 +72,11 @@ public class IconController {
         try {
         	messageObject.setResponseCode(MessageObject.ResponseCode.SUCCESS);
             iconService.save(icon);
-            messageObject.setResponseMessage("添加图标成功");
+            messageObject.setInforMessage("添加图标成功");
         } catch (ServiceException e) {
             e.printStackTrace();
             messageObject.setResponseCode(ResponseCode.SUCCESS);
-            messageObject.setResponseMessage("添加菜单图标失败，请稍候再试");
+            messageObject.setErrorMessage("添加菜单图标失败，请稍候再试");
         } finally {
             try {
 				messageObject.returnData(response, messageObject);
@@ -102,12 +102,12 @@ public class IconController {
 				}
                 iconService.saveBatch(new ObjectIterable<Icon>(icons));
                 messageObject.setResponseCode(ResponseCode.SUCCESS);
-                messageObject.setResponseMessage("图标删除成功");
+                messageObject.setInforMessage("图标删除成功");
             }
         } catch (ServiceException e) {
             e.printStackTrace();
             messageObject.setResponseCode(ResponseCode.FAILIAR);
-            messageObject.setResponseMessage("图标删除失败");
+            messageObject.setErrorMessage("图标删除失败");
         } finally {
             try {
 				messageObject.returnData(response, messageObject);

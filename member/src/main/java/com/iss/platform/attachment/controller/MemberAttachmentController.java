@@ -75,16 +75,14 @@ public class MemberAttachmentController {
 		MessageObject message = MessageObject.getDefaultMessageObjectInstance();
 		try {
 			message.setResponseCode(MessageObject.ResponseCode.SUCCESS);
-			message.setResponseMessage(ResponseMessage.SAVE_SUCCESS_MESSAGE);
+			message.setInforMessage(ResponseMessage.SAVE_SUCCESS_MESSAGE);
 		} catch (Exception e) {
 			e.printStackTrace();
-			message.setResponseCode(MessageObject.ResponseCode.FAILIAR);
-			message.setResponseMessage("添加广告失败，请稍候再试");
+			message.setErrorMessage("添加广告失败，请稍候再试");
 		} finally {
 			try {
 				message.returnData(response, message);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

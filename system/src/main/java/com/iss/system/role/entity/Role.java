@@ -28,7 +28,7 @@ public class Role extends IdEntity {
 	private Role role;
 	private List<Module> modules;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "t_s_role_module", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "module_id"))
 	public List<Module> getModules() {
 		return modules;
@@ -38,7 +38,7 @@ public class Role extends IdEntity {
 		this.modules = modules;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "pid")
 	public Role getRole() {
 		return role;
