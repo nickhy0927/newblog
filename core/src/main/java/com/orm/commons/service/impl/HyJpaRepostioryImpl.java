@@ -65,7 +65,7 @@ public class HyJpaRepostioryImpl<T, ID extends Serializable> extends SimpleJpaRe
         Iterator<Sort.Order> it;
         if (sort != null) {
             for (it = sort.iterator(); it.hasNext(); ) {
-                Sort.Order order = (Sort.Order) it.next();
+                Sort.Order order = it.next();
                 if (order.getDirection().equals(Sort.Direction.DESC)) {
                     criteria.addOrder(Order.desc(order.getProperty()));
                 } else {
