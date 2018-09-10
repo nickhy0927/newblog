@@ -9,16 +9,13 @@
 	<version>1.0</version>
 	<name>shop-root</name>
 	<modules>
-		<module>system</module>
-		<module>core</module>
-		<module>blog</module>
-		<module>blogClient</module>
-		<module>utils</module>
-		<module>webBlog</module>
-		<module>pageCreate</module>
-		<module>article</module>
-		<module>client</module>
-		<module>member</module>
+		<module>com.iss.system</module>
+		<module>com.iss.core</module>
+		<module>com.iss.blog</module>
+		<module>com.iss.utils</module>
+		<module>com.iss.article</module>
+		<module>com.iss.client</module>
+		<module>com.iss.member</module>
 	</modules>
 
 	<properties>
@@ -38,7 +35,7 @@
 		<lucene.version>5.1.0</lucene.version>
 		<!-- Plugin的属性定义 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jdk.version>1.7</jdk.version>
+		<jdk.version>1.8</jdk.version>
 	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/com.thetransactioncompany/cors-filter -->
