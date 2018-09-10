@@ -7,7 +7,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.iss.system</groupId>
-    <artifactId>iss-system</artifactId>
+    <artifactId>mgt.system</artifactId>
     <packaging>jar</packaging>
     <name>com.iss.system</name>
     <url>http://maven.apache.org</url>
@@ -18,12 +18,12 @@
     <dependencies>
         <dependency>
             <groupId>com.iss.core</groupId>
-            <artifactId>iss-core</artifactId>
+            <artifactId>mgt.core</artifactId>
             <version>1.1</version>
         </dependency>
         <dependency>
             <groupId>com.iss.utils</groupId>
-            <artifactId>iss-utils</artifactId>
+            <artifactId>mgt.utils</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

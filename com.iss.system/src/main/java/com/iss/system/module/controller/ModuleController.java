@@ -1,6 +1,5 @@
 package com.iss.system.module.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Lists;
 import com.iss.system.icon.entity.Icon;
@@ -27,8 +27,6 @@ import com.iss.util.PagerInfo;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.JsonMapper;
 import com.orm.commons.utils.MessageObject;
-import com.orm.commons.utils.MessageObject.ResponseCode;
-import com.orm.commons.utils.MessageObject.ResponseMessage;
 import com.orm.commons.utils.ObjectIterable;
 import com.orm.commons.utils.WebUtils;
 
@@ -44,8 +42,10 @@ public class ModuleController {
 	@Autowired
 	private IconService iconService;
 
+
+	@ResponseBody
 	@RequestMapping(value = "/system/module/moduleList.json", method = { RequestMethod.POST })
-	public void moduleList(HttpServletResponse response,HttpServletRequest request,PageSupport support) {
+	public MessageObject moduleList(HttpServletRequest request,PageSupport support) {
 		Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
 		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
 		objectMap.put("disabled_eq",Boolean.FALSE);
@@ -53,17 +53,12 @@ public class ModuleController {
 		try {
 			PagerInfo<Module> pagerInfo = moduleService.queryPagerInfoByMap(objectMap , support, new Sort(Sort.Direction.DESC, "createTime"));
 			messageObject.setObject(pagerInfo);
-			messageObject.setInforMessage(ResponseMessage.LIST_SUCCESS_MESSAGE);
+			messageObject.ok("查询菜单信息成功", pagerInfo);
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			messageObject.setErrorMessage(ResponseMessage.LIST_FAILIAR_MESSAGE);
-		} finally {
-			try {
-				messageObject.returnData(response, messageObject);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+			messageObject.error("查询菜单信息是吧");
+		} 
+		return messageObject;
 	}
 
 	@RequestMapping(value = "/system/module/list", method = { RequestMethod.GET, RequestMethod.POST })
@@ -128,10 +123,10 @@ public class ModuleController {
 		return "system/module/module_view";
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "/system/module/save", method = RequestMethod.POST)
-	public void save(HttpServletRequest request, HttpServletResponse response, Module module) {
-		MessageObject message = MessageObject.getDefaultMessageObjectInstance();
-		message.setResponseCode(MessageObject.ResponseCode.SUCCESS);
+	public MessageObject save(HttpServletRequest request, Module module) {
+		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
 		try {
 			String pid = request.getParameter("pId");
 			Module parent = moduleService.get(pid);
@@ -139,21 +134,17 @@ public class ModuleController {
 			String iconId = request.getParameter("iconId");
 			module.setIcon(iconService.get(iconId));
 			moduleService.save(module);
-			message.setInforMessage(ResponseMessage.SAVE_SUCCESS_MESSAGE);
+			messageObject.ok("保存菜单信息成功", module);
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			message.setErrorMessage(ResponseMessage.SAVE_FAILIAR_MESSAGE);
-		} finally {
-			try {
-				message.returnData(response, message);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+			messageObject.error("保存菜单信息失败");
+		} 
+		return messageObject;
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "/system/module/delete", method = RequestMethod.POST)
-	public void delete(HttpServletRequest request, HttpServletResponse response) {
+	public MessageObject delete(HttpServletRequest request, HttpServletResponse response) {
 		String ids = request.getParameter("id");
 		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
 		try {
@@ -167,18 +158,12 @@ public class ModuleController {
 					modules.add(module);
 				}
 				moduleService.saveBatch(new ObjectIterable<Module>(modules));
-				messageObject.setInforMessage("角色菜单成功");
+				messageObject.ok("角色菜单成功", new ObjectIterable<Module>(modules));
 			}
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			messageObject.setResponseCode(ResponseCode.FAILIAR);
-			messageObject.setErrorMessage("角色菜单失败");
-		} finally {
-			try {
-				messageObject.returnData(response, messageObject);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+			messageObject.error("角色菜单失败");
+		} 
+		return messageObject;
 	}
 }

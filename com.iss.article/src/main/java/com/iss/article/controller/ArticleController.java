@@ -1,5 +1,22 @@
 package com.iss.article.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.iss.article.entity.Article;
 import com.iss.article.service.ArticleService;
 import com.iss.category.dto.CategoryTree;
@@ -11,21 +28,6 @@ import com.orm.commons.utils.JsonMapper;
 import com.orm.commons.utils.MessageObject;
 import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.WebUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by yuanhuangd on 2017/8/9.
@@ -57,25 +59,20 @@ public class ArticleController {
         return "content/article/article-add";
     }
 
+    @ResponseBody
     @RequestMapping(value = "/content/article/save", method = RequestMethod.POST)
-    public void save(HttpServletRequest request, HttpServletResponse response, Article article) {
+    public MessageObject save(Article article, String pId) {
         MessageObject message = MessageObject.getDefaultMessageObjectInstance();;
         try {
-            String pid = request.getParameter("pId");
-            Category parent = categoryService.get(pid);
+            Category parent = categoryService.get(pId);
             article.setCategory(parent);
-            articleService.save(article);
-            message.setInforMessage("添加文章成功");
+            article = articleService.save(article);
+            message.ok("添加文章成功", article);
         } catch (ServiceException e) {
             e.printStackTrace();
-            message.setErrorMessage("添加文章异常，请稍候再试");
-        } finally {
-            try {
-				message.returnData(response, message);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-        }
+            message.error("添加文章异常，请稍候再试");
+        } 
+        return message;
     }
 
     @RequestMapping(value = "/content/article/edit")
@@ -113,27 +110,23 @@ public class ArticleController {
         return "content/article/article-list";
     }
 
+    @ResponseBody
     @RequestMapping(value = "/content/article/delete", method = RequestMethod.POST)
-    public void delete(HttpServletRequest request, HttpServletResponse response) {
+    public MessageObject delete(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
         MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();;
         try {
             if (StringUtils.isNotEmpty(id)) {
                 Category category = categoryService.get(id);
                 category.setDisabled(Boolean.TRUE);
-                categoryService.save(category);
-                messageObject.setInforMessage("分类删除成功");
+                category = categoryService.save(category);
+                messageObject.ok("分类删除成功", category);
             }
         } catch (ServiceException e) {
             e.printStackTrace();
-            messageObject.setErrorMessage("分类删除失败");
-        } finally {
-            try {
-				messageObject.returnData(response, messageObject);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+            messageObject.error("分类删除失败");
         }
+        return messageObject;
     }
 
     @RequestMapping(value = "/content/article/approvalList", method = {RequestMethod.GET, RequestMethod.POST})
@@ -153,28 +146,22 @@ public class ArticleController {
         return "content/article/article-approval";
     }
 
+    @ResponseBody
     @RequestMapping(value = "/content/article/approval", method = {RequestMethod.POST})
-    public void approval(HttpServletRequest request, HttpServletResponse response) {
-        String id = request.getParameter("id");
-        String approvalStatus = request.getParameter("approvalStatus");
+    public MessageObject approval(@RequestParam String id, @RequestParam Integer approvalStatus, HttpServletResponse response) {
         MessageObject message = MessageObject.getDefaultMessageObjectInstance();
         try {
             Article article = articleService.get(id);
-            article.setApprovalStatus(Integer.valueOf(approvalStatus));
+            article.setApprovalStatus(approvalStatus);
             articleService.save(article);
             if (Integer.valueOf(approvalStatus) == SysConstant.ApprovalStatus.REFUSE)
-                message.setInforMessage("审核通过");
+                message.ok("审核通过", article);
             else
-                message.setInforMessage("审核拒绝");
+                message.error("审核拒绝");
         } catch (ServiceException e) {
             e.printStackTrace();
-            message.setInforMessage("审核失败");
-        } finally {
-            try {
-				message.returnData(response, message);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-        }
+            message.error("审核失败");
+        } 
+        return message;
     }
 }

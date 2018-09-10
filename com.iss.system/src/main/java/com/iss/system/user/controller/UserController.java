@@ -14,6 +14,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iss.system.user.entity.User;
 import com.iss.system.user.service.UserService;
@@ -22,7 +24,6 @@ import com.iss.util.PagerInfo;
 import com.orm.commons.encryption.MD5Encryption;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.MessageObject;
-import com.orm.commons.utils.MessageObject.ResponseMessage;
 import com.orm.commons.utils.ObjectIterable;
 import com.orm.commons.utils.WebUtils;
 
@@ -40,26 +41,21 @@ public class UserController {
 		return "system/user/user_list";
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "/system/user/list.json", method = { RequestMethod.POST })
-	public void list(HttpServletRequest request, PageSupport support,HttpServletResponse response) {
+	public MessageObject list(HttpServletRequest request, PageSupport support) {
 		Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
 		objectMap.put("disabled_eq", Boolean.FALSE);
 		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
 		try {
 			Sort sort = new Sort(Sort.Direction.DESC, "createTime");
 			PagerInfo<User> pagerInfo = userService.queryPagerInfoByMap(objectMap, support, sort);
-			messageObject.setInforMessage(ResponseMessage.LIST_SUCCESS_MESSAGE);
-			messageObject.setObject(pagerInfo);
+			messageObject.ok("查询用户列表成功", pagerInfo);
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			messageObject.setErrorMessage(ResponseMessage.LIST_FAILIAR_MESSAGE);
-		} finally {
-			try {
-				messageObject.returnData(response, messageObject);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+			messageObject.error("查询用户列表失败");
+		} 
+		return messageObject;
 	}
 
 	@RequestMapping(value = "/system/user/add")
@@ -79,34 +75,19 @@ public class UserController {
 		return "system/user/user_edit";
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "/system/user/save", method = RequestMethod.POST)
-	public void save(User user, HttpServletResponse response) {
+	public MessageObject save(User user, HttpServletResponse response) {
 		MessageObject message = MessageObject.getDefaultMessageObjectInstance();
 		try {
 			user.setPassword(MD5Encryption.MD5(user.getPassword()));
-			userService.save(user);
-			message.setInforMessage("添加用户成功");
+			user = userService.save(user);
+			message.ok("添加用户成功", user);
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			message.setErrorMessage("添加用户异常，请稍候再试");
-		} finally {
-			try {
-				message.returnData(response, message);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	@RequestMapping(value = "/user/query.json", method = { RequestMethod.POST, RequestMethod.GET })
-	public void query(HttpServletResponse response) {
-		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
-		messageObject.setInforMessage("查询成功");
-		try {
-			messageObject.returnData(response, messageObject);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			message.error("添加用户异常，请稍候再试");
+		} 
+		return message;
 	}
 
 	@RequestMapping(value = "/system/user/checkLoginName.json", method = { RequestMethod.POST, RequestMethod.GET })
@@ -124,8 +105,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/system/user/delete", method = RequestMethod.POST)
-	public void delete(HttpServletRequest request, HttpServletResponse response) {
-		String id = request.getParameter("id");
+	public MessageObject delete(@RequestParam String id) {
 		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
 		try {
 			if (StringUtils.isNotEmpty(id)) {
@@ -138,17 +118,12 @@ public class UserController {
 					users.add(user);
 				}
 				userService.saveBatch(new ObjectIterable<User>(users));
-				messageObject.setInforMessage("删除用户成功");
+				messageObject.ok("删除用户成功", new ObjectIterable<User>(users));
 			}
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			messageObject.setErrorMessage("删除用户失败");
-		} finally {
-			try {
-				messageObject.returnData(response, messageObject);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			messageObject.error("删除用户失败");
 		}
+		return messageObject;
 	}
 }

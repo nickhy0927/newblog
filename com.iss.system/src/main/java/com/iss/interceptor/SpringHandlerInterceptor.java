@@ -5,12 +5,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.iss.listener.SingletonUser;
 import com.iss.system.user.entity.User;
-import com.iss.util.RandomString;
 import com.orm.config.InitEnvironment;
 
 /**
@@ -27,7 +27,7 @@ public class SpringHandlerInterceptor extends HandlerInterceptorAdapter {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		if (modelAndView != null) { // 加入当前时间
-			modelAndView.addObject("SESSIONID", request.getSession().getId().toUpperCase());
+			modelAndView.addObject("jsessionid", request.getSession().getId().toUpperCase());
 		}
 	}
 
@@ -43,35 +43,29 @@ public class SpringHandlerInterceptor extends HandlerInterceptorAdapter {
 		User user = SingletonUser.getContextUser(request);
 		InitEnvironment environment = InitEnvironment.getInitEnvironmentInstance();
 		String contextPath = request.getContextPath();
-		String url = requestUri.substring(contextPath.length());
+		String uri = requestUri.substring(contextPath.length());
 		List<String> urls = environment.getUrls();
-//		List<String> allowUrls = EnvironmentServer.getAllowUrls(user);
 		String loginUrl = environment.getLoginUrl();
 		String unauthUrl = environment.getUnauthUrl();
-		boolean bool = urls.contains(url) || url.contains(loginUrl) || url.contains(unauthUrl);
+		urls.add(unauthUrl);
+		urls.add(loginUrl);
+		AntPathMatcher matcher = new AntPathMatcher();
+		boolean bool = false;
+		for (String url : urls) {
+			bool = matcher.match(url, uri);
+			if (bool) {
+				break;
+			}
+		}
 		if (user == null) {
 			if (bool) {
 				return true;
 			} else {
-				String path = request.getContextPath() + loginUrl + "?SESSIONID=" + RandomString.getUUID();
+				String path = request.getContextPath() + loginUrl;
 				response.sendRedirect(path);
 				return false;
 			}
-		} else if (user != null && bool) {
-			String path = request.getContextPath() + environment.getIndexUrl() + "?SESSIONID=" + RandomString.getUUID();
-			response.sendRedirect(path);
-			return false;
-		} 
-		/*if (!allowUrls.contains(url) && !bool) {
-			for (String u : urls) {
-				if (url.startsWith(u)) {
-					return true;
-				}
-			}
-			String path = request.getContextPath() + environment.getUnauthUrl() + "?SESSIONID=" + RandomString.getUUID();
-			response.sendRedirect(path);
-			return false;
-		}*/
+		}
 		return true;
 	}
 }

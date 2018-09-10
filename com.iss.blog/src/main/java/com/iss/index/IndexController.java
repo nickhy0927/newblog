@@ -23,7 +23,7 @@ public class IndexController {
     @Autowired
     private ModuleService moduleService;
 
-    @RequestMapping(value = {"", "/", "index"})
+    @RequestMapping(value = {"", "/", "index.do"})
     public ModelAndView index(HttpServletRequest request) {
         // 获得所有的菜单信息
         List<ModuleDto> moduleList = new ArrayList<>();

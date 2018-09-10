@@ -27,7 +27,6 @@ import com.iss.system.user.entity.User;
 import com.orm.commons.service.impl.DefaultAbstractService;
 import com.orm.commons.utils.FileTools;
 import com.orm.commons.utils.MessageObject;
-import com.orm.commons.utils.MessageObject.ResponseCode;
 import com.orm.commons.utils.MyConfig;
 
 /**
@@ -105,16 +104,13 @@ public class AttachmentServiceImpl extends DefaultAbstractService<Attachment, St
 				FileUtils.copyInputStreamToFile(fin, new File(realPath, filename));
 				Attachment attachment = new Attachment(name, pString, contentType, fileSize, suffix);
 				message.setObject(save(attachment));
-				message.setResponseCode(ResponseCode.SUCCESS);
-				message.setResponseCode(ResponseCode.SUCCESS);
-				message.setInforMessage("上传成功");
+				message.ok("上传附件成功", attachment);
 				FileTools.delAllFile(filePath);
 			} else {
-				message.setErrorMessage("请先选择文件，再上传");
+				message.error("请先选择文件，再上传");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			message.setErrorMessage("上传文件失败");
+			message.error("上传文件失败");
 		}
 		return message;
 	}

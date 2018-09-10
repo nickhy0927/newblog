@@ -1,6 +1,5 @@
 package com.iss.system.role.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Lists;
 import com.iss.system.role.entity.Role;
@@ -24,7 +24,6 @@ import com.iss.system.userRole.tree.TreeObj;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.JsonMapper;
 import com.orm.commons.utils.MessageObject;
-import com.orm.commons.utils.MessageObject.ResponseCode;
 import com.orm.commons.utils.ObjectIterable;
 import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.WebUtils;
@@ -72,27 +71,21 @@ public class RoleController {
 		return "system/role/role_add";
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "/system/role/save", method = RequestMethod.POST)
-	public void save(Role role, HttpServletResponse response, HttpServletRequest request) {
+	public MessageObject save(Role role, HttpServletRequest request) {
 		MessageObject message = MessageObject.getDefaultMessageObjectInstance();
 		try {
 			String pid = request.getParameter("pId");
 			Role r = roleService.get(pid);
 			role.setRole(r);
-			roleService.save(role);
-			message.setResponseCode(ResponseCode.SUCCESS);
-			message.setInforMessage("添加角色成功");
+			role = roleService.save(role);
+			message.ok("添加角色成功", role);
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			message.setResponseCode(ResponseCode.FAILIAR);
-			message.setErrorMessage("添加角色失败");
-		} finally {
-			try {
-				message.returnData(response, message);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+			message.error("添加角色失败");
+		} 
+		return message;
 
 	}
 
@@ -116,9 +109,9 @@ public class RoleController {
 		return "system/role/role_add";
 	}
 	
-	
+	@ResponseBody
 	@RequestMapping(value = "/system/role/delete", method = RequestMethod.POST)
-	public void delete(HttpServletRequest request, HttpServletResponse response) {
+	public MessageObject delete(HttpServletRequest request, HttpServletResponse response) {
 		String ids = request.getParameter("id");
 		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
 		try {
@@ -131,18 +124,13 @@ public class RoleController {
 					roles.add(role);
 				}
 				roleService.saveBatch(new ObjectIterable<Role>(roles));
-				messageObject.setInforMessage("角色删除成功");
+				messageObject.ok("角色删除成功", new ObjectIterable<Role>(roles));
 			}
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			messageObject.setErrorMessage("角色删除失败");
-		} finally {
-			try {
-				messageObject.returnData(response, messageObject);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+			messageObject.error("角色删除失败");
+		} 
+		return messageObject;
 
 	}
 }

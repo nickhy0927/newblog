@@ -7,7 +7,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.iss.member</groupId>
-    <artifactId>iss-member</artifactId>
+    <artifactId>mgt.member</artifactId>
     <packaging>jar</packaging>
     <name>com.iss.member</name>
     <url>http://maven.apache.org</url>
@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.iss.article</groupId>
-            <artifactId>iss-article</artifactId>
+            <artifactId>mgt.article</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

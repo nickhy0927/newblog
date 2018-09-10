@@ -1,16 +1,15 @@
 package com.iss.article.controller;
 
-import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iss.article.entity.Article;
 import com.iss.article.service.ArticleService;
@@ -44,8 +43,9 @@ public class GroomArticleController {
 		return "content/article/article-groom-list";
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "/content/article/groom/approval", method = { RequestMethod.POST })
-	public void approval(HttpServletRequest request, HttpServletResponse response) {
+	public MessageObject approval(HttpServletRequest request) {
 		String id = request.getParameter("id");
 		String groom = request.getParameter("groom");
 		MessageObject message = MessageObject.getDefaultMessageObjectInstance();;
@@ -53,16 +53,11 @@ public class GroomArticleController {
 			Article article = articleService.get(id);
 			article.setGroom(Integer.valueOf(groom));
 			articleService.save(article);
-			message.setInforMessage("推荐成功");
+			message.ok("推荐成功", article);
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			message.setInforMessage("推荐失败");
-		} finally {
-			try {
-				message.returnData(response, message);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+			message.error("推荐失败");
+		} 
+		return message;
 	}
 }

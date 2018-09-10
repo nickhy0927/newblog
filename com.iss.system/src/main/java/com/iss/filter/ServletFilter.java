@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.AntPathMatcher;
 
 import com.iss.listener.SingletonUser;
 import com.iss.system.user.entity.User;
@@ -42,12 +43,16 @@ public class ServletFilter implements Filter {
         String url = requestUri.substring(contextPath.length());
         List<String> urls = environment.getUrls();
         if (user == null) {
-            if (url.contains("/static") || urls.contains(url) || environment.getLoginUrl().equals(url) || environment.getUnauthUrl().equals(url)) {
-                chain.doFilter(req, resp);
-            } else {
-                resp.sendRedirect("login?SESSIONID=" + req.getSession().getId().toUpperCase());
-                return;
-            }
+        	for (String u : urls) {
+        		AntPathMatcher matcher = new AntPathMatcher();
+            	boolean match = matcher.match(u, url);
+            	if (match) {
+            		chain.doFilter(req, resp);
+				} else {
+					resp.sendRedirect("login?SESSIONID=" + req.getSession().getId().toUpperCase());
+                    return;
+				}
+			}
         }
         chain.doFilter(req, response);
     }

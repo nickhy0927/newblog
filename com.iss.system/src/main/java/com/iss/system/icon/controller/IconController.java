@@ -1,11 +1,9 @@
 package com.iss.system.icon.controller;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Lists;
 import com.iss.system.icon.entity.Icon;
 import com.iss.system.icon.service.IconService;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.MessageObject;
-import com.orm.commons.utils.MessageObject.ResponseCode;
 import com.orm.commons.utils.ObjectIterable;
 import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.WebUtils;
@@ -55,9 +54,8 @@ public class IconController {
     }
 
     @RequestMapping(value = "/system/icon/edit")
-    public String edit(HttpServletRequest request, Model model) {
+    public String edit(@RequestParam(value = "id") String id, Model model) {
         try {
-            String id = request.getParameter("id");
             Icon icon = iconService.get(id);
             model.addAttribute("icon", icon);
         } catch (ServiceException e) {
@@ -66,28 +64,23 @@ public class IconController {
         return "system/icon/icon-add";
     }
 
+    @ResponseBody
     @RequestMapping(value = "/system/icon/save", method = RequestMethod.POST)
-    public void save(HttpServletResponse response, Icon icon) {
+    public MessageObject save(Icon icon) {
         MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
         try {
-        	messageObject.setResponseCode(MessageObject.ResponseCode.SUCCESS);
-            iconService.save(icon);
-            messageObject.setInforMessage("添加图标成功");
+            icon = iconService.save(icon);
+            messageObject.ok("添加图标成功", icon);
         } catch (ServiceException e) {
             e.printStackTrace();
-            messageObject.setResponseCode(ResponseCode.SUCCESS);
-            messageObject.setErrorMessage("添加菜单图标失败，请稍候再试");
-        } finally {
-            try {
-				messageObject.returnData(response, messageObject);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-        }
+            messageObject.error("添加菜单图标失败，请稍候再试");
+        } 
+        return messageObject;
     }
     
+    @ResponseBody
     @RequestMapping(value = "/system/icon/delete", method = RequestMethod.POST)
-    public void delete(HttpServletRequest request, HttpServletResponse response) {
+    public MessageObject delete(HttpServletRequest request) {
         String ids = request.getParameter("id");
         MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
         try {
@@ -101,19 +94,12 @@ public class IconController {
 					icons.add(icon);
 				}
                 iconService.saveBatch(new ObjectIterable<Icon>(icons));
-                messageObject.setResponseCode(ResponseCode.SUCCESS);
-                messageObject.setInforMessage("图标删除成功");
+                messageObject.ok("图标删除成功", new ObjectIterable<Icon>(icons));
             }
         } catch (ServiceException e) {
             e.printStackTrace();
-            messageObject.setResponseCode(ResponseCode.FAILIAR);
-            messageObject.setErrorMessage("图标删除失败");
-        } finally {
-            try {
-				messageObject.returnData(response, messageObject);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-        }
+            messageObject.error("图标删除失败");
+        } 
+        return messageObject;
     }
 }

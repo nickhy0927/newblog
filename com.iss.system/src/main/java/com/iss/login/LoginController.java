@@ -22,14 +22,14 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/login", method = {RequestMethod.POST})
+    @RequestMapping(value = "/login.do", method = {RequestMethod.POST})
     public String login(HttpServletRequest request) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         try {
             User user = userService.findUserByLoginAndPassword(username, password);
             SingletonUser.setUser(request, user);
-            return "redirect:index";
+            return "redirect:index.do";
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("msg", "账户或密码错误");
@@ -37,7 +37,7 @@ public class LoginController {
         }
     }
 
-    @RequestMapping(value = "/login", method = {RequestMethod.GET})
+    @RequestMapping(value = "/login.do", method = {RequestMethod.GET})
     public ModelAndView login() {
         ModelAndView view = new ModelAndView("login");
         return view;

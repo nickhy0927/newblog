@@ -17,6 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iss.system.role.entity.Role;
 import com.iss.system.role.service.RoleService;
@@ -43,7 +45,6 @@ public class UserRoleController {
 
 	@RequestMapping(value = "/system/user/role/list", method = { RequestMethod.GET, RequestMethod.POST })
 	public String queryUserRoleList() {
-
 		return "/system/userRole/user-role-list";
 	}
 
@@ -69,8 +70,7 @@ public class UserRoleController {
 	}
 
 	@RequestMapping(value = "/system/user/role/queryUserById.json", method = { RequestMethod.GET, RequestMethod.POST })
-	public void queryUserById(HttpServletResponse response, HttpServletRequest request) {
-		String userId = request.getParameter("userId");
+	public void queryUserById(HttpServletResponse response, @RequestParam(value = "userId", defaultValue = "1") String userId) {
 		if (StringUtils.isNotEmpty(userId)) {
 			try {
 				User user = userService.get(userId);
@@ -80,8 +80,7 @@ public class UserRoleController {
 					role.setRole(null);
 					role.setModules(null);
 				}
-				String json = "{\"total\":" + user.getRoles().size() + ",\"rows\":" + new JsonMapper().toJson(roles)
-						+ "}";
+				String json = "{\"total\":" + user.getRoles().size() + ",\"rows\":" + new JsonMapper().toJson(roles) + "}";
 				try {
 					response.getWriter().write(json);
 				} catch (IOException e) {
@@ -121,8 +120,9 @@ public class UserRoleController {
 		return "/system/userRole/user-role-add";
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "/system/user/role/save", method = RequestMethod.POST)
-	public void updateUser(HttpServletRequest request, HttpServletResponse response) {
+	public MessageObject updateUser(HttpServletRequest request, HttpServletResponse response) {
 		String userId = request.getParameter("userId");
 		MessageObject message = MessageObject.getDefaultMessageObjectInstance();
 		String ids = request.getParameter("ids");
@@ -135,22 +135,18 @@ public class UserRoleController {
 					roles.add(roleService.get(id));
 				}
 				user.setRoles(roles);
-				userService.save(user);
-				message.setInforMessage("角色权限赋值成功");
+				user = userService.save(user);
+				message.ok("角色权限赋值成功", user);
 			} else {
 				user.setRoles(null);
 				userService.save(user);
 			}
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			message.setInforMessage("角色权限赋值失败");
-		} finally {
-			try {
-				message.returnData(response, message);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+			message.error("角色权限赋值失败");
+		} 
+		return message;
+		
 
 	}
 }

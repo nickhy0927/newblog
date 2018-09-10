@@ -33,7 +33,6 @@ import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.FileTools;
 import com.orm.commons.utils.JsonMapper;
 import com.orm.commons.utils.MessageObject;
-import com.orm.commons.utils.MessageObject.ResponseCode;
 import com.orm.commons.utils.MyConfig;
 import com.orm.commons.utils.ObjectTools;
 
@@ -92,8 +91,7 @@ public class AttachmentController {
                 if (StringUtils.isNotEmpty(versionIds)) {
                     versionIds = versionIds.substring(0, versionIds.length() - 1);
                 }
-                message.setObject(versionIds);
-                message.setInforMessage("上传成功");
+                message.ok("上传附件成功", versionIds);
                 tempDir = request.getSession().getServletContext().getRealPath("/upload/temp");
                 HashMap<String, Object> hashMap = MyConfig.getConfig();
                 Object object = hashMap.get("upload");
@@ -106,13 +104,11 @@ public class AttachmentController {
                 }
                 FileTools.delFolder(tempDir);
             } else {
-            	message.setResponseCode(ResponseCode.FAILIAR);
-                message.setErrorMessage("请先选择文件，再上传");
+                message.error("请先选择文件，再上传");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            message.setResponseCode(ResponseCode.FAILIAR);
-            message.setErrorMessage("上传文件失败");
+            message.error("上传文件失败");
         } finally {
             try {
 				message.returnData(response, message);
@@ -137,32 +133,24 @@ public class AttachmentController {
         return "platform/attachment/attachmentList";
     }
 
+    @ResponseBody
     @RequestMapping(value = "/attachment/findOne/{id}", method = RequestMethod.GET)
-    public void findOne(@PathVariable("id") String id, HttpServletResponse response) {
+    public MessageObject findOne(@PathVariable("id") String id, HttpServletResponse response) {
         try {
             if (StringUtils.isNotEmpty(id)) {
                 Attachment attachment = attachmentService.get(id);
                 if (attachment != null){
-                    message.setObject(attachment);
-                    message.setInforMessage("查询数据成功");
+                    message.ok("查询数据成功", attachment);
                 }else {
-                	message.setResponseCode(ResponseCode.FAILIAR);
-                    message.setErrorMessage("没有查询到该附件");
+                    message.error("没有查询到该附件");
                 }
             }else {
-            	message.setResponseCode(ResponseCode.FAILIAR);
-                message.setErrorMessage("没有查询到该附件");
+                message.error("没有查询到该附件");
             }
         } catch (ServiceException e) {
             e.printStackTrace();
-            message.setResponseCode(ResponseCode.FAILIAR);
-            message.setErrorMessage("没有查询到该附件");
-        } finally {
-            try {
-                message.returnData(response, message);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+            message.error("没有查询到该附件");
+        } 
+        return message;
     }
 }

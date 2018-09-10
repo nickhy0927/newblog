@@ -10,23 +10,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/jquery-easyui/themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/jquery-easyui/themes/icon.css">
-    <script type="text/javascript" src="${ctx}/static/jquery-easyui/jquery.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/jquery-easyui/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/layer/2.4/layer.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/h-ui/js/H-ui.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/h-ui.admin/js/H-ui.admin.js"></script>
+    <link rel="stylesheet" type="text/css" href="${ctx}/assets/lib/jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="${ctx}/assets/lib/jquery-easyui/themes/icon.css">
+    <script type="text/javascript" src="${ctx}/assets/lib/jquery-easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="${ctx}/assets/lib/jquery-easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="${ctx}/assets/lib/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="${ctx}/assets/lib/layer/2.4/layer.js"></script>
+    <script type="text/javascript" src="${ctx}/assets/js/H-ui.min.js"></script>
+    <script type="text/javascript" src="${ctx}/assets/js/H-ui.admin.js"></script>
     <!--/_footer /作为公共模版分离出去-->
 
     <!--请在下方写此页面业务相关的脚本-->
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
-    <script type="text/javascript" src="${ctx}/static/ztree/js/jquery.ztree.core.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/ztree/js/jquery.ztree.excheck.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/ztree/js/jquery.ztree.exedit.min.js"></script>
+    <script type="text/javascript" src="${ctx}/assets/lib//jquery.validation/1.14.0/jquery.validate.js"></script>
+    <script type="text/javascript" src="${ctx}/assets/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+    <script type="text/javascript" src="${ctx}/assets/lib/jquery.validation/1.14.0/messages_zh.js"></script>
     <style type="text/css">
         .col-xs-6 {
             margin: 20px;
@@ -109,9 +106,6 @@
         function init() {
             queryDataGrid();
         }
-        /*function article_add(title, url, w, h) {
-         layer_show(title, url, w, h);
-         }*/
         function addRole(id) {
             var url = "${ctx}/system/user/role/add?id=" + id;
             layer_show('添加权限', url, 300, 500);

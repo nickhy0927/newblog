@@ -7,7 +7,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.iss.article</groupId>
-    <artifactId>iss-article</artifactId>
+    <artifactId>mgt.article</artifactId>
     <packaging>jar</packaging>
 
     <name>com.iss.article</name>
@@ -20,7 +20,7 @@
     <dependencies>
          <dependency>
             <groupId>com.iss.system</groupId>
-            <artifactId>iss-system</artifactId>
+            <artifactId>mgt.system</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

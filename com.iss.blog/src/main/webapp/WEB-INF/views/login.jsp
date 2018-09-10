@@ -2,13 +2,16 @@
 <%@ taglib prefix="pgs" uri="http://www.commons.page" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="${pageContext.request.contextPath}" var="ctx"/>
-<pgs:extends name="title">
-    用户登录
-</pgs:extends>
+<pgs:extends name="title">用户登录</pgs:extends>
 <pgs:extends name="css">
     <link rel="stylesheet" type="text/css" href="${ctx}/static/public/login/css/demo.css"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/static/public/login/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/static/public/login/css/animate-custom.css"/>
+    <style type="text/css">
+    	.container {
+		    width: auto;
+		}
+    </style>
 </pgs:extends>
 <pgs:extends name="body">
     <div class="container">
@@ -18,7 +21,7 @@
                 <a class="hiddenanchor" id="tologin"></a>
                 <div id="wrapper">
                     <div id="login" class="animate form">
-                        <form action="${ctx}/login" method="post" autocomplete="on">
+                        <form action="${ctx}/login.do" method="post" autocomplete="on">
                             <h1>账户登录</h1>
                             <p>
                                 <label for="username" class="uname" data-icon="u">登录账户</label>

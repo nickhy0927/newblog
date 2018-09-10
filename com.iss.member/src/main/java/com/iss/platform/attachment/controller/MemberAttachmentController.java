@@ -1,6 +1,5 @@
 package com.iss.platform.attachment.controller;
 
-import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,6 @@ import com.iss.platform.attachment.entity.MemberAttachment;
 import com.iss.platform.attachment.service.MemberAttachmentService;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.MessageObject;
-import com.orm.commons.utils.MessageObject.ResponseMessage;
 import com.orm.commons.utils.ObjectTools;
 import com.orm.commons.utils.Pager;
 import com.orm.commons.utils.WebUtils;
@@ -63,20 +61,14 @@ public class MemberAttachmentController {
 	}
 
 	@RequestMapping(value = "/member/attachment/save", method = RequestMethod.POST)
-	public void save(HttpServletRequest request, HttpServletResponse response) {
-		MessageObject message = MessageObject.getDefaultMessageObjectInstance();
+	public MessageObject save(HttpServletRequest request, HttpServletResponse response) {
+		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
 		try {
-			message.setResponseCode(MessageObject.ResponseCode.SUCCESS);
-			message.setInforMessage(ResponseMessage.SAVE_SUCCESS_MESSAGE);
+			messageObject.ok("添加广告出成功", request);
 		} catch (Exception e) {
 			e.printStackTrace();
-			message.setErrorMessage("添加广告失败，请稍候再试");
-		} finally {
-			try {
-				message.returnData(response, message);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+			messageObject.error("添加广告失败，请稍候再试");
+		} 
+		return messageObject;
 	}
 }
