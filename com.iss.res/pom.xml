@@ -16,6 +16,20 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <assets>${project.build.outputDirectory}/META-INF/resources/assets</assets>
 	</properties>
+    <dependencies>
+        <dependency>
+            <groupId>json</groupId>
+            <artifactId>json</artifactId>
+            <version>1.0</version>
+            <systemPath>${basedir}/src/main/resources/lib/json-1.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>ueditor</groupId>
+            <artifactId>ueditor</artifactId>
+            <version>1.1.1</version>
+            <systemPath>${basedir}/src/main/resources/lib/ueditor-1.1.1.jar</systemPath>
+        </dependency>
+    </dependencies>
     <build>
         <resources>
             <resource>

@@ -14,7 +14,6 @@
 		<module>com.iss.blog</module>
 		<module>com.iss.utils</module>
 		<module>com.iss.article</module>
-		<module>com.iss.client</module>
 		<module>com.iss.member</module>
 		<module>com.iss.res</module>
 	</modules>
