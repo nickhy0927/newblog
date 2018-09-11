@@ -4,6 +4,8 @@ import com.iss.init.UserSingleton;
 import com.iss.system.user.entity.User;
 import com.iss.system.user.service.UserService;
 import com.iss.util.RandomString;
+import com.orm.commons.exception.ServiceException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +28,11 @@ public class LoginController {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         try {
-//            System.out.println(1/0);
-            User user = userService.findUserByLoginAndPassword(username, password);
-            UserSingleton.setUser(request, user);
-            return "redirect:index.do";
-        } catch (Exception e) {
+//            User user = userService.findUserByLoginAndPassword(username, password);
+//            UserSingleton.setUser(request, user);
+//            return "redirect:index.do";
+            throw new ServiceException("自定义异常信息");
+        } catch (ServiceException e) {
             e.printStackTrace();
             request.setAttribute("msg", "账户或密码错误");
             return "login";

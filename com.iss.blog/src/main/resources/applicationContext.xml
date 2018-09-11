@@ -65,7 +65,7 @@
             </list>
         </constructor-arg>
     </bean>
-
+	
     <!-- 将配置文件读取到容器中，交给Spring管理 -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations" ref="propertyResources"/>

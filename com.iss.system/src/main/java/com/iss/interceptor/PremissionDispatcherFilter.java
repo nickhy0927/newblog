@@ -35,9 +35,7 @@ public class PremissionDispatcherFilter extends HandlerInterceptorAdapter {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();
             String[] menus = {};
-            if (menus != null) {
-                System.out.println(menus.length);
-            } else menus = new String[0];
+            System.out.println(menus.length);
             Set<String> aliasList = Sets.newHashSet();
             for (String alias : menus) {
                 aliasList.add(alias);
