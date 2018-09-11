@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set value="${pageContext.request.contextPath}" var="ctx"></c:set>
 <pgs:extends name="css">
-	<link rel="stylesheet" href="${ctx}/static/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="${ctx}/assets/lib/bootstrap/css/bootstrap.css">
     <style type="text/css">
         .page-container {
         }

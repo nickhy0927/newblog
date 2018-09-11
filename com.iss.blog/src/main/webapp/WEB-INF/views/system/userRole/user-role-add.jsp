@@ -1,17 +1,9 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: yuanhuangd
-  Date: 2017/7/26
-  Time: 17:22
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="pgs" uri="http://www.commons.page" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="${pageContext.request.contextPath}" var="ctx"></c:set>
 <pgs:extends name="css">
-    <link rel="stylesheet" href="${ctx}/static/ztree/css/demo.css" type="text/css">
-    <link rel="stylesheet" href="${ctx}/static/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <link rel="stylesheet" href="${ctx}/assets/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
     <style type="text/css">
         ul.ztree {
             margin-top: 0px;
@@ -24,35 +16,9 @@
         }
     </style>
 </pgs:extends>
-<pgs:extends name="body">
-    <article class="page-container">
-        <form class="form form-horizontal" id="form-article-add">
-            <div class="Huialert Huialert-info">用户名：${user.loginName}</div>
-            <ul id="treeDemo" class="ztree"></ul>
-            <div class="row cl" style="text-align: right;margin-right: 2px">
-                <input type="hidden" name="userId" value="${user.id}">
-                <input type="hidden" name="ids" id="ids">
-                <button class="btn btn-success" type="submit">
-                    <i class="Hui-iconfont Hui-iconfont-save"></i>
-                    &nbsp;保存菜单
-                </button>
-            </div>
-        </form>
-    </article>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/layer/2.4/layer.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/h-ui/js/H-ui.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/h-ui.admin/js/H-ui.admin.js"></script>
-    <!--/_footer /作为公共模版分离出去-->
-
-    <!--请在下方写此页面业务相关的脚本-->
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
-    <script type="text/javascript" src="${ctx}/static/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
-    <script type="text/javascript" src="${ctx}/static/ztree/js/jquery.ztree.core.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/ztree/js/jquery.ztree.excheck.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/ztree/js/jquery.ztree.exedit.min.js"></script>
+<pgs:extends name="javascript">
+    <script type="text/javascript" src="${ctx}/assets/lib/zTree/v3/js/jquery.ztree.all-3.5.js"></script>
     <script type="text/javascript">
-
         function showTree() {
             $("#treeDemo").attr('style', "display:block;z-index:100;position：absolute");
         }
@@ -120,17 +86,11 @@
 
         $(function () {
             //表单验证
-            $("#form-article-add").validate({
+            $("#addForm").validate({
                 rules: {
-                    pName: {
-                        required: true,
-                    },
-                    name: {
-                        required: true,
-                    },
-                    url: {
-                        required: true,
-                    },
+                    pName: {required: true},
+                    name: {required: true},
+                    url: {required: true},
                 },
                 onkeyup: false,
                 focusCleanup: true,
@@ -141,22 +101,20 @@
                     if(!ids) ids = "";
                     $.openTip('确定进行此操作吗？', false, function(dialog) {
                    		$(dialog).dialog('close');
-                   		$.openLoading('正在修改数据,请稍等...');
+                   		$.openLoading('正在保存权限,请稍等...');
                    		jQuery.ajax({
                             type: "POST",
                             url: "${ctx}/system/user/role/save",
                             data: $(form).serialize(),
                             error: function (XMLHttpRequest, error, errorThrown) {
-                               	$.openTip('添加权限失败',true,function(dialog) {
-                               		$(dialog).dialog('close');
-                               		return;
-                               	});
+                               	$.openTip('添加权限失败',true);
+                               	return;
                             },
                             success: function (response) {
                                 var data = eval("(" + response + ")");
-                                if (data.resposecode == 200) {
-                                    $.openTip('添加权限成功',true,function(dialog) {
-                                   		$(dialog).dialog('close');
+                                if (data.code == 200) {
+                                    $.openTip('添加权限成功',true, function() {
+                                   		$.closeLoading();
     	                               	 parent.window.location.href = '${ctx}/system/user/role/list';
     	                                 var index = parent.layer.getFrameIndex(window.name);
     	                                 parent.layer.close(index);
@@ -164,7 +122,7 @@
                                 } else {
                                 	$.closeLoading();
                                 	$.openTip('添加权限失败',true,function(dialog) {
-                                   		$(dialog).dialog('close');
+                                   		$.closeLoading();
                                    	});
                                 }
                             }
@@ -174,5 +132,21 @@
             });
         });
     </script>
+</pgs:extends>
+<pgs:extends name="body">
+    <article class="page-container">
+        <form class="form form-horizontal" id="addForm">
+            <div class="Huialert Huialert-info">用户名：${user.loginName}</div>
+            <ul id="treeDemo" class="ztree"></ul>
+            <div class="row cl" style="text-align: right;margin-right: 2px">
+                <input type="hidden" name="userId" value="${user.id}">
+                <input type="hidden" name="ids" id="ids">
+                <button class="btn btn-success" type="submit">
+                    <i class="Hui-iconfont Hui-iconfont-save"></i>
+                    &nbsp;保存菜单
+                </button>
+            </div>
+        </form>
+    </article>
 </pgs:extends>
 <jsp:include page="/parent_page/parent.jsp"/>

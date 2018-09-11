@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.iss.util.PageSupport;
 import com.iss.util.PagerInfo;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.ObjectTools;
@@ -37,14 +38,15 @@ public interface BaseService<E, ID extends Serializable> {
 
 	ObjectTools<E> queryPageByMap(Map<String, Object> map, String currentPage, Sort sort) throws ServiceException;
 
-	PagerInfo<E> queryPagerInfoByMap(Map<String, Object> map, com.iss.util.PageSupport support, Sort sort) throws ServiceException;
-	
-	ObjectTools<E> queryPageByMap(Map<String, Object> map, String currentPage, Sort sort,Pager pager) throws ServiceException;
+	PagerInfo<E> queryPagerInfoByMap(Map<String, Object> map, PageSupport support, Sort sort) throws ServiceException;
+
+	ObjectTools<E> queryPageByMap(Map<String, Object> map, String currentPage, Sort sort, Pager pager) throws ServiceException;
 
 	E save(E entity) throws ServiceException;
-	
+
 	/**
 	 * 批量保存
+	 * 
 	 * @param iterable
 	 * @return
 	 * @throws ServiceException
@@ -69,6 +71,6 @@ public interface BaseService<E, ID extends Serializable> {
 
 	List<E> findByEntityList(Map<String, Object> paramMap);
 
-    Page<E> queryPageByCriteria(Map<String, Object> paramMap, Pageable pageable);
+	Page<E> queryPageByCriteria(Map<String, Object> paramMap, Pageable pageable);
 
 }

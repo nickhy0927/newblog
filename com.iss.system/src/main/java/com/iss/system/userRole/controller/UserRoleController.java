@@ -17,7 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iss.system.role.entity.Role;
@@ -69,8 +68,8 @@ public class UserRoleController {
 		}
 	}
 
-	@RequestMapping(value = "/system/user/role/queryUserById.json", method = { RequestMethod.GET, RequestMethod.POST })
-	public void queryUserById(HttpServletResponse response, @RequestParam(value = "userId", defaultValue = "1") String userId) {
+	@RequestMapping(value = "/system/user/role/queryUserById.json", method = {RequestMethod.POST })
+	public void queryUserById(HttpServletResponse response, String userId) {
 		if (StringUtils.isNotEmpty(userId)) {
 			try {
 				User user = userService.get(userId);
@@ -92,7 +91,7 @@ public class UserRoleController {
 		}
 	}
 
-	@RequestMapping(value = "/system/user/role/add", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/system/user/role/add.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String add(HttpServletRequest request) {
 		String userId = request.getParameter("id");
 		List<TreeObj> trees = new ArrayList<>();
@@ -121,7 +120,7 @@ public class UserRoleController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/system/user/role/save", method = RequestMethod.POST)
+	@RequestMapping(value = "/system/user/role/save.json", method = RequestMethod.POST)
 	public MessageObject updateUser(HttpServletRequest request, HttpServletResponse response) {
 		String userId = request.getParameter("userId");
 		MessageObject message = MessageObject.getDefaultMessageObjectInstance();

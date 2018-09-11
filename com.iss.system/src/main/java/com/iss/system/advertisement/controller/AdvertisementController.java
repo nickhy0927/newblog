@@ -21,6 +21,8 @@ import com.iss.system.advertisement.service.AdvertisementService;
 import com.iss.system.attachment.entity.Attachment;
 import com.iss.system.attachment.service.AttachmentService;
 import com.iss.system.user.entity.User;
+import com.iss.util.PageSupport;
+import com.iss.util.PagerInfo;
 import com.orm.commons.exception.ServiceException;
 import com.orm.commons.utils.MessageObject;
 import com.orm.commons.utils.ObjectTools;
@@ -40,22 +42,27 @@ public class AdvertisementController {
 	@Autowired
 	private AdvertisementService advertisementService;
 
-	@RequestMapping(value = "/system/advertisement/list", method = { RequestMethod.POST, RequestMethod.GET })
-	public String list(HttpServletRequest request, Model model) {
-		Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
-		String currentPage = request.getParameter("currentPage");
-		try {
-			ObjectTools<Advertisement> tools = advertisementService.queryPageByMap(objectMap, currentPage, new Sort(Sort.Direction.DESC, "createTime"), new Pager(6));
-			model.addAttribute("tools", tools);
-			model.addAttribute("currentPage", currentPage);
-			model.addAttribute("server", EnvironmentServer.getEnvironmentServerInstance().getNginxServer());
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
+	@RequestMapping(value = "/system/advertisement/advertisement-list.do", method = { RequestMethod.GET })
+	public String list() {
 		return "system/advertisement/advertisement-list";
 	}
 
-	@RequestMapping(value = "/system/advertisement/add")
+	@ResponseBody
+	@RequestMapping(value = "/system/advertisement/advertisement-list.json", method = { RequestMethod.POST })
+	public MessageObject list(HttpServletRequest request, PageSupport pageSupport) {
+		Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
+		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
+		try {
+			PagerInfo<Advertisement> pagerInfo = advertisementService.queryPagerInfoByMap(objectMap, pageSupport, new Sort(Sort.Direction.DESC, "createTime"));
+			messageObject.ok("获取广告列表成功", pagerInfo);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			messageObject.error("获取广告列表失败");
+		}
+		return messageObject;
+	}
+
+	@RequestMapping(value = "/system/advertisement/advertisement-add.do")
 	public String add() {
 		return "system/advertisement/advertisement-add";
 	}
@@ -83,10 +90,12 @@ public class AdvertisementController {
 				Advertisement advertisement = new Advertisement();
 				advertisement.setTitle(title);
 				advertisement.setUrl(request.getParameter("url_" + (i + 1)));
-				advertisement.setSort(StringUtils.isNotEmpty(request.getParameter("url_" + (i + 1))) ? request.getParameter("sort_" + (i + 1)) : 0 + "");
+				advertisement.setSort(StringUtils.isNotEmpty(request.getParameter("url_" + (i + 1)))
+						? request.getParameter("sort_" + (i + 1))
+						: 0 + "");
 				String filePath = request.getParameter("myfiles_" + (i + 1));
 				User user = SingletonUser.getContextUser(request);
-				MessageObject messageObject = attachmentService.fileUpload(request, filePath,user.getId());
+				MessageObject messageObject = attachmentService.fileUpload(request, filePath, user.getId());
 				Object object = messageObject.getObject();
 				advertisement.setAttachment((Attachment) object);
 				advertisement.setUser(SingletonUser.getContextUser(request));
@@ -96,7 +105,7 @@ public class AdvertisementController {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			message.error("添加广告失败，请稍候再试");
-		} 
+		}
 		return message;
 	}
 }

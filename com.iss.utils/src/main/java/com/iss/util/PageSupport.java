@@ -116,8 +116,7 @@ public class PageSupport {
     }
 
     public String getOrder() {
-    	String lowerCase = Underline2Camel.camelToUnderline(order).toLowerCase();
-        return lowerCase;
+        return order;
     }
 
     public String getSort() {
