@@ -1,17 +1,16 @@
 package com.iss.login;
 
-import javax.servlet.http.HttpServletRequest;
-
+import com.iss.init.UserSingleton;
+import com.iss.system.user.entity.User;
+import com.iss.system.user.service.UserService;
+import com.iss.util.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.iss.listener.SingletonUser;
-import com.iss.system.user.entity.User;
-import com.iss.system.user.service.UserService;
-import com.iss.util.RandomString;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by yuanhuangd on 2017/7/25.
@@ -27,8 +26,9 @@ public class LoginController {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         try {
+//            System.out.println(1/0);
             User user = userService.findUserByLoginAndPassword(username, password);
-            SingletonUser.setUser(request, user);
+            UserSingleton.setUser(request, user);
             return "redirect:index.do";
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,8 +45,8 @@ public class LoginController {
 
     @RequestMapping(value = "/logout", method = {RequestMethod.GET})
     public String logout(HttpServletRequest request) {
-        SingletonUser.removeUser(request);
-        return "redirect:login?SESSION=" + RandomString.getUUID();
+        UserSingleton.removeUser(request);
+        return "redirect:login?jsessionid=" + RandomString.getUUID();
     }
 }
 

@@ -12,6 +12,7 @@ import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.iss.init.UserSingleton;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.iss.listener.SingletonUser;
 import com.iss.system.attachment.entity.Attachment;
 import com.iss.system.attachment.service.AttachmentService;
 import com.iss.system.user.entity.User;
@@ -64,8 +64,8 @@ public class AttachmentController {
 
     @RequestMapping(value = "/attachment/fileUpload", method = RequestMethod.POST)
     public void fileUpload(HttpServletRequest request, HttpServletResponse response) {
-    	User user = SingletonUser.getContextUser(request);
-        String realPath = request.getSession().getServletContext().getRealPath("/upload/attachment" +  + File.separatorChar + user.getId());
+        User user = UserSingleton.getContextUser(request);
+        String realPath = request.getSession().getServletContext().getRealPath("/upload/attachment" + +File.separatorChar + user.getId());
         if (!new File(realPath).exists()) {
             new File(realPath).mkdirs();
         }
@@ -111,10 +111,10 @@ public class AttachmentController {
             message.error("上传文件失败");
         } finally {
             try {
-				message.returnData(response, message);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+                message.returnData(response, message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -139,18 +139,18 @@ public class AttachmentController {
         try {
             if (StringUtils.isNotEmpty(id)) {
                 Attachment attachment = attachmentService.get(id);
-                if (attachment != null){
+                if (attachment != null) {
                     message.ok("查询数据成功", attachment);
-                }else {
+                } else {
                     message.error("没有查询到该附件");
                 }
-            }else {
+            } else {
                 message.error("没有查询到该附件");
             }
         } catch (ServiceException e) {
             e.printStackTrace();
             message.error("没有查询到该附件");
-        } 
+        }
         return message;
     }
 }

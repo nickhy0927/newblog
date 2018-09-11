@@ -52,7 +52,7 @@
     </bean>
 
     <!-- 使用annotation定义事务 -->
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    <tx:annotation-driven proxy-target-class="true"/>
 
     <!-- 将多个配置文件位置放到列表中 -->
     <bean id="propertyResources" class="java.util.ArrayList">
@@ -70,23 +70,24 @@
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations" ref="propertyResources"/>
     </bean>
-    <bean id="initEnvironment" class="com.orm.config.InitEnvironment" init-method="init" lazy-init="false" scope="singleton">
-        <property name="ignoreResources" value="${ignoreResources}"/>
-        <property name="initPassword" value="${initPassword}"/>
-        <property name="initUsername" value="${initUsername}"/>
+    <bean class="com.iss.interceptor.StaticResources">
         <property name="loginUrl" value="${loginUrl}" />
         <property name="unauthUrl" value="${unauthUrl}" />
-        <property name="indexUrl" value="${indexUrl}" />
+        <property name="successUrl" value="${indexUrl}" />
         <property name="urls">
             <list>
-                <value>/loginOut.html</value>
                 <value>${loginUrl}</value>
                 <value>/static</value>
-                <value>/unauthUrl</value>
+                <value>/unauthUrl.do</value>
                 <value>/assets/**</value>
                 <value>/static/**</value>
             </list>
         </property>
+    </bean>
+    <bean id="initEnvironment" class="com.orm.config.InitEnvironment" init-method="init" lazy-init="false" scope="singleton">
+        <property name="ignoreResources" value="${ignoreResources}"/>
+        <property name="initPassword" value="${initPassword}"/>
+        <property name="initUsername" value="${initUsername}"/>
     </bean>
     <bean class="com.iss.init.EnvironmentServer" id="environmentServer">
     	<property name="nginxServer" value="${nginx.server}" />

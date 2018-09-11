@@ -40,7 +40,27 @@ var _date_format = function (now) {
     return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
 };
 
-function _datadel(ajaxOption, single) {
+function _datadel(ajaxOption, success, fail, single, message) {
+    var option = {
+        type: 'POST',
+        url: '',
+        dataType: 'json',
+        data: {},
+        success: function (data) {
+            $.closeLoading();
+            if (data.code == 200) {
+                if (success) success(data);
+                else $.openTip('信息删除成功', true);
+            } else $.openTip('信息删除失败，请稍候再试', true);
+
+        },
+        error: function (data) {
+            $.closeLoading();
+            if (fail) fail(data);
+            else $.openTip('信息删除失败，请稍候再试', true);
+        }
+    };
+    $.extend(option, ajaxOption || {});
     var ids = $.getCheckedValue();
     ids = ids.join(",");
     if (!ids && ids != "" && !single) {
@@ -49,7 +69,7 @@ function _datadel(ajaxOption, single) {
             return;
         })
     } else {
-        $.openTip(ajaxOption.message ? ajaxOption.message : '确定删除吗？', false, function () {
+        $.openTip(message ? message : '确定删除该条信息吗？', false, function () {
             _closeLoading();
             $.openLoading('正在进行删除操作,请稍后...');
             ajaxOption = !ajaxOption ? {} : ajaxOption;
@@ -137,9 +157,10 @@ function _openWindow(title, width, height, url, callback) {
         shade: 0.6,
         maxmin: false,
         content: url,
-        end: callback ? callback(index) : null
+        end: callback ? callback : null
     });
 }
+
 function _parentOpenWindow(title, width, height, url, callback) {
     parent.layer.open({
         type: 2,
@@ -169,9 +190,8 @@ function _submitAjax(opt, success, error) {
         error: function (err) {
             if (error) {
                 error();
-                return ;
+                return;
             }
-            $.closeLoading();
             $.openTip(err, true, function () {
                 $.closeLoading();
             }, '提示信息');

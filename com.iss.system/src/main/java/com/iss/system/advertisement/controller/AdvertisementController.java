@@ -1,9 +1,16 @@
 package com.iss.system.advertisement.controller;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.iss.init.UserSingleton;
+import com.iss.system.advertisement.entity.Advertisement;
+import com.iss.system.advertisement.service.AdvertisementService;
+import com.iss.system.attachment.entity.Attachment;
+import com.iss.system.attachment.service.AttachmentService;
+import com.iss.system.user.entity.User;
+import com.iss.util.PageSupport;
+import com.iss.util.PagerInfo;
+import com.orm.commons.exception.ServiceException;
+import com.orm.commons.utils.MessageObject;
+import com.orm.commons.utils.WebUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -14,20 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.iss.init.EnvironmentServer;
-import com.iss.listener.SingletonUser;
-import com.iss.system.advertisement.entity.Advertisement;
-import com.iss.system.advertisement.service.AdvertisementService;
-import com.iss.system.attachment.entity.Attachment;
-import com.iss.system.attachment.service.AttachmentService;
-import com.iss.system.user.entity.User;
-import com.iss.util.PageSupport;
-import com.iss.util.PagerInfo;
-import com.orm.commons.exception.ServiceException;
-import com.orm.commons.utils.MessageObject;
-import com.orm.commons.utils.ObjectTools;
-import com.orm.commons.utils.Pager;
-import com.orm.commons.utils.WebUtils;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * Created by yuanhuangd on 2017/9/29.
@@ -94,11 +89,11 @@ public class AdvertisementController {
 						? request.getParameter("sort_" + (i + 1))
 						: 0 + "");
 				String filePath = request.getParameter("myfiles_" + (i + 1));
-				User user = SingletonUser.getContextUser(request);
+				User user = UserSingleton.getContextUser(request);
 				MessageObject messageObject = attachmentService.fileUpload(request, filePath, user.getId());
 				Object object = messageObject.getObject();
 				advertisement.setAttachment((Attachment) object);
-				advertisement.setUser(SingletonUser.getContextUser(request));
+				advertisement.setUser(UserSingleton.getContextUser(request));
 				advertisementService.save(advertisement);
 			}
 			message.ok("添加广告成功", titles);

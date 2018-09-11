@@ -48,6 +48,9 @@
         a.btn, a.btn.size-M, span.btn, span.btn.size-M {
 		    line-height: 23px;
 		}
+        .pd-20 {
+            padding: 16px 15px;
+        }
     </style>
     <link rel="stylesheet" href="${ctx}/assets/lib/layui/css/layui.css" media="all">
 	<script src="${ctx}/assets/lib/layui/layui.js"></script>

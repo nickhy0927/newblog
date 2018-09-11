@@ -1,5 +1,5 @@
-<%@ page import="com.iss.listener.SingletonUser" %>
 <%@ page import="com.iss.system.user.entity.User" %>
+<%@ page import="com.iss.init.UserSingleton" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="psg" uri="http://www.commons.page" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -43,7 +43,7 @@
                     <ul class="cl">
                         <li>
                             <%
-                                User user = SingletonUser.getContextUser(request);
+                                User user = UserSingleton.getContextUser(request);
                             %>
                         </li>
                         <li class="dropDown dropDown_hover">
@@ -108,7 +108,7 @@
         <div id="iframe_box" class="Hui-article">
             <div class="show_iframe">
                 <div style="display:none" class="loading"></div>
-                <iframe scrolling="yes" frameborder="0" src="${ctx}/system/module/list"></iframe>
+                <iframe scrolling="yes" frameborder="0" src="${ctx}/system/module/module-list.do"></iframe>
             </div>
         </div>
     </section>

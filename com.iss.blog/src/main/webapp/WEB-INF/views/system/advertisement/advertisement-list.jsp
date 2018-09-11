@@ -7,34 +7,6 @@
 <c:set value="${pageContext.request.contextPath}" var="ctx"></c:set>
 <pgs:extends name="javascript">
 	<script type="text/javascript">
-        /*资讯-添加*/
-        function add() {
-            $.openWindow('添加轮播图', "100%", '100%', '${ctx}/system/advertisement/advertisement-add.do');
-        }
-        /*资讯-编辑*/
-        function icon_edit(id) {
-            var url = '${ctx}/system/icon/edit'
-            url = url + "?id=" + id
-            layer_show('修改图标', url, 600, 400);
-        }
-        
-        function datadel(id, single) {
-            $.datadel({
-            	url: "${basePath}/platform/user/user-delete/"+ id +".json",
-                type:"post",
-                data:{id: id},
-                success:function(data){
-                    if(data.code == 200) {
-                    	$.openTip(data.msg, true, function () {
-                    		initData();
-                    	});
-                    }
-                },
-                error:function(e){
-                    $.openTip('删除用户信息失败，请稍后再试.');
-                }
-            }, single)
-        }
 		function initData() {
 			$("#dataGridList").dataGrid({
                 url: ctx + '/system/advertisement/advertisement-list.json',
@@ -74,6 +46,34 @@
         $(document).ready(function () {
             initData();
         })
+        /*资讯-添加*/
+        function add() {
+            $.openWindow('添加轮播图', "100%", '100%', '${ctx}/system/advertisement/advertisement-add.do');
+        }
+        /*资讯-编辑*/
+        function icon_edit(id) {
+            var url = '${ctx}/system/icon/edit'
+            url = url + "?id=" + id
+            layer_show('修改图标', url, 600, 400);
+        }
+
+        function datadel(id, single) {
+            $.datadel({
+                url: "${basePath}/platform/user/user-delete/"+ id +".json",
+                type:"post",
+                data:{id: id},
+                success:function(data){
+                    if(data.code == 200) {
+                        $.openTip(data.msg, true, function () {
+                            initData();
+                        });
+                    }
+                },
+                error:function(e){
+                    $.openTip('删除用户信息失败，请稍后再试.');
+                }
+            }, single)
+        }
     </script>
 </pgs:extends>
 <pgs:extends name="body">
