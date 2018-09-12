@@ -26,80 +26,80 @@ import com.orm.commons.utils.SysContants;
 
 /**
  * 错误日志监控拦截器
- * @author Hyuan
  *
+ * @author Hyuan
  */
-public class ExceptionDispatcherResolver implements HandlerExceptionResolver,Ordered {
+public class ExceptionDispatcherResolver implements HandlerExceptionResolver, Ordered {
 
-	final private static Logger LOGGER = LoggerFactory.getLogger(ExceptionDispatcherResolver.class);
-	
-	private int order = Ordered.HIGHEST_PRECEDENCE;
-	
-	@Autowired
-	private OperateLogService operateLogService;
+    final private static Logger LOGGER = LoggerFactory.getLogger(ExceptionDispatcherResolver.class);
 
-	@Override
-	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object object, Exception exception) {
-		ModelAndView view = null;
-		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
-		String uri = request.getRequestURI().toLowerCase();
-		String packageMethodName;
-		if (object instanceof HandlerMethod) {
-			HandlerMethod handlerMethod = (HandlerMethod) object;
-			Method method = handlerMethod.getMethod();
-			String name = method.getDeclaringClass().getName();
-			packageMethodName = name + "." + method.getName();
-			LOGGER.info(packageMethodName);
-		}
-		System.out.println("请求的uri地址是：" + uri);
-		if (uri.lastIndexOf(".json") > 0) {
-			exception.printStackTrace();
-			messageObject.error("系统出现异常，操作失败");
-			try {
-				messageObject.returnData(response, messageObject);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else {
-			System.out.println("你发送的是.do的请求");
-			System.out.println(exception.getMessage());
-			exception.printStackTrace();
-			messageObject.error("系统产生异常：" + exception.getMessage());
-			view = new ModelAndView("/error/error500.jsp");
-		}
-		if (object instanceof HandlerMethod) {
-			HandlerMethod handlerMethod = (HandlerMethod) object;
-			Method method = handlerMethod.getMethod();
-			OperationLog log = method.getAnnotation(OperationLog.class);
-			User user = UserSingleton.getContextUser(request);
-			if(user != null) {
-				OperateLog operateLog = new OperateLog();
-				operateLog.setCreateTime(new Date());
-				operateLog.setUserId(user.getId());
-				operateLog.setOpName(user.getRealName());
-				if (log != null) {
-					operateLog.setMessage(log.operateDescribe());
-				}
-				operateLog.setException(exception.getMessage());
-				operateLog.setOpTime(new Date());
-				operateLog.setSolveStatus(SysContants.SolveStatus.SOLVING);
-				try {
-					operateLogService.save(operateLog);
-				} catch (ServiceException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return view;
-	}
+    private int order = Ordered.HIGHEST_PRECEDENCE;
 
-	public void setOrder(int order) {
-		this.order = order;
-	}
-	
-	@Override
-	public int getOrder() {
-		return order;
-	}
+    @Autowired
+    private OperateLogService operateLogService;
+
+    @Override
+    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object object, Exception exception) {
+        ModelAndView view = null;
+        MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
+        String uri = request.getRequestURI().toLowerCase();
+        String packageMethodName;
+        if (object instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) object;
+            Method method = handlerMethod.getMethod();
+            String name = method.getDeclaringClass().getName();
+            packageMethodName = name + "." + method.getName();
+            LOGGER.info(packageMethodName);
+        }
+        System.out.println("请求的uri地址是：" + uri);
+        if (uri.lastIndexOf(".json") > 0) {
+            exception.printStackTrace();
+            messageObject.error("系统出现异常，操作失败");
+            try {
+                messageObject.returnData(response, messageObject);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("你发送的是.do的请求");
+            System.out.println(exception.getMessage());
+            exception.printStackTrace();
+            messageObject.error("系统产生异常：" + exception.getMessage());
+            view = new ModelAndView("/error/error500.jsp");
+        }
+        if (object instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) object;
+            Method method = handlerMethod.getMethod();
+            OperationLog log = method.getAnnotation(OperationLog.class);
+            User user = UserSingleton.getContextUser(request);
+            if (user != null) {
+                OperateLog operateLog = new OperateLog();
+                operateLog.setCreateTime(new Date());
+                operateLog.setUserId(user.getId());
+                operateLog.setOpName(user.getRealName());
+                if (log != null) {
+                    operateLog.setMessage(log.operateDescribe());
+                }
+                operateLog.setException(exception.getMessage());
+                operateLog.setOpTime(new Date());
+                operateLog.setSolveStatus(SysContants.SolveStatus.SOLVING);
+                try {
+                    operateLogService.save(operateLog);
+                } catch (ServiceException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return view;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    @Override
+    public int getOrder() {
+        return order;
+    }
 
 }

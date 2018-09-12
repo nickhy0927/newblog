@@ -15,6 +15,7 @@
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+        <bean class="com.iss.interceptor.DispatcherFilter"/>
     </mvc:interceptors>
 
     <mvc:default-servlet-handler/>
@@ -41,7 +42,8 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
-    <bean id="exceptionDispatcherResolver" class="com.iss.interceptor.ExceptionDispatcherResolver" />
+
+    <bean class="com.iss.interceptor.ExceptionDispatcherResolver" />
     <!-- 定义JSP -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
@@ -51,14 +53,6 @@
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!--input file 设置上传文件的最大尺寸为10MB -->
-        <property name="maxUploadSize">
-            <value>1073741824</value>
-        </property>
+        <property name="maxUploadSize" value="1073741824"/>
     </bean>
-    <mvc:interceptors>
-   		<bean class="com.iss.interceptor.SpringHandlerExceptionResolver" />
-        <bean class="com.iss.interceptor.DispatcherFilter"/>
-        <!--<bean class="com.iss.interceptor.ExceptionDispatcherFilter"/>-->
-        <!--<bean class="com.iss.interceptor.PremissionDispatcherFilter"/>-->
-    </mvc:interceptors>
 </beans>

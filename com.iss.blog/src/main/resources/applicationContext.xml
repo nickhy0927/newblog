@@ -18,10 +18,11 @@
     </context:component-scan>
 
 
-    <jpa:repositories base-package="com.iss"
-                      transaction-manager-ref="transactionManager"
-                      entity-manager-factory-ref="entityManagerFactory"
-                      factory-class="com.orm.commons.bean.DefaultRepositoryFactoryBean">
+    <jpa:repositories
+        base-package="com.iss"
+        transaction-manager-ref="transactionManager"
+        entity-manager-factory-ref="entityManagerFactory"
+        factory-class="com.orm.commons.bean.DefaultRepositoryFactoryBean">
     </jpa:repositories>
 
     <!-- JPA实体管理工厂的配置 -->
@@ -84,7 +85,7 @@
             </list>
         </property>
     </bean>
-    <bean id="initEnvironment" class="com.orm.config.InitEnvironment" init-method="init" lazy-init="false" scope="singleton">
+    <bean id="initEnvironment" class="com.orm.config.InitEnvironment" init-method="init" lazy-init="false">
         <property name="ignoreResources" value="${ignoreResources}"/>
         <property name="initPassword" value="${initPassword}"/>
         <property name="initUsername" value="${initUsername}"/>
