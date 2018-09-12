@@ -14,13 +14,13 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.http.HttpServletRequest;
 
+import com.iss.init.UserSingleton;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.iss.listener.SingletonUser;
 import com.iss.system.attachment.entity.Attachment;
 import com.iss.system.attachment.service.AttachmentService;
 import com.iss.system.user.entity.User;
@@ -37,7 +37,7 @@ public class AttachmentServiceImpl extends DefaultAbstractService<Attachment, St
 	private static String tempDir = "";
 
 	public List<Attachment> fileUpload(MultipartHttpServletRequest request) {
-		User user = SingletonUser.getContextUser(request);
+		User user = UserSingleton.getContextUser(request);
 		tempDir = request.getSession().getServletContext().getRealPath("/upload/temp" + File.separatorChar + user.getId());
 		HashMap<String, Object> hashMap = MyConfig.getConfig();
 		Object object = hashMap.get("upload");

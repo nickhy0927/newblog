@@ -11,9 +11,6 @@ public class MessageObject {
 	private String msg;
 	private Object object;
 
-	private MessageObject() {
-	}
-
 	public static MessageObject getDefaultMessageObjectInstance() {
 		return new MessageObject();
 	}
@@ -57,28 +54,8 @@ public class MessageObject {
 		this.object = object;
 	}
 
-	public String toJson(MessageObject messageObject) {
-	    return new JsonMapper().toJson(messageObject);
-    }
-
 	public void returnData(HttpServletResponse response, MessageObject messageObject) throws IOException {
 		// 这句话的意思，是让浏览器用utf8来解析返回的数据
-		response.setHeader("Content-type", "text/html;charset=UTF-8");
-		// 这句话的意思，是告诉servlet用UTF-8转码，而不是用默认的ISO8859
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter writer = response.getWriter();
-		String json = new JsonMapper().toJson(messageObject);
-		if (writer != null) {
-			writer.write(json);
-			if (writer != null) {
-				writer.flush();
-				writer.close();
-			}
-		}
-	}
-	public void returnData(MessageObject messageObject) throws IOException {
-        HttpServletResponse response = UserSingleton.getHttpServletResponse();
-        // 这句话的意思，是让浏览器用utf8来解析返回的数据
 		response.setHeader("Content-type", "text/html;charset=UTF-8");
 		// 这句话的意思，是告诉servlet用UTF-8转码，而不是用默认的ISO8859
 		response.setCharacterEncoding("UTF-8");

@@ -107,7 +107,7 @@
             queryDataGrid();
         }
         function addRole(id) {
-            var url = "${ctx}/system/user/role/add?id=" + id;
+            var url = "${ctx}/system/user/role/add.do?id=" + id;
             layer_show('添加权限', url, 300, 500);
         }
         function queryDataGrid(id) {

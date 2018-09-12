@@ -71,7 +71,7 @@ a.hiddenanchor {
     rgb(64, 111, 118) 20px,
     rgb(64, 111, 118) 40px,
     rgb(18, 83, 93) 40px);
-    -webkit-text-fill-color: transparent;
+    /*-webkit-text-fill-color: transparent;*/
     -webkit-background-clip: text;
 }
 

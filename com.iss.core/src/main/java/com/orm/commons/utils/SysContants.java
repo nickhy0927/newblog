@@ -146,4 +146,26 @@ public class SysContants {
 		}
 	}
 
+	/**
+	 * 解决状态
+	 */
+	public static class SolveStatus {
+
+		public static final long SOLVING = 1l;// 未解决
+		public static final long SOLVED = 2l;// 已解决
+
+		public static final String getName(Integer code) {
+			String name = "";
+			switch (code) {
+				case (int) SOLVING:
+					name = "未解决";
+					break;
+				case (int) SOLVED:
+					name = "已解决";
+					break;
+			}
+			return name;
+		}
+
+	}
 }

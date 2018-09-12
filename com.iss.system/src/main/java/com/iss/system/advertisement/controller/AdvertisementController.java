@@ -1,9 +1,16 @@
 package com.iss.system.advertisement.controller;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.iss.init.UserSingleton;
+import com.iss.system.advertisement.entity.Advertisement;
+import com.iss.system.advertisement.service.AdvertisementService;
+import com.iss.system.attachment.entity.Attachment;
+import com.iss.system.attachment.service.AttachmentService;
+import com.iss.system.user.entity.User;
+import com.iss.util.PageSupport;
+import com.iss.util.PagerInfo;
+import com.orm.commons.exception.ServiceException;
+import com.orm.commons.utils.MessageObject;
+import com.orm.commons.utils.WebUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -14,18 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.iss.init.EnvironmentServer;
-import com.iss.listener.SingletonUser;
-import com.iss.system.advertisement.entity.Advertisement;
-import com.iss.system.advertisement.service.AdvertisementService;
-import com.iss.system.attachment.entity.Attachment;
-import com.iss.system.attachment.service.AttachmentService;
-import com.iss.system.user.entity.User;
-import com.orm.commons.exception.ServiceException;
-import com.orm.commons.utils.MessageObject;
-import com.orm.commons.utils.ObjectTools;
-import com.orm.commons.utils.Pager;
-import com.orm.commons.utils.WebUtils;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * Created by yuanhuangd on 2017/9/29.
@@ -40,22 +37,27 @@ public class AdvertisementController {
 	@Autowired
 	private AdvertisementService advertisementService;
 
-	@RequestMapping(value = "/system/advertisement/list", method = { RequestMethod.POST, RequestMethod.GET })
-	public String list(HttpServletRequest request, Model model) {
-		Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
-		String currentPage = request.getParameter("currentPage");
-		try {
-			ObjectTools<Advertisement> tools = advertisementService.queryPageByMap(objectMap, currentPage, new Sort(Sort.Direction.DESC, "createTime"), new Pager(6));
-			model.addAttribute("tools", tools);
-			model.addAttribute("currentPage", currentPage);
-			model.addAttribute("server", EnvironmentServer.getEnvironmentServerInstance().getNginxServer());
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
+	@RequestMapping(value = "/system/advertisement/advertisement-list.do", method = { RequestMethod.GET })
+	public String list() {
 		return "system/advertisement/advertisement-list";
 	}
 
-	@RequestMapping(value = "/system/advertisement/add")
+	@ResponseBody
+	@RequestMapping(value = "/system/advertisement/advertisement-list.json", method = { RequestMethod.POST })
+	public MessageObject list(HttpServletRequest request, PageSupport pageSupport) {
+		Map<String, Object> objectMap = WebUtils.getRequestToMap(request);
+		MessageObject messageObject = MessageObject.getDefaultMessageObjectInstance();
+		try {
+			PagerInfo<Advertisement> pagerInfo = advertisementService.queryPagerInfoByMap(objectMap, pageSupport, new Sort(Sort.Direction.DESC, "createTime"));
+			messageObject.ok("获取广告列表成功", pagerInfo);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			messageObject.error("获取广告列表失败");
+		}
+		return messageObject;
+	}
+
+	@RequestMapping(value = "/system/advertisement/advertisement-add.do")
 	public String add() {
 		return "system/advertisement/advertisement-add";
 	}
@@ -83,20 +85,22 @@ public class AdvertisementController {
 				Advertisement advertisement = new Advertisement();
 				advertisement.setTitle(title);
 				advertisement.setUrl(request.getParameter("url_" + (i + 1)));
-				advertisement.setSort(StringUtils.isNotEmpty(request.getParameter("url_" + (i + 1))) ? request.getParameter("sort_" + (i + 1)) : 0 + "");
+				advertisement.setSort(StringUtils.isNotEmpty(request.getParameter("url_" + (i + 1)))
+						? request.getParameter("sort_" + (i + 1))
+						: 0 + "");
 				String filePath = request.getParameter("myfiles_" + (i + 1));
-				User user = SingletonUser.getContextUser(request);
-				MessageObject messageObject = attachmentService.fileUpload(request, filePath,user.getId());
+				User user = UserSingleton.getContextUser(request);
+				MessageObject messageObject = attachmentService.fileUpload(request, filePath, user.getId());
 				Object object = messageObject.getObject();
 				advertisement.setAttachment((Attachment) object);
-				advertisement.setUser(SingletonUser.getContextUser(request));
+				advertisement.setUser(UserSingleton.getContextUser(request));
 				advertisementService.save(advertisement);
 			}
 			message.ok("添加广告成功", titles);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			message.error("添加广告失败，请稍候再试");
-		} 
+		}
 		return message;
 	}
 }

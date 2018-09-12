@@ -42,14 +42,14 @@
         p {
             margin-bottom: 0px;
         }
-        .breadcrumb {
-            top: -14px;
-        }
-        .page-container {
-            padding: 0 20px;
-        }
         .check-box, .radio-box {
             padding-left: 5px;
+        }
+        a.btn, a.btn.size-M, span.btn, span.btn.size-M {
+		    line-height: 23px;
+		}
+        .pd-20 {
+            padding: 16px 15px;
         }
     </style>
     <link rel="stylesheet" href="${ctx}/assets/lib/layui/css/layui.css" media="all">
